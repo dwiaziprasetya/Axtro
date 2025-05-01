@@ -34,7 +34,7 @@ fun BottomNavigation(
 ) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier
+        modifier = modifier
             .drawWithContent {
                 drawContent()
                 drawLine(
