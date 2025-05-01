@@ -15,7 +15,7 @@ fun ListifyApp(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Screen.Root.route,
-        startDestination = Screen.AuthNav.route,
+        startDestination = Screen.Main.route,
     ) {
         authNav()
         composable(
