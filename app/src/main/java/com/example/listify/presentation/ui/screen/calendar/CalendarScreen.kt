@@ -1,4 +1,4 @@
-package com.example.listify.presentation.ui.screen.notification
+package com.example.listify.presentation.ui.screen.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,14 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun NotificationScreen(modifier: Modifier = Modifier) {
+fun CalendarScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ){
         Text(
-            text = "Notification Screen",
+            text = "Calendar Screen",
             color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.align(Alignment.Center)
         )

@@ -33,30 +33,6 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxSize(),
-        floatingActionButtonPosition = FabPosition.Center,
-        floatingActionButton = {
-            Box{
-                FloatingActionButton(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 0.dp,
-                        pressedElevation = 0.dp
-                    ),
-                    onClick = {},
-                    shape = CircleShape,
-                    modifier = Modifier
-                        .size(60.dp)
-                        .align(Alignment.Center)
-                        .offset(y = 60.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        tint = Color.White,
-                    )
-                }
-            }
-        },
         bottomBar = {
             BottomNavigation(
                 navController = navController,

@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.listify.presentation.navigation.model.Screen
 import com.example.listify.presentation.ui.screen.home.HomeScreen
-import com.example.listify.presentation.ui.screen.notification.NotificationScreen
-import com.example.listify.presentation.ui.screen.profile.ProfileScreen
 import com.example.listify.presentation.ui.screen.task.TaskScreen
+import com.example.listify.presentation.ui.screen.profile.ProfileScreen
+import com.example.listify.presentation.ui.screen.calendar.CalendarScreen
 
 @Composable
 fun MainNavGraph(
@@ -26,8 +26,8 @@ fun MainNavGraph(
     ) {
         authNav()
         composable(route = Screen.Home.route) { HomeScreen() }
+        composable(route = Screen.Calendar.route) { CalendarScreen() }
         composable(route = Screen.Task.route) { TaskScreen() }
-        composable(route = Screen.Notification.route) { NotificationScreen() }
         composable(route = Screen.Profile.route) { ProfileScreen() }
     }
 }

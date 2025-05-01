@@ -1,7 +1,5 @@
 package com.example.listify.presentation.ui.component
 
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -13,11 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -56,21 +52,15 @@ fun BottomNavigation(
             ),
             BottomBarItem(
                 title = "Task",
-                icon = painterResource(R.drawable.icon_calendar),
-                iconSelected = painterResource(R.drawable.icon_calendar),
+                icon = painterResource(R.drawable.icon_task),
+                iconSelected = painterResource(R.drawable.icon_task),
                 screen = Screen.Task,
             ),
             BottomBarItem(
-                title = "",
-                icon = painterResource(R.drawable.icon_search),
-                iconSelected = painterResource(R.drawable.icon_search),
-                screen = Screen.AddTaskDummy
-            ),
-            BottomBarItem(
-                title = "Notif",
-                icon = painterResource(R.drawable.icon_notification_outlined),
-                iconSelected = painterResource(R.drawable.icon_notification_filled),
-                screen = Screen.Notification,
+                title = "Calendar",
+                icon = painterResource(R.drawable.icon_calendar),
+                iconSelected = painterResource(R.drawable.icon_calendar),
+                screen = Screen.Calendar,
             ),
             BottomBarItem(
                 title = "Profile",
