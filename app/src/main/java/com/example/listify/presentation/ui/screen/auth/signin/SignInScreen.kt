@@ -7,15 +7,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.listify.presentation.theme.ListifyTheme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SignInScreen() {
+    val systemUiController = rememberSystemUiController()
+
+    LaunchedEffect(Unit) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = false
+        )
+    }
+
     SignInScreenContent()
 }
 
@@ -33,6 +44,8 @@ fun SignInScreenContent(modifier: Modifier = Modifier) {
                 .background(MaterialTheme.colorScheme.primary)
                 .align(Alignment.TopCenter)
         )
+
+
     }
 }
 
