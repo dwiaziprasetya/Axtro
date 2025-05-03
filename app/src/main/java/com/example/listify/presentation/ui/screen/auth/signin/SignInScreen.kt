@@ -2,18 +2,24 @@ package com.example.listify.presentation.ui.screen.auth.signin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -101,7 +107,69 @@ fun SignInScreenContent(modifier: Modifier = Modifier) {
                     )
                     .fillMaxWidth()
                     .height(300.dp)
-            )
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .padding(32.dp)
+                        .fillMaxWidth()
+                ) {
+                    Button(
+                        modifier = Modifier
+                            .height(55.dp)
+                            .fillMaxWidth()
+                            .border(
+                                color = Color(0xFFE3E3E3),
+                                width = 1.dp,
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.icon_google),
+                                contentDescription = "",
+                                tint = Color.Unspecified
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                fontFamily = poppinsFontFamily,
+                                text = "Continue with Google",
+                                fontSize = 14.sp,
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(16.dp))
+                    Row (
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+                        Divider(
+                            modifier = Modifier.weight(2f),
+                            thickness = 1.dp,
+                            color = Color(0xFFCAC8C8)
+                        )
+                        Text(
+                            text = "Or sign in with",
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            fontSize = 14.sp
+                        )
+                        Divider(
+                            modifier = Modifier.weight(2f),
+                            thickness = 1.dp,
+                            color = Color(0xFFCAC8C8)
+                        )
+                    }
+                }
+            }
         }
     }
 }
