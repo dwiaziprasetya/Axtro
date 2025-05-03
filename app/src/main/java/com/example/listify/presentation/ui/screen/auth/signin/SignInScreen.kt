@@ -258,6 +258,52 @@ fun SignInScreenContent(
                         visualTransformation = if (passwordVisibility) VisualTransformation.None
                         else PasswordVisualTransformation()
                     )
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        text = "Forgot password?",
+                        fontFamily = poppinsFontFamily,
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .align(Alignment.End)
+                            .clickable {}
+                    )
+                    Button(
+                        modifier = Modifier
+                            .padding(top = 32.dp)
+                            .height(55.dp)
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(10.dp),
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Text(
+                            fontFamily = poppinsFontFamily,
+                            text = "Sign in",
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.background
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.padding(top = 70.dp)
+                    ) {
+                        Text(
+                            text = "Don't have an account?",
+                            fontFamily = poppinsFontFamily,
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Text(
+                            text = " " + "Sign up",
+                            fontFamily = poppinsFontFamily,
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.clickable {}
+                        )
+                    }
                 }
             }
         }
