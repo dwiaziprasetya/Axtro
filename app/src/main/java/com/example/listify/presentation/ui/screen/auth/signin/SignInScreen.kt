@@ -228,29 +228,47 @@ fun SignInScreenContent(
                         )
                     }
                     Spacer(Modifier.height(16.dp))
-                    CustomOutlinedTextField(
-                        value = email,
-                        onValueChange = onEmailChange,
-                        onFocusChange = onEmailFocusChange,
-                        trailingIconResId = null,
-                        onTrailingIconClick = {},
-                        isError = emailError,
-                        errorMessage = "Invalid email address",
-                        hint = "Email"
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            text = "Email",
+                            fontSize = 14.sp,
+                            fontFamily = poppinsFontFamily,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        CustomOutlinedTextField(
+                            value = email,
+                            onValueChange = onEmailChange,
+                            onFocusChange = onEmailFocusChange,
+                            trailingIconResId = null,
+                            onTrailingIconClick = {},
+                            isError = emailError,
+                            errorMessage = "Invalid email address",
+                            hint = "Enter your email"
+                        )
+                    }
                     Spacer(Modifier.height(16.dp))
-                    CustomOutlinedTextField(
-                        value = password,
-                        hint = "Password",
-                        onValueChange = onPasswordChange,
-                        onFocusChange = {},
-                        trailingIconResId = iconPasswordVisibility,
-                        onTrailingIconClick = { onPasswordVisibilityChange() },
-                        isError = passwordError,
-                        errorMessage = "Password error",
-                        visualTransformation = if (passwordVisibility) VisualTransformation.None
-                        else PasswordVisualTransformation()
-                    )
+                    Column {
+                        Text(
+                            text = "Password",
+                            fontSize = 14.sp,
+                            fontFamily = poppinsFontFamily,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        CustomOutlinedTextField(
+                            value = password,
+                            hint = "Enter your password",
+                            onValueChange = onPasswordChange,
+                            onFocusChange = {},
+                            trailingIconResId = iconPasswordVisibility,
+                            onTrailingIconClick = { onPasswordVisibilityChange() },
+                            isError = passwordError,
+                            errorMessage = "Password error",
+                            visualTransformation = if (passwordVisibility) VisualTransformation.None
+                            else PasswordVisualTransformation()
+                        )
+                    }
                     Spacer(Modifier.height(16.dp))
                     Text(
                         text = "Forgot password?",
