@@ -10,7 +10,7 @@ import com.example.listify.presentation.ui.screen.welcome.WelcomeScreen
 
 fun NavGraphBuilder.authNav(){
     navigation(
-        startDestination = Screen.SignUp.route,
+        startDestination = Screen.SignIn.route,
         route = Screen.AuthNav.route
     ) {
         composable(
