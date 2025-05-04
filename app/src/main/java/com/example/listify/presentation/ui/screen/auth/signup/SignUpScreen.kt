@@ -25,6 +25,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,10 +46,57 @@ import com.example.listify.R
 import com.example.listify.presentation.theme.ListifyTheme
 import com.example.listify.presentation.theme.poppinsFontFamily
 import com.example.listify.presentation.ui.component.CustomOutlinedTextField
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
-    
+fun SignUpScreen() {
+    val systemUiController = rememberSystemUiController()
+
+    var email by rememberSaveable { mutableStateOf("") }
+    var emailError by remember { mutableStateOf(false) }
+    var isEmailFocused by remember { mutableStateOf(false) }
+
+    var password by rememberSaveable { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf(false) }
+    var passwordVisibility by remember { mutableStateOf(false) }
+
+    val icon = if (passwordVisibility)
+        R.drawable.icon_visibility
+    else
+        R.drawable.icon_visibility_off
+
+    LaunchedEffect(Unit) {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = false
+        )
+    }
+
+    SignUpScreenContent(
+        email = email,
+        password = password,
+        onEmailChange = {
+            email = it
+            if (!isEmailFocused) {
+                emailError = false
+            }
+        },
+        onEmailFocusChange = { isFocused ->
+            isEmailFocused = isFocused
+            if (!isFocused) {
+                emailError = email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            }
+        },
+        onPasswordChange = {
+            password = it
+            passwordError = password.contains(" ")
+        },
+        passwordVisibility = passwordVisibility,
+        onPasswordVisibilityChange = { passwordVisibility = !passwordVisibility },
+        passwordError = passwordError,
+        emailError = emailError,
+        iconPasswordVisibility = icon,
+    )
 }
 
 @Composable
