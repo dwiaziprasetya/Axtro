@@ -30,7 +30,7 @@ fun ListifyTheme(
 
     MaterialTheme(
       colorScheme = LightColorScheme,
-      typography = Typography,
+      typography = AxtroTypography,
       content = content
     )
 }
