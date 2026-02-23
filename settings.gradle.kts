@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Listify"
+rootProject.name = "Axtro"
 include(":app")

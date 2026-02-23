@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.listify"
+    namespace = "com.example.axtro"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.listify"
+        applicationId = "com.example.axtro"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
