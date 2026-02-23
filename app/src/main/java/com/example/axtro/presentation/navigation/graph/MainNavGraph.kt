@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.axtro.presentation.calendar.CalendarScreen
+import com.example.axtro.presentation.home.HomeScreen
 import com.example.axtro.presentation.navigation.model.Screen
-import com.example.axtro.presentation.ui.screen.home.HomeScreen
-import com.example.axtro.presentation.ui.screen.task.TaskScreen
-import com.example.axtro.presentation.ui.screen.profile.ProfileScreen
-import com.example.axtro.presentation.ui.screen.calendar.CalendarScreen
+import com.example.axtro.presentation.profile.ProfileScreen
+import com.example.axtro.presentation.task.TaskScreen
 
 @Composable
 fun MainNavGraph(
