@@ -8,8 +8,4 @@ interface AuthRepository {
         email: String,
         password: String
     ) : AppResult<User>
-
-    suspend fun loginWithGoogle(
-        idToken: String
-    ) : AppResult<User>
 }

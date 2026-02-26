@@ -1,10 +1,9 @@
-package com.example.axtro.presentation.auth.signin
+package com.example.axtro.presentation.signup
 
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,13 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,7 +45,7 @@ import com.example.axtro.presentation.component.CustomOutlinedTextField
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun SignInScreen() {
+fun SignUpScreen() {
     val systemUiController = rememberSystemUiController()
 
     var email by rememberSaveable { mutableStateOf("") }
@@ -72,7 +68,7 @@ fun SignInScreen() {
         )
     }
 
-    SignInScreenContent(
+    SignUpScreenContent(
         email = email,
         password = password,
         onEmailChange = {
@@ -84,7 +80,7 @@ fun SignInScreen() {
         onEmailFocusChange = { isFocused ->
             isEmailFocused = isFocused
             if (!isFocused) {
-                emailError = email.isNotEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                emailError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()
             }
         },
         onPasswordChange = {
@@ -100,7 +96,7 @@ fun SignInScreen() {
 }
 
 @Composable
-fun SignInScreenContent(
+fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     email: String,
     password: String,
@@ -141,7 +137,7 @@ fun SignInScreenContent(
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                text = "Sign in to your\naccount",
+                text = "Sign up to your\naccount",
                 textAlign = TextAlign.Center,
                 color = Color.White,
                 fontSize = 32.sp,
@@ -151,7 +147,7 @@ fun SignInScreenContent(
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Enter your email and password to sign in",
+                text = "Get started and list your task",
                 color = Color.White,
                 fontSize = 12.sp,
                 fontFamily = poppinsFontFamily,
@@ -173,61 +169,6 @@ fun SignInScreenContent(
                         .padding(32.dp)
                         .fillMaxWidth()
                 ) {
-                    Button(
-                        modifier = Modifier
-                            .height(55.dp)
-                            .fillMaxWidth()
-                            .border(
-                                color = Color(0xFFE3E3E3),
-                                width = 1.dp,
-                                shape = RoundedCornerShape(10.dp)
-                            ),
-                        onClick = {},
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.background
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.icon_google),
-                                contentDescription = "",
-                                tint = Color.Unspecified
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                fontFamily = poppinsFontFamily,
-                                text = "Continue with Google",
-                                fontSize = 14.sp,
-                            )
-                        }
-                    }
-                    Spacer(Modifier.height(16.dp))
-                    Row (
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ){
-                        Divider(
-                            modifier = Modifier.weight(2f),
-                            thickness = 1.dp,
-                            color = Color(0xFFCAC8C8)
-                        )
-                        Text(
-                            text = "Or sign in with",
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            fontSize = 14.sp
-                        )
-                        Divider(
-                            modifier = Modifier.weight(2f),
-                            thickness = 1.dp,
-                            color = Color(0xFFCAC8C8)
-                        )
-                    }
-                    Spacer(Modifier.height(16.dp))
                     Column(
                         horizontalAlignment = Alignment.Start
                     ) {
@@ -269,21 +210,9 @@ fun SignInScreenContent(
                             else PasswordVisualTransformation()
                         )
                     }
-                    Spacer(Modifier.height(16.dp))
-                    Text(
-                        text = "Forgot password?",
-                        fontFamily = poppinsFontFamily,
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(top = 8.dp)
-                            .align(Alignment.End)
-                            .clickable {}
-                    )
                     Button(
                         modifier = Modifier
                             .padding(top = 32.dp)
-                            .height(55.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
                         onClick = {},
@@ -293,7 +222,7 @@ fun SignInScreenContent(
                     ) {
                         Text(
                             fontFamily = poppinsFontFamily,
-                            text = "Sign in",
+                            text = "Sign up",
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.background
                         )
@@ -302,13 +231,13 @@ fun SignInScreenContent(
                         modifier = Modifier.padding(top = 70.dp)
                     ) {
                         Text(
-                            text = "Don't have an account?",
+                            text = "Already have an account?",
                             fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                         Text(
-                            text = " " + "Sign up",
+                            text = " " + "Sign in",
                             fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.primary,
@@ -325,12 +254,12 @@ fun SignInScreenContent(
     showBackground = true,
 )
 @Composable
-private fun SignInScreenContentPreview(
+private fun SignUpScreenContentPreview(
 ) {
     ListifyTheme(
         dynamicColor = false
     ) {
-        SignInScreenContent(
+        SignUpScreenContent(
             email = "",
             password = "",
             onEmailChange = {},
