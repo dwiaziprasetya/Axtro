@@ -9,6 +9,38 @@ import kotlinx.coroutines.tasks.await
 class AuthRepositoryImpl(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
+    override suspend fun registerWithEmail(
+        email: String,
+        password: String
+    ): AppResult<User> {
+
+        return try {
+
+            val result = firebaseAuth
+                .createUserWithEmailAndPassword(email, password)
+                .await()
+
+            val firebaseUser = result.user
+
+            if (firebaseUser != null) {
+                AppResult.Success(
+                    User(
+                        id = firebaseUser.uid,
+                        email = firebaseUser.email
+                    )
+                )
+            } else {
+                AppResult.Error("Gagal membuat user")
+            }
+
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Register gagal",
+                throwable = e
+            )
+        }
+    }
+
     override suspend fun loginWithEmail(
         email: String,
         password: String

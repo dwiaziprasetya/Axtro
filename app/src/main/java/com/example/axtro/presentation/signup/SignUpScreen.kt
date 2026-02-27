@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
@@ -45,7 +46,9 @@ import com.example.axtro.presentation.component.CustomOutlinedTextField
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
     val systemUiController = rememberSystemUiController()
 
     var email by rememberSaveable { mutableStateOf("") }
