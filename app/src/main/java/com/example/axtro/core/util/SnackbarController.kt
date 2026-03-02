@@ -3,8 +3,13 @@ package com.example.axtro.core.util
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
+enum class SnackbarType {
+    SUCCESS, ERROR
+}
+
 data class SnackbarEvent(
     val message: String,
+    val type: SnackbarType = SnackbarType.SUCCESS,
     val action: SnackbarAction? = null
 )
 

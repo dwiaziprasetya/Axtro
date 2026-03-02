@@ -1,8 +1,10 @@
 package com.example.axtro.presentation.component
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,7 +29,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.axtro.core.ui.theme.poppinsFontFamily
 
 @Composable
 fun CustomOutlinedTextField(
@@ -61,8 +62,7 @@ fun CustomOutlinedTextField(
             Text(
                 text = hint,
                 color = MaterialTheme.colorScheme.outline,
-                fontFamily = poppinsFontFamily,
-                fontSize = 14.sp
+                fontSize = 14.sp,
             )
         },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -72,7 +72,7 @@ fun CustomOutlinedTextField(
         }),
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .heightIn(min = 56.dp)
             .onFocusChanged {
                 isFocused = it.isFocused
                 onFocusChange(isFocused)
@@ -94,18 +94,17 @@ fun CustomOutlinedTextField(
         visualTransformation = visualTransformation,
         textStyle = TextStyle(
             color = MaterialTheme.colorScheme.onPrimary,
-            fontFamily = poppinsFontFamily,
             fontSize = 14.sp,
         ),
         isError = isError,
         supportingText = {
-            if (isError) {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = errorMessage,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
+                if (isError) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = errorMessage,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
         }
     )
 }

@@ -257,7 +257,6 @@ fun SignInScreenContent(
                             hint = "Enter your email"
                         )
                     }
-                    Spacer(Modifier.height(16.dp))
                     Column {
                         Text(
                             text = "Password",

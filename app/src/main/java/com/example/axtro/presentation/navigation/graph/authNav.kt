@@ -13,7 +13,7 @@ fun NavGraphBuilder.authNav(
     navController: NavController
 ){
     navigation(
-        startDestination = Screen.SignUp.route,
+        startDestination = Screen.SignIn.route,
         route = Screen.AuthNav.route
     ) {
         composable(
