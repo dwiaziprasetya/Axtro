@@ -58,7 +58,7 @@ fun RootNavigationGraph(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding),
             startDestination = Screen.AuthNav.route,
         ) {
-            authNav()
+            authNav(navController)
             composable(
                 route = Screen.Main.route
             ) {

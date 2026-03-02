@@ -43,14 +43,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
 import com.example.axtro.presentation.component.CustomOutlinedTextField
+import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    navController: NavController
+) {
     val systemUiController = rememberSystemUiController()
 
     var email by rememberSaveable { mutableStateOf("") }
@@ -97,6 +101,9 @@ fun SignInScreen() {
         passwordError = passwordError,
         emailError = emailError,
         iconPasswordVisibility = icon,
+        navigateToSignUp = {
+            navController.navigate(Screen.SignUp.route)
+        }
     )
 }
 
@@ -113,6 +120,7 @@ fun SignInScreenContent(
     emailError: Boolean,
     iconPasswordVisibility: Int,
     passwordError: Boolean,
+    navigateToSignUp: () -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -312,7 +320,9 @@ fun SignInScreenContent(
                             fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable {}
+                            modifier = Modifier.clickable {
+                                navigateToSignUp()
+                            }
                         )
                     }
                 }
@@ -340,7 +350,8 @@ private fun SignInScreenContentPreview(
             onPasswordVisibilityChange = {},
             emailError = false,
             iconPasswordVisibility = R.drawable.icon_visibility,
-            passwordError = false
+            passwordError = false,
+            navigateToSignUp = {}
         )
     }
 }

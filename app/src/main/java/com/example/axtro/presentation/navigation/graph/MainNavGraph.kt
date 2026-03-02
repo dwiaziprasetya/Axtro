@@ -16,7 +16,7 @@ import com.example.axtro.presentation.task.TaskScreen
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     NavHost(
         navController = navController,
@@ -24,7 +24,7 @@ fun MainNavGraph(
         route = Screen.Main.route,
         modifier = Modifier.padding(paddingValues)
     ) {
-        authNav()
+        authNav(navController)
         composable(route = Screen.Home.route) { HomeScreen() }
         composable(route = Screen.Calendar.route) { CalendarScreen() }
         composable(route = Screen.Task.route) { TaskScreen() }

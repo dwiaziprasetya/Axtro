@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,17 +40,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
+import com.example.axtro.core.util.SnackbarController
+import com.example.axtro.core.util.SnackbarEvent
 import com.example.axtro.presentation.component.CustomOutlinedTextField
+import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val systemUiController = rememberSystemUiController()
+    val scope = rememberCoroutineScope()
 
     var email by rememberSaveable { mutableStateOf("") }
     var emailError by remember { mutableStateOf(false) }
@@ -95,6 +103,18 @@ fun SignUpScreen(
         passwordError = passwordError,
         emailError = emailError,
         iconPasswordVisibility = icon,
+        navigateToSignIn = {
+            navController.navigate(Screen.SignIn.route)
+        },
+        onClickSignUp = {
+            scope.launch {
+                SnackbarController.sendEvent(
+                    event = SnackbarEvent(
+                        message = "Sign up successful",
+                    )
+                )
+            }
+        }
     )
 }
 
@@ -111,6 +131,8 @@ fun SignUpScreenContent(
     emailError: Boolean,
     iconPasswordVisibility: Int,
     passwordError: Boolean,
+    navigateToSignIn: () -> Unit,
+    onClickSignUp: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -218,7 +240,9 @@ fun SignUpScreenContent(
                             .padding(top = 32.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
-                        onClick = {},
+                        onClick = {
+                            onClickSignUp()
+                        },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
@@ -244,7 +268,7 @@ fun SignUpScreenContent(
                             fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable {}
+                            modifier = Modifier.clickable { navigateToSignIn() }
                         )
                     }
                 }
@@ -272,7 +296,9 @@ private fun SignUpScreenContentPreview(
             onPasswordVisibilityChange = {},
             emailError = false,
             iconPasswordVisibility = R.drawable.icon_visibility,
-            passwordError = false
+            passwordError = false,
+            navigateToSignIn = {},
+            onClickSignUp = {}
         )
     }
 }
