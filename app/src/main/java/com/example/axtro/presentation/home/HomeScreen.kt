@@ -31,6 +31,11 @@ import com.example.axtro.core.ui.theme.poppinsFontFamily
 
 @Composable
 fun HomeScreen() {
+    HomeContent()
+}
+
+@Composable
+fun HomeContent() {
     Box(
         modifier = Modifier
             .padding(
@@ -49,35 +54,24 @@ fun HomeScreen() {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(R.drawable.jhonny),
-                    contentDescription = "User",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                )
-                Column(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                ) {
+                Column {
                     Text(
-                        text = "Hi, Jhonny!",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = poppinsFontFamily
+                        text = "Hi Jhonny",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        text = "20 Desember 2024",
-                        color = MaterialTheme.colorScheme.outline,
-                        fontFamily = poppinsFontFamily,
-                        fontSize = 14.sp
+                        text = "Let’s get things done today",
+                        fontSize = 12.sp
                     )
                 }
             }
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu",
-                tint = MaterialTheme.colorScheme.outline
+            Image(
+                painter = painterResource(R.drawable.jhonny),
+                contentDescription = "User",
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
             )
         }
     }
@@ -85,8 +79,8 @@ fun HomeScreen() {
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeScreenPreview() {
+private fun HomeContentPreview() {
     ListifyTheme {
-        HomeScreen()
+        HomeContent()
     }
 }

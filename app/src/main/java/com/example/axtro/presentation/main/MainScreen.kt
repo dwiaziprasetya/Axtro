@@ -18,11 +18,11 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxSize(),
-        bottomBar = {
-            BottomNavigation(
-                navController = navController,
-            )
-        }
+//        bottomBar = {
+//            BottomNavigation(
+//                navController = navController,
+//            )
+//        }
     ) { innerPadding ->
         MainNavGraph(
             navController = navController,
