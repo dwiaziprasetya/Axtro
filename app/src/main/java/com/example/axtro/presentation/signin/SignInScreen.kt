@@ -263,17 +263,25 @@ fun SignInScreenContent(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Icon(
-                                painter = painterResource(R.drawable.icon_google),
-                                contentDescription = "",
-                                tint = Color.Unspecified
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                fontFamily = poppinsFontFamily,
-                                text = "Continue with Google",
-                                fontSize = 14.sp,
-                            )
+                            if (state.isLoadingGoogleSignIn) {
+                                CircularProgressIndicator(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(18.dp),
+                                    strokeWidth = 2.dp
+                                )
+                            } else {
+                                Icon(
+                                    painter = painterResource(R.drawable.icon_google),
+                                    contentDescription = "",
+                                    tint = Color.Unspecified
+                                )
+                                Spacer(Modifier.width(8.dp))
+                                Text(
+                                    fontFamily = poppinsFontFamily,
+                                    text = "Continue with Google",
+                                    fontSize = 14.sp,
+                                )
+                            }
                         }
                     }
                     Spacer(Modifier.height(16.dp))
@@ -361,7 +369,7 @@ fun SignInScreenContent(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
                     ) {
-                        if (state.isLoading) {
+                        if (state.isLoadingEmailSignIn) {
                             CircularProgressIndicator(
                                 color = MaterialTheme.colorScheme.background,
                                 modifier = Modifier.size(18.dp)

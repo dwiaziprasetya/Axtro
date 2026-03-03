@@ -47,7 +47,7 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithEmail() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, error = null) }
+            _state.update { it.copy(isLoadingEmailSignIn = true, error = null) }
 
             val result = loginWithEmail(
                 _state.value.email,
@@ -58,7 +58,7 @@ class SignInViewModel @Inject constructor(
                 is AppResult.Success -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            isLoadingEmailSignIn = false,
                             isSuccess = true
                         )
                     }
@@ -74,7 +74,7 @@ class SignInViewModel @Inject constructor(
                 is AppResult.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            isLoadingEmailSignIn = false,
                             error = result.message
                         )
                     }
@@ -92,7 +92,7 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithGoogle(idToken: String) {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, error = null) }
+            _state.update { it.copy(isLoadingGoogleSignIn = true, error = null) }
 
             val result = loginWithGoogle(idToken)
 
@@ -100,7 +100,7 @@ class SignInViewModel @Inject constructor(
                 is AppResult.Success -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            isLoadingGoogleSignIn = false,
                             isSuccess = true
                         )
                     }
@@ -116,7 +116,7 @@ class SignInViewModel @Inject constructor(
                 is AppResult.Error -> {
                     _state.update {
                         it.copy(
-                            isLoading = false,
+                            isLoadingGoogleSignIn = false,
                             error = result.message
                         )
                     }
