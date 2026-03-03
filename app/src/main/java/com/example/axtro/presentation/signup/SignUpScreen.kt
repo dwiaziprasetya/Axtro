@@ -18,10 +18,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,6 +60,8 @@ fun SignUpScreen(
     navController: NavController
 ) {
     val systemUiController = rememberSystemUiController()
+    val state by viewModel.state.collectAsState()
+
     val scope = rememberCoroutineScope()
 
     var email by rememberSaveable { mutableStateOf("") }
@@ -81,6 +85,7 @@ fun SignUpScreen(
     }
 
     SignUpScreenContent(
+        state = state,
         email = email,
         password = password,
         onEmailChange = {
@@ -108,13 +113,10 @@ fun SignUpScreen(
             navController.navigate(Screen.SignIn.route)
         },
         onClickSignUp = {
-            scope.launch {
-                SnackbarController.sendEvent(
-                    event = SnackbarEvent(
-                        message = "Sign up successful",
-                    )
-                )
-            }
+            viewModel.register(
+                email = email.trim(),
+                password = password.trim()
+            )
         }
     )
 }
@@ -133,7 +135,8 @@ fun SignUpScreenContent(
     iconPasswordVisibility: Int,
     passwordError: Boolean,
     navigateToSignIn: () -> Unit,
-    onClickSignUp: () -> Unit
+    onClickSignUp: () -> Unit,
+    state: SignUpUiState
 ) {
     Box(
         modifier = modifier
@@ -215,7 +218,6 @@ fun SignUpScreenContent(
                             hint = "Enter your email"
                         )
                     }
-                    Spacer(Modifier.height(16.dp))
                     Column {
                         Text(
                             text = "Password",
@@ -248,12 +250,19 @@ fun SignUpScreenContent(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
                     ) {
-                        Text(
-                            fontFamily = poppinsFontFamily,
-                            text = "Sign up",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.background
-                        )
+                        if (state.isLoading) {
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.background,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        } else {
+                            Text(
+                                fontFamily = poppinsFontFamily,
+                                text = "Sign up",
+                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.background
+                            )
+                        }
                     }
                     Row(
                         modifier = Modifier.padding(top = 70.dp)
@@ -288,6 +297,7 @@ private fun SignUpScreenContentPreview(
         dynamicColor = false
     ) {
         SignUpScreenContent(
+            state = SignUpUiState(),
             email = "",
             password = "",
             onEmailChange = {},
