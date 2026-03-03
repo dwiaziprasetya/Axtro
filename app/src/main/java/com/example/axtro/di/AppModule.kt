@@ -2,6 +2,7 @@ package com.example.axtro.di
 
 import com.example.axtro.domain.repository.AuthRepository
 import com.example.axtro.domain.usecase.LoginWithEmail
+import com.example.axtro.domain.usecase.LoginWithGoogle
 import com.example.axtro.domain.usecase.RegisterWithEmail
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -34,5 +35,13 @@ object AppModule {
         repository: AuthRepository
     ): LoginWithEmail {
         return LoginWithEmail(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginWithGoogle(
+        repository: AuthRepository
+    ) : LoginWithGoogle {
+        return LoginWithGoogle(repository)
     }
 }

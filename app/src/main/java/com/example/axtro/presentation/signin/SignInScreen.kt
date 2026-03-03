@@ -31,10 +31,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,14 +45,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
+import com.example.axtro.core.util.SnackbarController
+import com.example.axtro.core.util.SnackbarEvent
+import com.example.axtro.core.util.SnackbarType
 import com.example.axtro.presentation.component.CustomOutlinedTextField
 import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignInScreen(
@@ -58,6 +71,21 @@ fun SignInScreen(
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
+    val scope = rememberCoroutineScope()
+
+    val context = LocalContext.current
+    val credentialManager = CredentialManager.create(context)
+
+    val googleIdOption = GetGoogleIdOption.Builder()
+        .setFilterByAuthorizedAccounts(false)
+        .setServerClientId(
+            context.getString(R.string.web_client_id)
+        )
+        .build()
+
+    val request = GetCredentialRequest.Builder()
+        .addCredentialOption(googleIdOption)
+        .build()
 
     val state by viewModel.state.collectAsState()
 
@@ -94,6 +122,47 @@ fun SignInScreen(
         },
         signIn = {
             viewModel.signInWithEmail()
+        },
+        onClickGoogleButton = {
+            scope.launch {
+                try {
+                    val result = credentialManager.getCredential(
+                        context = context,
+                        request = request
+                    )
+
+                    val credential = result.credential
+
+                    if (credential is CustomCredential &&
+                        credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                    ) {
+                        val googleCredential =
+                            GoogleIdTokenCredential.createFrom(credential.data)
+
+                        val idToken = googleCredential.idToken
+                        viewModel.signInWithGoogle(idToken = idToken)
+                    }
+                } catch (e: GetCredentialException) {
+                    when (e) {
+                        is NoCredentialException -> {
+                            SnackbarController.sendEvent(
+                                SnackbarEvent(
+                                    message = "No Google account found on this device",
+                                    type = SnackbarType.ERROR
+                                )
+                            )
+                        }
+                        else -> {
+                            SnackbarController.sendEvent(
+                                SnackbarEvent(
+                                    message = e.message ?: "Unknown error",
+                                    type = SnackbarType.ERROR
+                                )
+                            )
+                        }
+                    }
+                }
+            }
         }
     )
 }
@@ -113,7 +182,8 @@ fun SignInScreenContent(
     iconPasswordVisibility: Int,
     passwordError: Boolean,
     navigateToSignUp: () -> Unit,
-    signIn: () -> Unit
+    signIn: () -> Unit,
+    onClickGoogleButton: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -184,7 +254,7 @@ fun SignInScreenContent(
                                 width = 1.dp,
                                 shape = RoundedCornerShape(10.dp)
                             ),
-                        onClick = {},
+                        onClick = onClickGoogleButton,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.background
                         )
@@ -352,7 +422,8 @@ private fun SignInScreenContentPreview(
             iconPasswordVisibility = R.drawable.icon_visibility,
             passwordError = false,
             navigateToSignUp = {},
-            signIn = {}
+            signIn = {},
+            onClickGoogleButton = {}
         )
     }
 }

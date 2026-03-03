@@ -8,6 +8,7 @@ import com.example.axtro.core.util.SnackbarController
 import com.example.axtro.core.util.SnackbarEvent
 import com.example.axtro.core.util.SnackbarType
 import com.example.axtro.domain.usecase.LoginWithEmail
+import com.example.axtro.domain.usecase.LoginWithGoogle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val loginWithEmail: LoginWithEmail
+    private val loginWithEmail: LoginWithEmail,
+    private val loginWithGoogle: LoginWithGoogle
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SignInUiState())
@@ -64,6 +66,48 @@ class SignInViewModel @Inject constructor(
                     SnackbarController.sendEvent(
                         SnackbarEvent(
                             message = "Success login",
+                            type = SnackbarType.SUCCESS
+                        )
+                    )
+                }
+
+                is AppResult.Error -> {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = result.message
+                        )
+                    }
+
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(
+                            message = result.message,
+                            type = SnackbarType.ERROR
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, error = null) }
+
+            val result = loginWithGoogle(idToken)
+
+            when (result) {
+                is AppResult.Success -> {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isSuccess = true
+                        )
+                    }
+
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(
+                            message = "Success login with Google",
                             type = SnackbarType.SUCCESS
                         )
                     )
