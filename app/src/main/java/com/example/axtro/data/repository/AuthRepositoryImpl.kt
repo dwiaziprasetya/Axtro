@@ -4,6 +4,7 @@ import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.model.User
 import com.example.axtro.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -31,12 +32,12 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 )
             } else {
-                AppResult.Error("Gagal membuat user")
+                AppResult.Error("Failed to create User")
             }
 
         } catch (e: Exception) {
             AppResult.Error(
-                message = e.message ?: "Register gagal",
+                message = e.message ?: "Failed to register",
                 throwable = e
             )
         }
@@ -61,11 +62,24 @@ class AuthRepositoryImpl @Inject constructor(
                     )
                 )
             } else {
-                AppResult.Error("User tidak ditemukan")
+                AppResult.Error("User not found")
             }
         } catch (e: Exception) {
             AppResult.Error(
-                message = e.message ?: "Login gagal",
+                message = e.message ?: "Failed to login",
+                throwable = e
+            )
+        }
+    }
+
+    override suspend fun loginWithGoogle(idToken: String): AppResult<Unit> {
+        return try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            firebaseAuth.signInWithCredential(credential).await()
+            AppResult.Success(Unit)
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Failed to login with Google",
                 throwable = e
             )
         }
