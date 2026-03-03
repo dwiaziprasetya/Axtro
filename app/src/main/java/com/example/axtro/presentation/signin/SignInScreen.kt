@@ -1,6 +1,5 @@
 package com.example.axtro.presentation.signin
 
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,16 +20,17 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
@@ -53,18 +54,15 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SignInScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
 
-    var email by rememberSaveable { mutableStateOf("") }
-    var emailError by remember { mutableStateOf(false) }
+    val state by viewModel.state.collectAsState()
+
     var isEmailFocused by remember { mutableStateOf(false) }
-
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordError by remember { mutableStateOf(false) }
     var passwordVisibility by remember { mutableStateOf(false) }
-
     val icon = if (passwordVisibility)
         R.drawable.icon_visibility
     else
@@ -78,37 +76,31 @@ fun SignInScreen(
     }
 
     SignInScreenContent(
-        email = email,
-        password = password,
-        onEmailChange = {
-            email = it
-            if (!isEmailFocused) {
-                emailError = false
-            }
-        },
+        state = state,
+        email = state.email,
+        password = state.password,
+        onEmailChange = viewModel::onEmailChange,
         onEmailFocusChange = { isFocused ->
             isEmailFocused = isFocused
-            if (!isFocused) {
-                emailError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()
-            }
         },
-        onPasswordChange = {
-            password = it
-            passwordError = password.contains(" ")
-        },
+        onPasswordChange = viewModel::onPasswordChange,
         passwordVisibility = passwordVisibility,
         onPasswordVisibilityChange = { passwordVisibility = !passwordVisibility },
-        passwordError = passwordError,
-        emailError = emailError,
+        passwordError = state.passwordError,
+        emailError = state.emailError,
         iconPasswordVisibility = icon,
         navigateToSignUp = {
             navController.navigate(Screen.SignUp.route)
+        },
+        signIn = {
+            viewModel.signInWithEmail()
         }
     )
 }
 
 @Composable
 fun SignInScreenContent(
+    state: SignInUiState,
     modifier: Modifier = Modifier,
     email: String,
     password: String,
@@ -121,6 +113,7 @@ fun SignInScreenContent(
     iconPasswordVisibility: Int,
     passwordError: Boolean,
     navigateToSignUp: () -> Unit,
+    signIn: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -220,7 +213,7 @@ fun SignInScreenContent(
                         modifier = Modifier
                             .fillMaxWidth()
                     ){
-                        Divider(
+                        HorizontalDivider(
                             modifier = Modifier.weight(2f),
                             thickness = 1.dp,
                             color = Color(0xFFCAC8C8)
@@ -230,7 +223,7 @@ fun SignInScreenContent(
                             modifier = Modifier.padding(horizontal = 16.dp),
                             fontSize = 14.sp
                         )
-                        Divider(
+                        HorizontalDivider(
                             modifier = Modifier.weight(2f),
                             thickness = 1.dp,
                             color = Color(0xFFCAC8C8)
@@ -293,17 +286,24 @@ fun SignInScreenContent(
                             .padding(top = 32.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
-                        onClick = {},
+                        onClick = signIn,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
                     ) {
-                        Text(
-                            fontFamily = poppinsFontFamily,
-                            text = "Sign in",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.background
-                        )
+                        if (state.isLoading) {
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.background,
+                                modifier = Modifier.size(18.dp)
+                            )
+                        } else {
+                            Text(
+                                fontFamily = poppinsFontFamily,
+                                text = "Sign in",
+                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.background
+                            )
+                        }
                     }
                     Row(
                         modifier = Modifier.padding(top = 70.dp)
@@ -340,6 +340,7 @@ private fun SignInScreenContentPreview(
         dynamicColor = false
     ) {
         SignInScreenContent(
+            state = SignInUiState(),
             email = "",
             password = "",
             onEmailChange = {},
@@ -350,7 +351,8 @@ private fun SignInScreenContentPreview(
             emailError = false,
             iconPasswordVisibility = R.drawable.icon_visibility,
             passwordError = false,
-            navigateToSignUp = {}
+            navigateToSignUp = {},
+            signIn = {}
         )
     }
 }

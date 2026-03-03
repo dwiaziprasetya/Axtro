@@ -9,11 +9,11 @@ import com.example.axtro.core.util.SnackbarEvent
 import com.example.axtro.core.util.SnackbarType
 import com.example.axtro.domain.usecase.LoginWithEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
@@ -43,7 +43,7 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    fun login() {
+    fun signInWithEmail() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 
@@ -63,7 +63,7 @@ class SignInViewModel @Inject constructor(
 
                     SnackbarController.sendEvent(
                         SnackbarEvent(
-                            message = "Success register",
+                            message = "Success login",
                             type = SnackbarType.SUCCESS
                         )
                     )

@@ -27,4 +27,12 @@ object AppModule {
     ): RegisterWithEmail {
         return RegisterWithEmail(repository)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoginWithEmail(
+        repository: AuthRepository
+    ): LoginWithEmail {
+        return LoginWithEmail(repository)
+    }
 }
