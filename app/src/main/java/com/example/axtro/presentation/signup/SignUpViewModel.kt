@@ -1,5 +1,6 @@
 package com.example.axtro.presentation.signup
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.axtro.core.util.AppResult
@@ -23,18 +24,38 @@ class SignUpViewModel @Inject constructor(
     private val _state = MutableStateFlow(SignUpUiState())
     val state: StateFlow<SignUpUiState> = _state.asStateFlow()
 
-    fun register(
-        email: String,
-        password: String,
-    ) {
+    fun onEmailChange(value: String) {
+        val isValid = Patterns.EMAIL_ADDRESS.matcher(value).matches()
+
+        _state.update {
+            it.copy(
+                email = value,
+                emailError = value.isNotEmpty() && !isValid
+            )
+        }
+    }
+
+    fun onPasswordChange(value: String) {
+        _state.update {
+            it.copy(
+                password = value,
+                passwordError = value.contains(" ")
+            )
+        }
+    }
+
+    fun register() {
         viewModelScope.launch {
+
+            val current = _state.value
+
             _state.update {
                 it.copy(isLoading = true, error = null)
             }
 
             val result = registerWithEmail(
-                email,
-                password
+                current.email.trim(),
+                current.password.trim()
             )
 
             when (result) {
@@ -62,6 +83,13 @@ class SignUpViewModel @Inject constructor(
                             error = result.message
                         )
                     }
+
+                    SnackbarController.sendEvent(
+                        SnackbarEvent(
+                            message = result.message,
+                            type = SnackbarType.ERROR
+                        )
+                    )
                 }
             }
         }

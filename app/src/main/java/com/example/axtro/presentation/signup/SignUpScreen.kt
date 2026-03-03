@@ -27,7 +27,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,13 +45,9 @@ import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
-import com.example.axtro.core.util.SnackbarController
-import com.example.axtro.core.util.SnackbarEvent
-import com.example.axtro.core.util.SnackbarType
 import com.example.axtro.presentation.component.CustomOutlinedTextField
 import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
@@ -60,18 +55,11 @@ fun SignUpScreen(
     navController: NavController
 ) {
     val systemUiController = rememberSystemUiController()
+
     val state by viewModel.state.collectAsState()
 
-    val scope = rememberCoroutineScope()
-
-    var email by rememberSaveable { mutableStateOf("") }
-    var emailError by remember { mutableStateOf(false) }
     var isEmailFocused by remember { mutableStateOf(false) }
-
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordError by remember { mutableStateOf(false) }
     var passwordVisibility by remember { mutableStateOf(false) }
-
     val icon = if (passwordVisibility)
         R.drawable.icon_visibility
     else
@@ -86,37 +74,25 @@ fun SignUpScreen(
 
     SignUpScreenContent(
         state = state,
-        email = email,
-        password = password,
-        onEmailChange = {
-            email = it
-            if (!isEmailFocused) {
-                emailError = false
-            }
-        },
+        email = state.email,
+        password = state.password,
+        onEmailChange = viewModel::onEmailChange,
         onEmailFocusChange = { isFocused ->
             isEmailFocused = isFocused
-            if (!isFocused) {
-                emailError = email.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()
-            }
         },
-        onPasswordChange = {
-            password = it
-            passwordError = password.contains(" ")
-        },
+        onPasswordChange = viewModel::onPasswordChange,
         passwordVisibility = passwordVisibility,
-        onPasswordVisibilityChange = { passwordVisibility = !passwordVisibility },
-        passwordError = passwordError,
-        emailError = emailError,
+        onPasswordVisibilityChange = {
+            passwordVisibility = !passwordVisibility
+        },
+        passwordError = state.passwordError,
+        emailError = state.emailError,
         iconPasswordVisibility = icon,
         navigateToSignIn = {
             navController.navigate(Screen.SignIn.route)
         },
         onClickSignUp = {
-            viewModel.register(
-                email = email.trim(),
-                password = password.trim()
-            )
+            viewModel.register()
         }
     )
 }
@@ -218,6 +194,7 @@ fun SignUpScreenContent(
                             hint = "Enter your email"
                         )
                     }
+                    Spacer(Modifier.height(8.dp))
                     Column {
                         Text(
                             text = "Password",
@@ -233,7 +210,7 @@ fun SignUpScreenContent(
                             trailingIconResId = iconPasswordVisibility,
                             onTrailingIconClick = { onPasswordVisibilityChange() },
                             isError = passwordError,
-                            errorMessage = "Password error",
+                            errorMessage = "Password cannot contain space",
                             visualTransformation = if (passwordVisibility) VisualTransformation.None
                             else PasswordVisualTransformation()
                         )
