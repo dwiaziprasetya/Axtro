@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.example.axtro.data.model.sliderImage
-import com.example.axtro.core.ui.theme.ListifyTheme
+import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -224,7 +224,7 @@ fun PagerIndicatorContent(
 @Preview(showBackground = true)
 @Composable
 private fun PageIndicatorPreview() {
-    ListifyTheme(dynamicColor = false) {
+    AxtroTheme(dynamicColor = false) {
         PageIndicator(
             numberOfPages = 3,
             selectedPage = 0
@@ -235,7 +235,7 @@ private fun PageIndicatorPreview() {
 @Preview
 @Composable
 private fun WelcomeScreenPreview() {
-    ListifyTheme(dynamicColor = false) {
+    AxtroTheme(dynamicColor = false) {
         WelcomeScreen()
     }
 }

@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.axtro.R
-import com.example.axtro.core.ui.theme.ListifyTheme
+import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
 import com.example.axtro.presentation.component.CustomOutlinedTextField
 import com.example.axtro.presentation.navigation.model.Screen
@@ -268,7 +268,7 @@ fun SignUpScreenContent(
 @Composable
 private fun SignUpScreenContentPreview(
 ) {
-    ListifyTheme(
+    AxtroTheme(
         dynamicColor = false
     ) {
         SignUpScreenContent(

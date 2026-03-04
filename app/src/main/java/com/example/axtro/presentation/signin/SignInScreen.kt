@@ -53,7 +53,7 @@ import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.axtro.R
-import com.example.axtro.core.ui.theme.ListifyTheme
+import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
 import com.example.axtro.core.util.SnackbarController
 import com.example.axtro.core.util.SnackbarEvent
@@ -414,7 +414,7 @@ fun SignInScreenContent(
 @Composable
 private fun SignInScreenContentPreview(
 ) {
-    ListifyTheme(
+    AxtroTheme(
         dynamicColor = false
     ) {
         SignInScreenContent(

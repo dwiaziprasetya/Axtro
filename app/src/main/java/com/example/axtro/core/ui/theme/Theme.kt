@@ -82,7 +82,7 @@ private val darkScheme = darkColorScheme(
 )
 
 @Composable
-fun ListifyTheme(
+fun AxtroTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable() () -> Unit

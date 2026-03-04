@@ -18,12 +18,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -43,8 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.axtro.R
-import com.example.axtro.core.ui.theme.ListifyTheme
-import com.example.axtro.presentation.component.AxtroCheckbox
+import com.example.axtro.core.ui.theme.AxtroTheme
+import com.example.axtro.presentation.component.AxtroTaskCard
 import com.example.axtro.presentation.component.StatTaskCard
 
 @Composable
@@ -161,94 +158,9 @@ fun HomeContent() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(10) {
-                    TaskCard(
+                    AxtroTaskCard(
                         isChecked = checked,
                         onCheckedChange = { checked = it }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun TaskCard(
-    isChecked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(16.dp)
-    ) {
-
-        Row(
-            verticalAlignment = Alignment.Top
-        ) {
-
-            AxtroCheckbox(
-                checked = isChecked,
-                onCheckedChange = onCheckedChange
-            )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-
-                Text(
-                    text = "ACTIVE",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Box(
-                        modifier = Modifier
-                            .width(4.dp)
-                            .height(64.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(MaterialTheme.colorScheme.primary)
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(
-                            text = "Prepare Investor Pitch",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Text(
-                            text = "Due 12 Mar 2026",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-
-                    Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.outline
                     )
                 }
             }
@@ -259,7 +171,7 @@ fun TaskCard(
 @Preview(showBackground = true, backgroundColor = 0xFFf2f6fc)
 @Composable
 private fun HomeContentPreview() {
-    ListifyTheme {
+    AxtroTheme {
         HomeContent()
     }
 }

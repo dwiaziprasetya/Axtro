@@ -9,8 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.axtro.presentation.navigation.graph.MainNavGraph
-import com.example.axtro.core.ui.theme.ListifyTheme
-import com.example.axtro.presentation.component.BottomNavigation
+import com.example.axtro.core.ui.theme.AxtroTheme
 
 @Composable
 fun MainScreen(navController: NavHostController = rememberNavController()) {
@@ -34,7 +33,7 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
 @Preview
 @Composable
 private fun MainScreenPreview() {
-    ListifyTheme(dynamicColor = false) {
+    AxtroTheme(dynamicColor = false) {
         MainScreen()
     }
 }

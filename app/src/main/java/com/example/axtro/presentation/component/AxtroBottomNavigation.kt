@@ -20,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.axtro.R
 import com.example.axtro.presentation.navigation.model.BottomBarItem
 import com.example.axtro.presentation.navigation.model.Screen
-import com.example.axtro.core.ui.theme.ListifyTheme
+import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
 
 @Composable
@@ -127,7 +127,7 @@ fun BottomNavigation(
 @Preview(showBackground = true)
 @Composable
 private fun BottomNavigationPreview() {
-    ListifyTheme(dynamicColor = false) {
+    AxtroTheme(dynamicColor = false) {
         BottomNavigation(
             navController = rememberNavController()
         )
