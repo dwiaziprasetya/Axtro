@@ -28,7 +28,7 @@ fun AxtroPriorityChip(
         shape = RoundedCornerShape(12.dp),
         color = if (isSelected) selectedColor.copy(alpha = 0.2f) else unselectedBackgroundColor,
         border = if (isSelected) BorderStroke(1.dp, selectedColor) else null,
-        modifier = Modifier.height(40.dp)
+        modifier = Modifier.height(30.dp)
     ) {
         Box(
             modifier = Modifier.padding(horizontal = 24.dp),

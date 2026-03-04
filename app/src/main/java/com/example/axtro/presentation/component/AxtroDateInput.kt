@@ -2,6 +2,7 @@ package com.example.axtro.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,37 +17,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AxtroTextField(
+fun AxtroDateInput(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    hint: String = "Input task name"
+    hint: String = "DD",
+    maxChar: Int = 2
 ) {
     val focusManager = LocalFocusManager.current
 
     BasicTextField(
+        modifier = modifier,
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = { if (it.length <= maxChar) onValueChange(it) },
         singleLine = true,
         textStyle = MaterialTheme.typography.bodyMedium.copy(
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center
         ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
         decorationBox = { innerTextField ->
             Box(
-                modifier = modifier
+                modifier = Modifier
+                    .fillMaxHeight()
                     .fillMaxWidth()
                     .background(
                         color = Color(0xFFF1F3F6),
-                        shape = RoundedCornerShape(16.dp)
+                        shape = RoundedCornerShape(12.dp)
                     )
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
-                contentAlignment = Alignment.CenterStart
+                    .padding(horizontal = 8.dp),
+                contentAlignment = Alignment.Center
             ) {
                 if (value.isEmpty()) {
                     Text(

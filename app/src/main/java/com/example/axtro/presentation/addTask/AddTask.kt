@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
+import com.example.axtro.presentation.component.AxtroDateInput
 import com.example.axtro.presentation.component.AxtroPriorityChip
 import com.example.axtro.presentation.component.AxtroTextField
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -68,6 +70,10 @@ fun AddTaskContent(
 ) {
     var taskName by remember { mutableStateOf("") }
     var selectedPriority by remember { mutableStateOf("Low") }
+
+    var day by remember { mutableStateOf("") }
+    var month by remember { mutableStateOf("") }
+    var year by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -123,7 +129,40 @@ fun AddTaskContent(
                             value = taskName,
                             onValueChange = { taskName = it },
                         )
-                        Spacer(Modifier.height(16.dp))
+                        Spacer(Modifier.height(24.dp))
+                        Text(
+                            text = "Set Date",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Spacer(Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            AxtroDateInput(
+                                hint = "dd",
+                                value = day,
+                                onValueChange = { day = it },
+                                maxChar = 2,
+                                modifier = Modifier.size(70.dp, 50.dp)
+                            )
+                            AxtroDateInput(
+                                hint = "mm",
+                                value = month,
+                                onValueChange = { month = it },
+                                maxChar = 2,
+                                modifier = Modifier.size(70.dp, 50.dp)
+                            )
+                            AxtroDateInput(
+                                hint = "yyyy",
+                                value = year,
+                                onValueChange = { year = it },
+                                maxChar = 4,
+                                modifier = Modifier.size(100.dp, 50.dp)
+                            )
+                        }
+                        Spacer(Modifier.height(24.dp))
                         Text(
                             text = "Priority",
                             style = MaterialTheme.typography.titleMedium
