@@ -14,12 +14,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -66,7 +74,6 @@ fun HomeScreen() {
 @Composable
 fun HomeContent() {
     var selectedChip by remember { mutableStateOf("All") }
-
     Box(
         modifier = Modifier
             .padding(
@@ -75,7 +82,7 @@ fun HomeContent() {
                 top = 16.dp
             )
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(Color(0XFFf2f6fc))
     ){
         Column {
             Row(
@@ -121,11 +128,10 @@ fun HomeContent() {
             Spacer(Modifier.height(16.dp))
             Text(
                 text = "Task",
-                fontSize = 20.sp,
+                fontSize = 30.sp,
                 fontWeight = FontWeight.SemiBold,
             )
-            Spacer(Modifier.height(12.dp))
-
+            Spacer(Modifier.height(8.dp))
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -148,11 +154,86 @@ fun HomeContent() {
                     )
                 }
             }
+            Spacer(Modifier.height(8.dp))
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(10) {
+                    TaskCard()
+                }
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Composable
+fun TaskCard() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(16.dp)
+    ) {
+
+        Column {
+            Text(
+                text = "ACTIVE",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Box(
+                    modifier = Modifier
+                        .width(4.dp)
+                        .height(64.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(MaterialTheme.colorScheme.primary)
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Application Design",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "Due 12 Mar 2026",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    modifier = Modifier.align(Alignment.Top),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.outline
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFf2f6fc)
 @Composable
 private fun HomeContentPreview() {
     ListifyTheme {
