@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.example.axtro.presentation.addTask.AddTaskScreen
 import com.example.axtro.presentation.calendar.CalendarScreen
 import com.example.axtro.presentation.home.HomeScreen
+import com.example.axtro.presentation.navigation.animation.animatedComposable
 import com.example.axtro.presentation.navigation.model.Screen
 import com.example.axtro.presentation.profile.ProfileScreen
 import com.example.axtro.presentation.task.TaskScreen
@@ -20,14 +21,11 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.AddTask.route,
+        startDestination = Screen.Home.route,
         route = Screen.Main.route,
     ) {
         authNav(navController)
-        composable(route = Screen.AddTask.route) { AddTaskScreen() }
-        composable(route = Screen.Home.route) { HomeScreen() }
-        composable(route = Screen.Calendar.route) { CalendarScreen() }
-        composable(route = Screen.Task.route) { TaskScreen() }
-        composable(route = Screen.Profile.route) { ProfileScreen() }
+        animatedComposable(route = Screen.AddTask.route) { AddTaskScreen(navController = navController) }
+        animatedComposable(route = Screen.Home.route) { HomeScreen(navController = navController) }
     }
 }

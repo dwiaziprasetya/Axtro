@@ -1,6 +1,7 @@
 package com.example.axtro.presentation.addTask
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +22,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
 import com.example.axtro.presentation.component.AxtroPriorityChip
@@ -44,7 +46,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTaskScreen() {
+fun AddTaskScreen(navController: NavController) {
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
@@ -53,11 +55,17 @@ fun AddTaskScreen() {
             darkIcons = false
         )
     }
-    AddTaskContent()
+    AddTaskContent(
+        onBackClick = {
+            navController.popBackStack()
+        }
+    )
 }
 
 @Composable
-fun AddTaskContent() {
+fun AddTaskContent(
+    onBackClick: () -> Unit
+) {
     var taskName by remember { mutableStateOf("") }
     var selectedPriority by remember { mutableStateOf("Low") }
 
@@ -70,17 +78,19 @@ fun AddTaskContent() {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
                     .windowInsetsPadding(WindowInsets.statusBars)
                     .height(64.dp),
                 contentAlignment = Alignment.CenterStart
             ) {
-                IconButton(onClick = {  }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = "Back",
-                        tint = Color.White,
-                    )
-                }
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = "Back",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable { onBackClick() }
+                )
                 Text(
                     text = "Create a Task",
                     color = Color.White,
@@ -174,6 +184,8 @@ fun AddTaskContent() {
 @Composable
 private fun AddTaskContentPreview() {
     AxtroTheme {
-        AddTaskContent()
+        AddTaskContent(
+            onBackClick = {}
+        )
     }
 }
