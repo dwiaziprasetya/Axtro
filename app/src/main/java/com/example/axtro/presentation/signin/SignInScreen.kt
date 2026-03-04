@@ -256,7 +256,7 @@ fun SignInScreenContent(
                             ),
                         onClick = onClickGoogleButton,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.background
+                            containerColor = MaterialTheme.colorScheme.onPrimary
                         )
                     ) {
                         Row(
@@ -277,7 +277,7 @@ fun SignInScreenContent(
                                 )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
-                                    fontFamily = poppinsFontFamily,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     text = "Continue with Google",
                                     fontSize = 14.sp,
                                 )
@@ -388,13 +388,10 @@ fun SignInScreenContent(
                     ) {
                         Text(
                             text = "Don't have an account?",
-                            fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.onPrimary
                         )
                         Text(
                             text = " " + "Sign up",
-                            fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.clickable {

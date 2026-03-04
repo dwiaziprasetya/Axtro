@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.axtro.presentation.addTask.AddTaskScreen
 import com.example.axtro.presentation.calendar.CalendarScreen
 import com.example.axtro.presentation.home.HomeScreen
 import com.example.axtro.presentation.navigation.model.Screen
@@ -16,15 +17,14 @@ import com.example.axtro.presentation.task.TaskScreen
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
-    paddingValues: PaddingValues,
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route,
+        startDestination = Screen.AddTask.route,
         route = Screen.Main.route,
-        modifier = Modifier.padding(paddingValues)
     ) {
         authNav(navController)
+        composable(route = Screen.AddTask.route) { AddTaskScreen() }
         composable(route = Screen.Home.route) { HomeScreen() }
         composable(route = Screen.Calendar.route) { CalendarScreen() }
         composable(route = Screen.Task.route) { TaskScreen() }
