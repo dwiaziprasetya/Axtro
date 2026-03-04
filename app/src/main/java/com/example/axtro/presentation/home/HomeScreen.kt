@@ -1,6 +1,7 @@
 package com.example.axtro.presentation.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,24 +19,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.ListifyTheme
+import com.example.axtro.presentation.component.AxtroCheckbox
 import com.example.axtro.presentation.component.StatTaskCard
 
 @Composable
@@ -74,6 +72,8 @@ fun HomeScreen() {
 @Composable
 fun HomeContent() {
     var selectedChip by remember { mutableStateOf("All") }
+    var checked by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .padding(
@@ -97,7 +97,7 @@ fun HomeContent() {
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        text = "Let’s get things done today",
+                        text = "Let’s get things done today 👋",
                         fontSize = 12.sp
                     )
                 }
@@ -139,6 +139,7 @@ fun HomeContent() {
                     FilterChip(
                         selected = selectedChip == chip,
                         onClick = { selectedChip = chip },
+                        border = BorderStroke(0.dp, Color.Transparent),
                         label = {
                             Text(
                                 text = chip,
@@ -147,6 +148,7 @@ fun HomeContent() {
                             )
                         },
                         colors = FilterChipDefaults.filterChipColors(
+                            containerColor = Color.White,
                             selectedContainerColor = MaterialTheme.colorScheme.primary,
                             selectedLabelColor = Color.White,
                             labelColor = Color.Black,
@@ -159,7 +161,10 @@ fun HomeContent() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(10) {
-                    TaskCard()
+                    TaskCard(
+                        isChecked = checked,
+                        onCheckedChange = { checked = it }
+                    )
                 }
             }
         }
@@ -167,7 +172,10 @@ fun HomeContent() {
 }
 
 @Composable
-fun TaskCard() {
+fun TaskCard(
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,58 +184,73 @@ fun TaskCard() {
             .padding(16.dp)
     ) {
 
-        Column {
-            Text(
-                text = "ACTIVE",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+        Row(
+            verticalAlignment = Alignment.Top
+        ) {
+
+            AxtroCheckbox(
+                checked = isChecked,
+                onCheckedChange = onCheckedChange
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
-            HorizontalDivider(
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier.weight(1f)
             ) {
 
-                Box(
-                    modifier = Modifier
-                        .width(4.dp)
-                        .height(64.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(MaterialTheme.colorScheme.primary)
+                Text(
+                    text = "ACTIVE",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-                Column(
-                    modifier = Modifier.weight(1f)
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "Application Design",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSurface
+
+                    Box(
+                        modifier = Modifier
+                            .width(4.dp)
+                            .height(64.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(MaterialTheme.colorScheme.primary)
                     )
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Text(
-                        text = "Due 12 Mar 2026",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(
+                            text = "Prepare Investor Pitch",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "Due 12 Mar 2026",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.outline
                     )
                 }
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    modifier = Modifier.align(Alignment.Top),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.outline
-                )
             }
         }
     }
