@@ -114,7 +114,6 @@ fun AddTaskContent(
                         .fillMaxSize()
                         .padding(24.dp)
                 ) {
-
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
