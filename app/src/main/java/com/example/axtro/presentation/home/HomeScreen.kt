@@ -1,6 +1,5 @@
 package com.example.axtro.presentation.home
 
-import android.R.attr.checked
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -106,6 +105,15 @@ fun HomeContent(
 ) {
     var selectedChip by remember { mutableStateOf("All") }
 
+    val filteredTasks = when (selectedChip) {
+
+        "Active" -> state.tasks.filter { it.status == "ACTIVE" }
+
+        "Completed" -> state.tasks.filter { it.status == "COMPLETED" }
+
+        else -> state.tasks
+    }
+
     Box(
         modifier = Modifier
             .padding(
@@ -191,16 +199,17 @@ fun HomeContent(
                 }
             }
             Spacer(Modifier.height(8.dp))
-            if (state.isLoading) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(10) {
-                        AxtroAnimatedShimmerTaskCard()
+            when {
+                state.isLoading -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(10) {
+                            AxtroAnimatedShimmerTaskCard()
+                        }
                     }
                 }
-            } else {
-                if (state.tasks.isEmpty()) {
+                filteredTasks.isEmpty() -> {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -209,11 +218,12 @@ fun HomeContent(
                     ) {
                         AxtroEmptyTaskState()
                     }
-                } else {
+                }
+                else -> {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(items = state.tasks) { task ->
+                        items(filteredTasks) { task ->
                             AxtroTaskCard(
                                 status = task.status,
                                 title = task.title,
