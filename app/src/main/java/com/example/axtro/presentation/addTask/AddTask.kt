@@ -28,16 +28,20 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.ui.theme.poppinsFontFamily
@@ -48,8 +52,15 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTaskScreen(navController: NavController) {
+fun AddTaskScreen(
+    navController: NavController,
+    viewModel: AddTaskViewModel = hiltViewModel()
+) {
     val systemUiController = rememberSystemUiController()
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         systemUiController.setSystemBarsColor(
@@ -58,6 +69,17 @@ fun AddTaskScreen(navController: NavController) {
         )
     }
     AddTaskContent(
+        taskName = state.title,
+        selectedPriority = state.priority,
+        day = state.day,
+        month = state.month,
+        year = state.year,
+        onTitleChange = viewModel::onTitleChange,
+        onDayChange = viewModel::onDayChange,
+        onMonthChange = viewModel::onMonthChange,
+        onYearChange = viewModel::onYearChange,
+        onPriorityChange = viewModel::onPriorityChange,
+        onCreateTask = {},
         onBackClick = {
             navController.popBackStack()
         }
@@ -66,15 +88,19 @@ fun AddTaskScreen(navController: NavController) {
 
 @Composable
 fun AddTaskContent(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    taskName: String,
+    selectedPriority: String,
+    day: Int,
+    month: Int,
+    year: Int,
+    onTitleChange: (String) -> Unit,
+    onDayChange: (Int) -> Unit,
+    onMonthChange: (Int) -> Unit,
+    onYearChange: (Int) -> Unit,
+    onPriorityChange: (String) -> Unit,
+    onCreateTask: () -> Unit
 ) {
-    var taskName by remember { mutableStateOf("") }
-    var selectedPriority by remember { mutableStateOf("Low") }
-
-    var day by remember { mutableStateOf("") }
-    var month by remember { mutableStateOf("") }
-    var year by remember { mutableStateOf("") }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -126,7 +152,7 @@ fun AddTaskContent(
                         Spacer(Modifier.height(8.dp))
                         AxtroTextField(
                             value = taskName,
-                            onValueChange = { taskName = it },
+                            onValueChange = onTitleChange,
                         )
                         Spacer(Modifier.height(24.dp))
                         Text(
@@ -141,22 +167,22 @@ fun AddTaskContent(
                         ) {
                             AxtroDateInput(
                                 hint = "dd",
-                                value = day,
-                                onValueChange = { day = it },
+                                value = if (day == 0) "" else day.toString(),
+                                onValueChange = { onDayChange(it.toIntOrNull() ?: 0) },
                                 maxChar = 2,
                                 modifier = Modifier.size(70.dp, 50.dp)
                             )
                             AxtroDateInput(
                                 hint = "mm",
-                                value = month,
-                                onValueChange = { month = it },
+                                value = if (month == 0) "" else month.toString(),
+                                onValueChange = { onMonthChange(it.toIntOrNull() ?: 0) },
                                 maxChar = 2,
                                 modifier = Modifier.size(70.dp, 50.dp)
                             )
                             AxtroDateInput(
                                 hint = "yyyy",
-                                value = year,
-                                onValueChange = { year = it },
+                                value = if (year == 0) "" else year.toString(),
+                                onValueChange = { onYearChange(it.toIntOrNull() ?: 0) },
                                 maxChar = 4,
                                 modifier = Modifier.size(100.dp, 50.dp)
                             )
@@ -176,21 +202,21 @@ fun AddTaskContent(
                                 isSelected = selectedPriority == "Low",
                                 selectedColor = Color(0xFF5F5AC9),
                                 unselectedBackgroundColor = Color(0xFFE8E7FA),
-                                onClick = { selectedPriority = "Low" }
+                                onClick = { onPriorityChange("Low") }
                             )
                             AxtroPriorityChip(
                                 label = "Medium",
                                 isSelected = selectedPriority == "Medium",
                                 selectedColor = Color(0xFFD99011),
                                 unselectedBackgroundColor = Color(0xFFFFF4E0),
-                                onClick = { selectedPriority = "Medium" }
+                                onClick = { onPriorityChange("Medium") }
                             )
                             AxtroPriorityChip(
                                 label = "High",
                                 isSelected = selectedPriority == "High",
                                 selectedColor = Color(0xFFC93E3E),
                                 unselectedBackgroundColor = Color(0xFFFDE8E8),
-                                onClick = { selectedPriority = "High" }
+                                onClick = { onPriorityChange("High") }
                             )
                         }
                     }
@@ -200,7 +226,7 @@ fun AddTaskContent(
                             .height(52.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
-                        onClick = {},
+                        onClick = onCreateTask,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
@@ -223,7 +249,18 @@ fun AddTaskContent(
 private fun AddTaskContentPreview() {
     AxtroTheme {
         AddTaskContent(
-            onBackClick = {}
+            onBackClick = {},
+            taskName = "",
+            selectedPriority = "",
+            day = 0,
+            month = 0,
+            year = 0,
+            onTitleChange = {},
+            onDayChange = {},
+            onMonthChange = {},
+            onYearChange = {},
+            onPriorityChange = {},
+            onCreateTask = {}
         )
     }
 }
