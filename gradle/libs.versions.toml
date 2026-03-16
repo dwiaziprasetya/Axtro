@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.2"
-coilComposeVersion = "3.4.0"
+coilComposeVersion = "2.6.0"
 coreSplashscreen = "1.0.1"
 hiltAndroidVersion = "2.52"
 hiltNavigationCompose = "1.2.0"
@@ -23,7 +23,7 @@ firebaseFirestoreVersion = "26.1.1"
 
 [libraries]
 androidx-hilt-navigation-compose-v120 = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilComposeVersion" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 google-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontrollerVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }

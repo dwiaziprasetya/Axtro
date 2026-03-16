@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.util.DateUtils
@@ -56,6 +57,7 @@ import com.example.axtro.presentation.component.AxtroTaskCard
 import com.example.axtro.presentation.component.StatTaskCard
 import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.common.util.CollectionUtils.listOf
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -109,7 +111,12 @@ fun HomeContent(
     onDeletedClick: (String) -> Unit
 ) {
     var selectedChip by remember { mutableStateOf("All") }
-
+    val activeCount = remember(state.tasks) {
+        state.tasks.count { it.status == "ACTIVE" }
+    }
+    val completedCount = remember(state.tasks) {
+        state.tasks.count { it.status == "COMPLETED" }
+    }
     val filteredTasks = when (selectedChip) {
 
         "Active" -> state.tasks.filter { it.status == "ACTIVE" }
@@ -185,27 +192,27 @@ fun HomeContent(
                     )
 
                 } else {
-//                    (
-//                        model = state.userPhotoUrl,
-//                        contentDescription = "User",
-//                        modifier = Modifier
-//                            .size(40.dp)
-//                            .clip(CircleShape)
-//                    )
+                    AsyncImage(
+                        model = state.userPhotoUrl,
+                        contentDescription = "User",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                    )
                 }
             }
             Spacer(Modifier.height(16.dp))
             Row {
                 StatTaskCard(
                     modifier = Modifier.weight(1f),
-                    value = "10",
+                    value = activeCount.toString(),
                     type = "Active",
                     icon = R.drawable.icon_task
                 )
                 Spacer(Modifier.width(16.dp))
                 StatTaskCard(
                     modifier = Modifier.weight(1f),
-                    value = "5",
+                    value = completedCount.toString(),
                     type = "Completed",
                     icon = R.drawable.icon_checklist
                 )
@@ -266,7 +273,11 @@ fun HomeContent(
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(filteredTasks) { task ->
+                        items(
+                            items = filteredTasks,
+                            key = { it.id }
+                        ) { task ->
+
                             AxtroTaskCard(
                                 status = task.status,
                                 title = task.title,

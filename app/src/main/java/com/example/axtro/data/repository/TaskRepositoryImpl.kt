@@ -1,5 +1,6 @@
 package com.example.axtro.data.repository
 
+import android.util.Log
 import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.model.Task
 import com.example.axtro.domain.repository.TaskRepository
@@ -63,6 +64,8 @@ class TaskRepositoryImpl @Inject constructor(
             .orderBy("date")
             .addSnapshotListener { snapshot, error ->
 
+                Log.d("TASK_DEBUG", "Snapshot triggered")
+
                 if (error != null) {
                     trySend(AppResult.Error(error.message ?: "Failed to fetch tasks"))
                     return@addSnapshotListener
@@ -72,23 +75,29 @@ class TaskRepositoryImpl @Inject constructor(
                     it.toObject(Task::class.java)
                 } ?: emptyList()
 
+                Log.d("TASK_DEBUG", tasks.toString())
+
                 trySend(AppResult.Success(tasks))
             }
 
         awaitClose { listener.remove() }
     }
 
-    override suspend fun updateTaskStatus(taskId: String, status: String) {
+    override suspend fun updateTaskStatus(
+        taskId: String,
+        status: String
+    ) {
         firestore
             .collection("tasks")
             .document(taskId)
             .update("status", status)
+            .await()
     }
-
     override suspend fun deleteTask(taskId: String) {
         firestore
             .collection("tasks")
             .document(taskId)
             .delete()
+            .await()
     }
 }
