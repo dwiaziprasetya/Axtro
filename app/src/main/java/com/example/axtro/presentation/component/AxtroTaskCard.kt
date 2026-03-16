@@ -20,8 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.axtro.core.ui.theme.AxtroTheme
 
 @Composable
 fun AxtroTaskCard(
@@ -50,20 +53,28 @@ fun AxtroTaskCard(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
-                Text(
-                    text = "ACTIVE",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "ACTIVE",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(Modifier.weight(1f))
+                    AxtroPriorityChip(
+                        label = "High",
+                        isSelected = false,
+                        selectedColor = Color(0xFFC93E3E),
+                        unselectedBackgroundColor = Color(0xFFFDE8E8),
+                        onClick = {}
+                    )
+                }
                 Spacer(modifier = Modifier.height(12.dp))
-
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = MaterialTheme.colorScheme.outlineVariant
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(
@@ -106,5 +117,16 @@ fun AxtroTaskCard(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AxtroTaskCard() {
+    AxtroTheme {
+        AxtroTaskCard(
+            isChecked = true,
+            onCheckedChange = {}
+        )
     }
 }

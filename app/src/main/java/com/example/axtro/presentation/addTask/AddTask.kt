@@ -58,8 +58,6 @@ fun AddTaskScreen(
     viewModel: AddTaskViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
-    val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     val state by viewModel.state.collectAsState()
 
