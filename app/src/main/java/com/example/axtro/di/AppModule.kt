@@ -7,6 +7,7 @@ import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.LoginWithEmail
 import com.example.axtro.domain.usecase.LoginWithGoogle
 import com.example.axtro.domain.usecase.RegisterWithEmail
+import com.example.axtro.domain.usecase.UpdateTaskStatus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -69,5 +70,13 @@ object AppModule {
         repository: TaskRepository
     ) : GetTasks {
         return GetTasks(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun updateTaskStatus(
+        repository: TaskRepository
+    ) : UpdateTaskStatus {
+        return UpdateTaskStatus(repository)
     }
 }

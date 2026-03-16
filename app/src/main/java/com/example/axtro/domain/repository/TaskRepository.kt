@@ -13,4 +13,9 @@ interface TaskRepository {
     ): AppResult<Unit>
 
     fun getTasks() : Flow<AppResult<List<Task>>>
+
+    suspend fun updateTaskStatus(
+        taskId: String,
+        status: String
+    )
 }

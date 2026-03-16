@@ -1,5 +1,6 @@
 package com.example.axtro.presentation.home
 
+import android.R.attr.checked
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -90,17 +91,20 @@ fun HomeScreen(
         }
     ) { _ ->
         HomeContent(
-            state = state
+            state = state,
+            onCheckedChange = { taskId, isChecked ->
+                viewModel.updateTaskStatus(taskId, isChecked)
+            }
         )
     }
 }
 
 @Composable
 fun HomeContent(
-    state: HomeUiState
+    state: HomeUiState,
+    onCheckedChange: (String, Boolean) -> Unit
 ) {
     var selectedChip by remember { mutableStateOf("All") }
-    var checked by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -215,8 +219,10 @@ fun HomeContent(
                                 title = task.title,
                                 priority = task.priority,
                                 date = DateUtils.formatDate(task.date),
-                                isChecked = checked,
-                                onCheckedChange = { checked = it }
+                                isChecked = task.status == "COMPLETED",
+                                onCheckedChange = { isChecked ->
+                                    onCheckedChange(task.id, isChecked)
+                                }
                             )
                         }
                     }
@@ -231,7 +237,8 @@ fun HomeContent(
 private fun HomeContentPreview() {
     AxtroTheme {
         HomeContent(
-            state = HomeUiState()
+            state = HomeUiState(),
+            onCheckedChange = {_, _ ->}
         )
     }
 }
