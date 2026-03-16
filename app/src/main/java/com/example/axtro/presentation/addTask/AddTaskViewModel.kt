@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +27,16 @@ class AddTaskViewModel @Inject constructor(
         _state.update { it.copy(title = value) }
     }
 
-    fun onDateChange(value: Long) {
-        _state.update { it.copy(date = value) }
+    fun onDayChange(value: Int) {
+        _state.update { it.copy(day = value) }
+    }
+
+    fun onMonthChange(value: Int) {
+        _state.update { it.copy(month = value) }
+    }
+
+    fun onYearChange(value: Int) {
+        _state.update { it.copy(year = value) }
     }
 
     fun onPriorityChange(value: String) {
@@ -39,10 +48,20 @@ class AddTaskViewModel @Inject constructor(
 
             _state.update { it.copy(isLoading = true) }
 
+            val calendar = Calendar.getInstance().apply {
+                set(
+                    _state.value.year,
+                    _state.value.month - 1,
+                    _state.value.day
+                )
+            }
+
+            val timestamp = calendar.timeInMillis
+
             val result = addTask(
-                _state.value.title,
-                _state.value.date,
-                _state.value.priority
+                title = _state.value.title,
+                date = timestamp,
+                priority = _state.value.priority
             )
 
             when (result) {
