@@ -12,5 +12,5 @@ interface TaskRepository {
         priority: String
     ): AppResult<Unit>
 
-    fun getTasks() : Flow<List<Task>>
+    fun getTasks() : Flow<AppResult<List<Task>>>
 }

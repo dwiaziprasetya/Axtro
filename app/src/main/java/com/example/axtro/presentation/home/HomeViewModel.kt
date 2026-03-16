@@ -1,2 +1,66 @@
 package com.example.axtro.presentation.home
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.axtro.core.util.AppResult
+import com.example.axtro.domain.usecase.GetTasks
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val getTasks: GetTasks
+) : ViewModel() {
+
+    private val _state = MutableStateFlow(HomeUiState())
+    val state: StateFlow<HomeUiState> = _state
+
+    init {
+        observeTasks()
+    }
+
+    private fun observeTasks() {
+
+        viewModelScope.launch {
+
+            _state.update { it.copy(isLoading = true) }
+
+            getTasks().collect { result ->
+
+                when (result) {
+
+                    is AppResult.Success -> {
+
+                        _state.update {
+                            it.copy(
+                                tasks = result.data,
+                                isLoading = false,
+                                error = null
+                            )
+                        }
+
+                    }
+
+                    is AppResult.Error -> {
+
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = result.message
+                            )
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+}

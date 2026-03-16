@@ -49,13 +49,15 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTasks(): Flow<List<Task>> = callbackFlow {
+    override fun getTasks(): Flow<AppResult<List<Task>>> = callbackFlow {
+
         val listener = firestore
             .collection("tasks")
             .orderBy("date")
             .addSnapshotListener { snapshot, error ->
+
                 if (error != null) {
-                    close(error)
+                    trySend(AppResult.Error(error.message ?: "Failed to fetch tasks"))
                     return@addSnapshotListener
                 }
 
@@ -63,7 +65,7 @@ class TaskRepositoryImpl @Inject constructor(
                     it.toObject(Task::class.java)
                 } ?: emptyList()
 
-                trySend(tasks)
+                trySend(AppResult.Success(tasks))
             }
 
         awaitClose { listener.remove() }
