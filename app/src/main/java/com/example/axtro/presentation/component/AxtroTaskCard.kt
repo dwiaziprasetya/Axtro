@@ -67,8 +67,6 @@ fun AxtroTaskCard(
                     AxtroPriorityChip(
                         label = priority,
                         isSelected = false,
-                        selectedColor = Color(0xFFC93E3E),
-                        unselectedBackgroundColor = Color(0xFFFDE8E8),
                         onClick = {}
                     )
                 }
@@ -109,7 +107,6 @@ fun AxtroTaskCard(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-
                     Icon(
                         imageVector = Icons.Default.MoreVert,
                         modifier = Modifier.align(Alignment.Top),

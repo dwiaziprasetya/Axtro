@@ -201,22 +201,16 @@ fun AddTaskContent(
                             AxtroPriorityChip(
                                 label = "Low",
                                 isSelected = selectedPriority == "Low",
-                                selectedColor = Color(0xFF5F5AC9),
-                                unselectedBackgroundColor = Color(0xFFE8E7FA),
                                 onClick = { onPriorityChange("Low") }
                             )
                             AxtroPriorityChip(
                                 label = "Medium",
                                 isSelected = selectedPriority == "Medium",
-                                selectedColor = Color(0xFFD99011),
-                                unselectedBackgroundColor = Color(0xFFFFF4E0),
                                 onClick = { onPriorityChange("Medium") }
                             )
                             AxtroPriorityChip(
                                 label = "High",
                                 isSelected = selectedPriority == "High",
-                                selectedColor = Color(0xFFC93E3E),
-                                unselectedBackgroundColor = Color(0xFFFDE8E8),
                                 onClick = { onPriorityChange("High") }
                             )
                         }

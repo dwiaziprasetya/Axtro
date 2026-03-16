@@ -50,6 +50,7 @@ import com.example.axtro.R
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.util.DateUtils
 import com.example.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
+import com.example.axtro.presentation.component.AxtroEmptyTaskState
 import com.example.axtro.presentation.component.AxtroTaskCard
 import com.example.axtro.presentation.component.StatTaskCard
 import com.example.axtro.presentation.navigation.model.Screen
@@ -62,7 +63,6 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
-
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -192,26 +192,33 @@ fun HomeContent(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(10) {
-//                    AxtroTaskCard(
-//                        isChecked = checked,
-//                        onCheckedChange = { checked = it }
-//                    )
                         AxtroAnimatedShimmerTaskCard()
                     }
                 }
             } else {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(items = state.tasks) { task ->
-                        AxtroTaskCard(
-                            status = task.status,
-                            title = task.title,
-                            priority = task.priority,
-                            date = DateUtils.formatDate(task.date),
-                            isChecked = checked,
-                            onCheckedChange = { checked = it }
-                        )
+                if (state.tasks.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AxtroEmptyTaskState()
+                    }
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(items = state.tasks) { task ->
+                            AxtroTaskCard(
+                                status = task.status,
+                                title = task.title,
+                                priority = task.priority,
+                                date = DateUtils.formatDate(task.date),
+                                isChecked = checked,
+                                onCheckedChange = { checked = it }
+                            )
+                        }
                     }
                 }
             }

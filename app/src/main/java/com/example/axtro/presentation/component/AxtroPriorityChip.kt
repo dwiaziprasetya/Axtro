@@ -14,31 +14,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.axtro.core.util.getPriorityColor
 
 @Composable
 fun AxtroPriorityChip(
     label: String,
     isSelected: Boolean,
-    selectedColor: Color,
-    unselectedBackgroundColor: Color,
     onClick: () -> Unit
 ) {
+    val colors = getPriorityColor(label)
+
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
-        color = if (isSelected) selectedColor.copy(alpha = 0.2f) else unselectedBackgroundColor,
-        border = if (isSelected) BorderStroke(1.dp, selectedColor) else null,
+        color = if (isSelected) colors.selected.copy(alpha = 0.2f) else colors.container,
+        border = if (isSelected) BorderStroke(1.dp, colors.selected) else null,
         modifier = Modifier.height(30.dp)
     ) {
         Box(
-            modifier = Modifier.padding(horizontal = 24.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
+                fontSize = 12.sp,
                 text = label,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = if (isSelected) selectedColor else selectedColor.copy(alpha = 0.8f)
+                    color = if (isSelected) colors.selected else colors.selected.copy(alpha = 0.8f)
                 )
             )
         }
