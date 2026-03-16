@@ -4,7 +4,9 @@ import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.model.Task
 import com.example.axtro.domain.repository.TaskRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -47,7 +49,23 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTasks(): Flow<List<Task>> {
-        TODO("Not yet implemented")
+    override fun getTasks(): Flow<List<Task>> = callbackFlow {
+        val listener = firestore
+            .collection("tasks")
+            .orderBy("date")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
+
+                val tasks = snapshot?.documents?.mapNotNull {
+                    it.toObject(Task::class.java)
+                } ?: emptyList()
+
+                trySend(tasks)
+            }
+
+        awaitClose { listener.remove() }
     }
 }
