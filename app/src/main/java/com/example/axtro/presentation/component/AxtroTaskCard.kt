@@ -22,12 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.axtro.core.ui.theme.AxtroTheme
 
 @Composable
 fun AxtroTaskCard(
+    status: String,
+    title: String,
+    date: String,
+    priority: String,
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
@@ -57,13 +59,13 @@ fun AxtroTaskCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "ACTIVE",
+                        text = status,
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.weight(1f))
                     AxtroPriorityChip(
-                        label = "High",
+                        label = priority,
                         isSelected = false,
                         selectedColor = Color(0xFFC93E3E),
                         unselectedBackgroundColor = Color(0xFFFDE8E8),
@@ -95,14 +97,14 @@ fun AxtroTaskCard(
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
-                            text = "Prepare Investor Pitch",
+                            text = title,
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Due 12 Mar 2026",
+                            text = "Due $date",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -117,16 +119,5 @@ fun AxtroTaskCard(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun AxtroTaskCard() {
-    AxtroTheme {
-        AxtroTaskCard(
-            isChecked = true,
-            onCheckedChange = {}
-        )
     }
 }

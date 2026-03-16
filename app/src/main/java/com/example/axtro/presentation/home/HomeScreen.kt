@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FilterChip
@@ -29,6 +30,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,9 +44,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.AxtroTheme
+import com.example.axtro.core.util.DateUtils
 import com.example.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
 import com.example.axtro.presentation.component.AxtroTaskCard
 import com.example.axtro.presentation.component.StatTaskCard
@@ -54,9 +58,12 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun HomeScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
+
+    val state by viewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         systemUiController.setSystemBarsColor(
@@ -64,6 +71,7 @@ fun HomeScreen(
             darkIcons = true
         )
     }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -81,12 +89,16 @@ fun HomeScreen(
             }
         }
     ) { _ ->
-        HomeContent()
+        HomeContent(
+            state = state
+        )
     }
 }
 
 @Composable
-fun HomeContent() {
+fun HomeContent(
+    state: HomeUiState
+) {
     var selectedChip by remember { mutableStateOf("All") }
     var checked by remember { mutableStateOf(false) }
 
@@ -175,15 +187,32 @@ fun HomeContent() {
                 }
             }
             Spacer(Modifier.height(8.dp))
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(10) {
+            if (state.isLoading) {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(10) {
 //                    AxtroTaskCard(
 //                        isChecked = checked,
 //                        onCheckedChange = { checked = it }
 //                    )
-                    AxtroAnimatedShimmerTaskCard()
+                        AxtroAnimatedShimmerTaskCard()
+                    }
+                }
+            } else {
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(items = state.tasks) { task ->
+                        AxtroTaskCard(
+                            status = task.status,
+                            title = task.title,
+                            priority = task.priority,
+                            date = DateUtils.formatDate(task.date),
+                            isChecked = checked,
+                            onCheckedChange = { checked = it }
+                        )
+                    }
                 }
             }
         }
@@ -194,6 +223,8 @@ fun HomeContent() {
 @Composable
 private fun HomeContentPreview() {
     AxtroTheme {
-        HomeContent()
+        HomeContent(
+            state = HomeUiState()
+        )
     }
 }

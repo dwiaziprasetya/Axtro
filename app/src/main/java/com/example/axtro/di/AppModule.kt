@@ -3,6 +3,7 @@ package com.example.axtro.di
 import com.example.axtro.domain.repository.AuthRepository
 import com.example.axtro.domain.repository.TaskRepository
 import com.example.axtro.domain.usecase.AddTask
+import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.LoginWithEmail
 import com.example.axtro.domain.usecase.LoginWithGoogle
 import com.example.axtro.domain.usecase.RegisterWithEmail
@@ -60,5 +61,13 @@ object AppModule {
         repository: TaskRepository
     ) : AddTask {
         return AddTask(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetTask(
+        repository: TaskRepository
+    ) : GetTasks {
+        return GetTasks(repository)
     }
 }
