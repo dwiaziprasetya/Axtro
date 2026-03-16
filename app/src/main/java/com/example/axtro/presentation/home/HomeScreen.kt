@@ -93,6 +93,9 @@ fun HomeScreen(
             state = state,
             onCheckedChange = { taskId, isChecked ->
                 viewModel.updateTaskStatus(taskId, isChecked)
+            },
+            onDeletedClick = { taskId ->
+                viewModel.removeTask(taskId)
             }
         )
     }
@@ -101,7 +104,8 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     state: HomeUiState,
-    onCheckedChange: (String, Boolean) -> Unit
+    onCheckedChange: (String, Boolean) -> Unit,
+    onDeletedClick: (String) -> Unit
 ) {
     var selectedChip by remember { mutableStateOf("All") }
 
@@ -232,6 +236,9 @@ fun HomeContent(
                                 isChecked = task.status == "COMPLETED",
                                 onCheckedChange = { isChecked ->
                                     onCheckedChange(task.id, isChecked)
+                                },
+                                onDeleteClick = {
+                                    onDeletedClick(task.id)
                                 }
                             )
                         }
@@ -248,7 +255,8 @@ private fun HomeContentPreview() {
     AxtroTheme {
         HomeContent(
             state = HomeUiState(),
-            onCheckedChange = {_, _ ->}
+            onCheckedChange = {_, _ ->},
+            onDeletedClick = {_ ->}
         )
     }
 }

@@ -3,6 +3,7 @@ package com.example.axtro.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.axtro.core.util.AppResult
+import com.example.axtro.domain.usecase.DeleteTask
 import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.UpdateTaskStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTasks: GetTasks,
-    private val updateTaskStatus: UpdateTaskStatus
+    private val updateTaskStatus: UpdateTaskStatus,
+    private val deleteTask: DeleteTask
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
@@ -77,6 +79,14 @@ class HomeViewModel @Inject constructor(
             }
 
             updateTaskStatus(taskId, status)
+        }
+    }
+
+    fun removeTask(
+        taskId: String
+    ) {
+        viewModelScope.launch {
+            deleteTask(taskId)
         }
     }
 }

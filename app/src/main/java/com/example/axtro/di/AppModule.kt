@@ -3,6 +3,7 @@ package com.example.axtro.di
 import com.example.axtro.domain.repository.AuthRepository
 import com.example.axtro.domain.repository.TaskRepository
 import com.example.axtro.domain.usecase.AddTask
+import com.example.axtro.domain.usecase.DeleteTask
 import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.LoginWithEmail
 import com.example.axtro.domain.usecase.LoginWithGoogle
@@ -78,5 +79,13 @@ object AppModule {
         repository: TaskRepository
     ) : UpdateTaskStatus {
         return UpdateTaskStatus(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun deleteTask(
+        repository: TaskRepository
+    ) : DeleteTask {
+        return DeleteTask(repository)
     }
 }

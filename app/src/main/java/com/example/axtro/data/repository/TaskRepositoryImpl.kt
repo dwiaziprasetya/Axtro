@@ -77,4 +77,11 @@ class TaskRepositoryImpl @Inject constructor(
             .document(taskId)
             .update("status", status)
     }
+
+    override suspend fun deleteTask(taskId: String) {
+        firestore
+            .collection("tasks")
+            .document(taskId)
+            .delete()
+    }
 }

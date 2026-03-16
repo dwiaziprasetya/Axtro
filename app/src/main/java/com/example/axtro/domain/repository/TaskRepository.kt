@@ -18,4 +18,8 @@ interface TaskRepository {
         taskId: String,
         status: String
     )
+
+    suspend fun deleteTask(
+        taskId: String
+    )
 }
