@@ -7,6 +7,7 @@ import com.example.axtro.domain.usecase.DeleteTask
 import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.LoginWithEmail
 import com.example.axtro.domain.usecase.LoginWithGoogle
+import com.example.axtro.domain.usecase.Logout
 import com.example.axtro.domain.usecase.RegisterWithEmail
 import com.example.axtro.domain.usecase.UpdateTaskStatus
 import com.google.firebase.auth.FirebaseAuth
@@ -87,5 +88,13 @@ object AppModule {
         repository: TaskRepository
     ) : DeleteTask {
         return DeleteTask(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun logout(
+        repository: AuthRepository
+    ) : Logout {
+        return Logout(repository)
     }
 }

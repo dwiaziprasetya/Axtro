@@ -1,10 +1,9 @@
 package com.example.axtro.presentation.home
 
-import android.R.attr.contentDescription
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,11 +21,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -68,10 +71,37 @@ fun HomeScreen(
     val systemUiController = rememberSystemUiController()
     val state by viewModel.state.collectAsState()
 
+    var showLogoutSheet by remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         systemUiController.setSystemBarsColor(
             color = Color.Transparent,
             darkIcons = true
+        )
+    }
+
+    LaunchedEffect(state.isLogoutSuccess) {
+        if (state.isLogoutSuccess) {
+
+            navController.navigate(Screen.AuthNav.route) {
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
+                }
+            }
+
+            viewModel.resetSuccess()
+        }
+    }
+
+    if (showLogoutSheet) {
+        LogoutBottomSheet(
+            isLoading = state.isLogoutLoading,
+            onConfirm = {
+                viewModel.logoutUser()
+            },
+            onCancel = {
+                showLogoutSheet = false
+            }
         )
     }
 
@@ -99,7 +129,8 @@ fun HomeScreen(
             },
             onDeletedClick = { taskId ->
                 viewModel.removeTask(taskId)
-            }
+            },
+            onUserProfileClick = { showLogoutSheet = true }
         )
     }
 }
@@ -108,7 +139,8 @@ fun HomeScreen(
 fun HomeContent(
     state: HomeUiState,
     onCheckedChange: (String, Boolean) -> Unit,
-    onDeletedClick: (String) -> Unit
+    onDeletedClick: (String) -> Unit,
+    onUserProfileClick: () -> Unit
 ) {
     var selectedChip by remember { mutableStateOf("All") }
     val activeCount = remember(state.tasks) {
@@ -198,6 +230,7 @@ fun HomeContent(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape)
+                            .clickable { onUserProfileClick() }
                     )
                 }
             }
@@ -299,6 +332,67 @@ fun HomeContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LogoutBottomSheet(
+    isLoading: Boolean,
+    onConfirm: () -> Unit,
+    onCancel: () -> Unit
+) {
+
+    ModalBottomSheet(
+        onDismissRequest = onCancel
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+        ) {
+
+            Text(
+                text = "Logout",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            Text(
+                text = "Are you sure you want to logout?"
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            Row {
+
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = onCancel
+                ) {
+                    Text("Cancel")
+                }
+
+                Spacer(Modifier.width(12.dp))
+
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = onConfirm
+                ) {
+
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text("Yes Logout")
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFFf2f6fc)
 @Composable
 private fun HomeContentPreview() {
@@ -306,7 +400,8 @@ private fun HomeContentPreview() {
         HomeContent(
             state = HomeUiState(),
             onCheckedChange = {_, _ ->},
-            onDeletedClick = {_ ->}
+            onDeletedClick = {_ ->},
+            onUserProfileClick = {}
         )
     }
 }

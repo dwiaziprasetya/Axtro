@@ -84,4 +84,20 @@ class AuthRepositoryImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun logout(): AppResult<Unit> {
+        return try {
+
+            firebaseAuth.signOut()
+
+            AppResult.Success(Unit)
+
+        } catch (e: Exception) {
+
+            AppResult.Error(
+                message = e.message ?: "Logout failed",
+                throwable = e
+            )
+        }
+    }
 }

@@ -9,5 +9,7 @@ data class HomeUiState(
     val isSuccess: Boolean = false,
     val userName: String = "",
     val userPhotoUrl: String? = null,
-    val isUserLoading: Boolean = true
+    val isUserLoading: Boolean = true,
+    val isLogoutLoading: Boolean = false,
+    val isLogoutSuccess: Boolean = false
 )
