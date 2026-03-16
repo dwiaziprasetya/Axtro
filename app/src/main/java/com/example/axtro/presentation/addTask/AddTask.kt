@@ -50,6 +50,7 @@ import com.example.axtro.presentation.component.AxtroDateInput
 import com.example.axtro.presentation.component.AxtroPriorityChip
 import com.example.axtro.presentation.component.AxtroTextField
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,6 +68,15 @@ fun AddTaskScreen(
             darkIcons = false
         )
     }
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+            delay(1200)
+            navController.popBackStack()
+            viewModel.resetSuccess()
+        }
+    }
+
     AddTaskContent(
         state = state,
         taskName = state.title,

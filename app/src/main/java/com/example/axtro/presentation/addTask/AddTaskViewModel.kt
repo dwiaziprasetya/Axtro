@@ -102,4 +102,8 @@ class AddTaskViewModel @Inject constructor(
             }
         }
     }
+
+    fun resetSuccess() {
+        _state.update { it.copy(isSuccess = false) }
+    }
 }
