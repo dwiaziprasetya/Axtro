@@ -4,6 +4,7 @@ import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.model.Task
 import com.example.axtro.domain.repository.TaskRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -44,5 +45,9 @@ class TaskRepositoryImpl @Inject constructor(
                 throwable = e
             )
         }
+    }
+
+    override fun getTasks(): Flow<List<Task>> {
+        TODO("Not yet implemented")
     }
 }

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.AxtroTheme
+import com.example.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
 import com.example.axtro.presentation.component.AxtroTaskCard
 import com.example.axtro.presentation.component.StatTaskCard
 import com.example.axtro.presentation.navigation.model.Screen
@@ -178,10 +179,11 @@ fun HomeContent() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(10) {
-                    AxtroTaskCard(
-                        isChecked = checked,
-                        onCheckedChange = { checked = it }
-                    )
+//                    AxtroTaskCard(
+//                        isChecked = checked,
+//                        onCheckedChange = { checked = it }
+//                    )
+                    AxtroAnimatedShimmerTaskCard()
                 }
             }
         }
