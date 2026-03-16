@@ -1,10 +1,13 @@
 package com.example.axtro.di
 
 import com.example.axtro.domain.repository.AuthRepository
+import com.example.axtro.domain.repository.TaskRepository
+import com.example.axtro.domain.usecase.AddTask
 import com.example.axtro.domain.usecase.LoginWithEmail
 import com.example.axtro.domain.usecase.LoginWithGoogle
 import com.example.axtro.domain.usecase.RegisterWithEmail
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +22,12 @@ object AppModule {
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
     }
 
     @Provides
@@ -43,5 +52,13 @@ object AppModule {
         repository: AuthRepository
     ) : LoginWithGoogle {
         return LoginWithGoogle(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddTask(
+        repository: TaskRepository
+    ) : AddTask {
+        return AddTask(repository)
     }
 }

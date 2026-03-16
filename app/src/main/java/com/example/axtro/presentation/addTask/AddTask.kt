@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,6 +70,7 @@ fun AddTaskScreen(
         )
     }
     AddTaskContent(
+        state = state,
         taskName = state.title,
         selectedPriority = state.priority,
         day = state.day,
@@ -79,7 +81,7 @@ fun AddTaskScreen(
         onMonthChange = viewModel::onMonthChange,
         onYearChange = viewModel::onYearChange,
         onPriorityChange = viewModel::onPriorityChange,
-        onCreateTask = {},
+        onCreateTask = viewModel::createTask,
         onBackClick = {
             navController.popBackStack()
         }
@@ -88,6 +90,7 @@ fun AddTaskScreen(
 
 @Composable
 fun AddTaskContent(
+    state: AddTaskUiState,
     onBackClick: () -> Unit,
     taskName: String,
     selectedPriority: String,
@@ -231,12 +234,20 @@ fun AddTaskContent(
                             containerColor = MaterialTheme.colorScheme.primary
                         )
                     ) {
-                        Text(
-                            fontFamily = poppinsFontFamily,
-                            text = "Create Task",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.background
-                        )
+                        if (state.isLoading) {
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.background,
+                                modifier = Modifier.size(18.dp),
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Text(
+                                fontFamily = poppinsFontFamily,
+                                text = "Create Task",
+                                fontSize = 14.sp,
+                                color = MaterialTheme.colorScheme.background
+                            )
+                        }
                     }
                 }
             }
@@ -249,6 +260,7 @@ fun AddTaskContent(
 private fun AddTaskContentPreview() {
     AxtroTheme {
         AddTaskContent(
+            state = AddTaskUiState(),
             onBackClick = {},
             taskName = "",
             selectedPriority = "",
