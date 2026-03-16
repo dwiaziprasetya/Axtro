@@ -3,6 +3,7 @@ package com.example.axtro.data.repository
 import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.model.Task
 import com.example.axtro.domain.repository.TaskRepository
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,8 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val firebaseAuth: FirebaseAuth
 ) : TaskRepository {
 
     override suspend fun addTask(
@@ -21,6 +23,8 @@ class TaskRepositoryImpl @Inject constructor(
     ): AppResult<Unit> {
 
         return try {
+            val uid = firebaseAuth.currentUser?.uid
+                ?: return AppResult.Error("User not logged in")
 
             val taskId = firestore.collection("tasks").document().id
 
@@ -29,7 +33,8 @@ class TaskRepositoryImpl @Inject constructor(
                 title = title,
                 date = date,
                 priority = priority,
-                status = "ACTIVE"
+                status = "ACTIVE",
+                userId = uid
             )
 
             firestore
@@ -39,7 +44,6 @@ class TaskRepositoryImpl @Inject constructor(
                 .await()
 
             AppResult.Success(Unit)
-
         } catch (e: Exception) {
 
             AppResult.Error(
@@ -51,8 +55,11 @@ class TaskRepositoryImpl @Inject constructor(
 
     override fun getTasks(): Flow<AppResult<List<Task>>> = callbackFlow {
 
+        val uid = firebaseAuth.currentUser?.uid
+
         val listener = firestore
             .collection("tasks")
+            .whereEqualTo("userId", uid)
             .orderBy("date")
             .addSnapshotListener { snapshot, error ->
 

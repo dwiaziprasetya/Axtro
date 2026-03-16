@@ -246,7 +246,6 @@ fun SignUpScreenContent(
                             text = "Already have an account?",
                             fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.onPrimary
                         )
                         Text(
                             text = " " + "Sign in",

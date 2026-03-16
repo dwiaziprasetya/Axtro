@@ -91,7 +91,6 @@ fun CustomOutlinedTextField(
         },
         visualTransformation = visualTransformation,
         textStyle = TextStyle(
-            color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 14.sp,
         ),
         isError = isError,

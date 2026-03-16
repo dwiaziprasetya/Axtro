@@ -1,5 +1,6 @@
 package com.example.axtro.presentation.home
 
+import android.R.attr.contentDescription
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -136,24 +137,62 @@ fun HomeContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+
                 Column {
-                    Text(
-                        text = "Hi Jhonny",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                    )
-                    Text(
-                        text = "Let’s get things done today 👋",
-                        fontSize = 12.sp
-                    )
+
+                    if (state.isUserLoading) {
+
+                        Box(
+                            modifier = Modifier
+                                .width(120.dp)
+                                .height(18.dp)
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(Color.LightGray)
+                        )
+
+                        Spacer(Modifier.height(4.dp))
+
+                        Box(
+                            modifier = Modifier
+                                .width(160.dp)
+                                .height(12.dp)
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(Color.LightGray)
+                        )
+
+                    } else {
+
+                        Text(
+                            text = "Hi ${state.userName}",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+
+                        Text(
+                            text = "Let’s get things done today 👋",
+                            fontSize = 12.sp
+                        )
+                    }
                 }
-                Image(
-                    painter = painterResource(R.drawable.jhonny),
-                    contentDescription = "User",
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
+
+                if (state.isUserLoading) {
+
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(Color.LightGray)
+                    )
+
+                } else {
+//                    (
+//                        model = state.userPhotoUrl,
+//                        contentDescription = "User",
+//                        modifier = Modifier
+//                            .size(40.dp)
+//                            .clip(CircleShape)
+//                    )
+                }
             }
             Spacer(Modifier.height(16.dp))
             Row {

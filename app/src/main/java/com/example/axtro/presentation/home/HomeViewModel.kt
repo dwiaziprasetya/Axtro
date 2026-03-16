@@ -6,6 +6,7 @@ import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.usecase.DeleteTask
 import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.UpdateTaskStatus
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getTasks: GetTasks,
     private val updateTaskStatus: UpdateTaskStatus,
-    private val deleteTask: DeleteTask
+    private val deleteTask: DeleteTask,
+    private val auth: FirebaseAuth
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
@@ -25,6 +27,20 @@ class HomeViewModel @Inject constructor(
 
     init {
         observeTasks()
+        loadUser()
+    }
+
+    private fun loadUser() {
+
+        val user = auth.currentUser
+
+        _state.update {
+            it.copy(
+                userName = user?.displayName ?: "User",
+                userPhotoUrl = user?.photoUrl?.toString(),
+                isUserLoading = false
+            )
+        }
     }
 
     private fun observeTasks() {

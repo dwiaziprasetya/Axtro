@@ -30,7 +30,10 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavigationGraph(
+    navController: NavHostController,
+    startDestination: String
+) {
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -79,7 +82,7 @@ fun RootNavigationGraph(navController: NavHostController) {
         NavHost(
             navController = navController,
             route = Screen.Root.route,
-            startDestination = Screen.Main.route,
+            startDestination = startDestination,
         ) {
             authNav(navController)
             composable(

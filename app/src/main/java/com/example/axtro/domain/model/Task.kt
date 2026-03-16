@@ -1,6 +1,7 @@
 package com.example.axtro.domain.model
 
 data class Task(
+    val userId: String = "",
     val id: String = "",
     val title: String = "",
     val date: Long = 0L,

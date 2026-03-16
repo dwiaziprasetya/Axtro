@@ -3,6 +3,7 @@ package com.example.axtro.presentation.navigation.graph
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
+import com.example.axtro.presentation.main.MainScreen
 import com.example.axtro.presentation.navigation.animation.animatedComposable
 import com.example.axtro.presentation.navigation.model.Screen
 import com.example.axtro.presentation.signin.SignInScreen
@@ -20,6 +21,9 @@ fun NavGraphBuilder.authNav(
         }
         animatedComposable(Screen.SignUp.route) {
             SignUpScreen(navController = navController)
+        }
+        animatedComposable(Screen.Main.route) {
+            MainScreen()
         }
     }
 }

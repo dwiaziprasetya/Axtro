@@ -63,6 +63,7 @@ import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -101,6 +102,21 @@ fun SignInScreen(
             color = Color.Transparent,
             darkIcons = false
         )
+    }
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+
+            delay(1000)
+
+            navController.navigate(Screen.Main.route) {
+                popUpTo(Screen.AuthNav.route) {
+                    inclusive = true
+                }
+            }
+
+            viewModel.resetSuccess()
+        }
     }
 
     SignInScreenContent(
