@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -83,15 +83,16 @@ fun CustomOutlinedTextField(
                     tint = when {
                         isError -> MaterialTheme.colorScheme.error
                         isFocused -> MaterialTheme.colorScheme.primary
-                        else -> MaterialTheme.colorScheme.onPrimary
+                        else -> MaterialTheme.colorScheme.onSurface
                     },
                     modifier = Modifier.clickable { onTrailingIconClick() }
                 )
             }
         },
         visualTransformation = visualTransformation,
-        textStyle = TextStyle(
+        textStyle = MaterialTheme.typography.bodyMedium.copy(
             fontSize = 14.sp,
+            textDecoration = TextDecoration.None
         ),
         isError = isError,
         supportingText = {
