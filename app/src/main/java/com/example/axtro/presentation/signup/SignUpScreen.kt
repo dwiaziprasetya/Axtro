@@ -3,6 +3,7 @@ package com.example.axtro.presentation.signup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -53,11 +55,12 @@ fun SignUpScreen(
     navController: NavController
 ) {
     val systemUiController = rememberSystemUiController()
+    var isEmailFocused by remember { mutableStateOf(false) }
+    var passwordVisibility by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
     val state by viewModel.state.collectAsState()
 
-    var isEmailFocused by remember { mutableStateOf(false) }
-    var passwordVisibility by remember { mutableStateOf(false) }
     val icon = if (passwordVisibility)
         R.drawable.icon_visibility
     else
@@ -87,10 +90,11 @@ fun SignUpScreen(
         emailError = state.emailError,
         iconPasswordVisibility = icon,
         navigateToSignIn = {
-            navController.navigate(Screen.SignIn.route)
+            navController.popBackStack()
         },
         onClickSignUp = {
             viewModel.register()
+            focusManager.clearFocus()
         }
     )
 }
@@ -112,10 +116,18 @@ fun SignUpScreenContent(
     onClickSignUp: () -> Unit,
     state: SignUpUiState
 ) {
+    val focusManager = LocalFocusManager.current
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                focusManager.clearFocus()
+            }
     ) {
         Box(
             modifier = Modifier
