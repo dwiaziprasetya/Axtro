@@ -25,6 +25,8 @@ class AuthRepositoryImpl @Inject constructor(
             val firebaseUser = result.user
 
             if (firebaseUser != null) {
+                firebaseAuth.signOut()
+
                 AppResult.Success(
                     User(
                         id = firebaseUser.uid,
