@@ -2,6 +2,7 @@ package com.example.axtro.presentation.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +46,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,9 +57,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.axtro.R
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.util.DateUtils
+import com.example.axtro.presentation.component.AxtroAnimatedShimmerCircle
 import com.example.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
 import com.example.axtro.presentation.component.AxtroAnimatedShimmerText
 import com.example.axtro.presentation.component.AxtroEmptyTaskState
@@ -71,7 +79,6 @@ fun HomeScreen(
 ) {
     val systemUiController = rememberSystemUiController()
     val state by viewModel.state.collectAsState()
-
     var showLogoutSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -83,13 +90,11 @@ fun HomeScreen(
 
     LaunchedEffect(state.isLogoutSuccess) {
         if (state.isLogoutSuccess) {
-
             navController.navigate(Screen.AuthNav.route) {
                 popUpTo(Screen.Home.route) {
                     inclusive = true
                 }
             }
-
             viewModel.resetSuccess()
         }
     }
@@ -160,11 +165,8 @@ fun HomeContent(
         state.tasks.count { it.status == "COMPLETED" }
     }
     val filteredTasks = when (selectedChip) {
-
         "Active" -> state.tasks.filter { it.status == "ACTIVE" }
-
         "Completed" -> state.tasks.filter { it.status == "COMPLETED" }
-
         else -> state.tasks
     }
 
@@ -186,57 +188,53 @@ fun HomeContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 Column {
-
                     if (state.isUserLoading) {
                         AxtroAnimatedShimmerText(width = 120.dp)
                         Spacer(Modifier.height(8.dp))
                         AxtroAnimatedShimmerText(width = 160.dp)
                     } else {
-
                         Text(
                             text = "Hi $displayName",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold,
                         )
-
                         Text(
                             text = "Let’s get things done today",
                             fontSize = 12.sp
                         )
                     }
                 }
-
-                if (state.userPhotoUrl.isNullOrBlank()) {
-
-                    val initial = displayName.firstOrNull()?.uppercase() ?: "U"
-
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary)
-                            .clickable { onUserProfileClick() },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = initial,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
+                if (state.isUserLoading) {
+                    AxtroAnimatedShimmerCircle()
+                } else {
+                    if (state.userPhotoUrl.isNullOrBlank()) {
+                        Image(
+                            imageVector = Icons.Filled.AccountCircle,
+                            contentDescription = "profile picture",
+                            colorFilter = ColorFilter.tint(color =
+                                MaterialTheme.colorScheme.outline),
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .clickable { onUserProfileClick() }
+                        )
+                    } else {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(state.userPhotoUrl)
+                                .crossfade(enable = true)
+                                .build(),
+                            contentDescription = "User photo profile",
+                            placeholder = painterResource(R.drawable.image_placholder),
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .clickable { onUserProfileClick() }
                         )
                     }
-
-                } else {
-
-                    AsyncImage(
-                        model = state.userPhotoUrl,
-                        contentDescription = "User",
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .clickable { onUserProfileClick() }
-                    )
                 }
             }
             Spacer(Modifier.height(16.dp))
@@ -315,7 +313,6 @@ fun HomeContent(
                             items = filteredTasks,
                             key = { it.id }
                         ) { task ->
-
                             AxtroTaskCard(
                                 status = task.status,
                                 title = task.title,
