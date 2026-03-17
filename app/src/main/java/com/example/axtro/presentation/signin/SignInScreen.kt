@@ -303,7 +303,6 @@ fun SignInScreenContent(
                                 CircularProgressIndicator(
                                     color = MaterialTheme.colorScheme.primary,
                                     modifier = Modifier.size(18.dp),
-                                    strokeWidth = 2.dp
                                 )
                             } else {
                                 Icon(

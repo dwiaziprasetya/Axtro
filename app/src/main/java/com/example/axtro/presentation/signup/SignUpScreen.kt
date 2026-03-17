@@ -232,7 +232,7 @@ fun SignUpScreenContent(
                     }
                     Button(
                         modifier = Modifier
-                            .padding(top = 32.dp)
+                            .padding(top = 27.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
                         onClick = {
@@ -257,7 +257,7 @@ fun SignUpScreenContent(
                         }
                     }
                     Row(
-                        modifier = Modifier.padding(top = 70.dp)
+                        modifier = Modifier.padding(top = 20.dp)
                     ) {
                         Text(
                             text = "Already have an account?",
