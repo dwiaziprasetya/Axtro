@@ -60,7 +60,6 @@ import com.example.axtro.presentation.component.AxtroTaskCard
 import com.example.axtro.presentation.component.StatTaskCard
 import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.google.android.gms.common.util.CollectionUtils.listOf
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
