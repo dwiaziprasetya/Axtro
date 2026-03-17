@@ -13,7 +13,7 @@ class LoginWithEmail(
     ): AppResult<User> {
 
         if (email.isBlank() || password.isBlank()) {
-            return AppResult.Error("Email & password tidak boleh kosong")
+            return AppResult.Error("Email and password cannot be empty")
         }
 
         return repository.loginWithEmail(email, password)
