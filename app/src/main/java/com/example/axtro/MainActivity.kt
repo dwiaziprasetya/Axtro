@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             AxtroTheme(dynamicColor = false) {
-
                 RootNavigationGraph(
                     navController = navController,
                     startDestination = startDestination

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -98,9 +99,14 @@ fun SignInScreen(
         R.drawable.icon_visibility_off
 
     LaunchedEffect(Unit) {
-        systemUiController.setSystemBarsColor(
+        systemUiController.setStatusBarColor(
             color = Color.Transparent,
             darkIcons = false
+        )
+
+        systemUiController.setNavigationBarColor(
+            color = Color.Transparent,
+            darkIcons = true
         )
     }
 
@@ -204,6 +210,7 @@ fun SignInScreenContent(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .background(Color.White)
     ) {
         Box(
@@ -364,20 +371,9 @@ fun SignInScreenContent(
                             else PasswordVisualTransformation()
                         )
                     }
-                    Spacer(Modifier.height(16.dp))
-                    Text(
-                        text = "Forgot password?",
-                        fontFamily = poppinsFontFamily,
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .padding(top = 8.dp)
-                            .align(Alignment.End)
-                            .clickable {}
-                    )
                     Button(
                         modifier = Modifier
-                            .padding(top = 32.dp)
+                            .padding(top = 27.dp)
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(10.dp),
                         onClick = signIn,
@@ -400,7 +396,7 @@ fun SignInScreenContent(
                         }
                     }
                     Row(
-                        modifier = Modifier.padding(top = 70.dp)
+                        modifier = Modifier.padding(top = 20.dp)
                     ) {
                         Text(
                             text = "Don't have an account?",
