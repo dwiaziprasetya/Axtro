@@ -47,7 +47,7 @@ fun AxtroCheckbox(
 
     val backgroundColor by animateColorAsState(
         targetValue = if (checked)
-            MaterialTheme.colorScheme.primary
+            Color(0xFF4CAF50)
         else
             Color.Transparent,
         animationSpec = tween(250),
@@ -56,7 +56,7 @@ fun AxtroCheckbox(
 
     val borderColor by animateColorAsState(
         targetValue = if (checked)
-            MaterialTheme.colorScheme.primary
+            Color(0xFF4CAF50)
         else
             MaterialTheme.colorScheme.outline,
         animationSpec = tween(250),

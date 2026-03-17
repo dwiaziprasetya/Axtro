@@ -5,7 +5,7 @@ data class AddTaskUiState(
     val day: Int = 0,
     val month: Int = 0,
     val year: Int = 0,
-    val priority: String = "LOW",
+    val priority: String = "Low",
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val error: String? = null

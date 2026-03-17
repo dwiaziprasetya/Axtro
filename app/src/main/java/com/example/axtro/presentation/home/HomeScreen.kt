@@ -24,15 +24,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -169,6 +165,11 @@ fun HomeContent(
         "Completed" -> state.tasks.filter { it.status == "COMPLETED" }
         else -> state.tasks
     }
+    val (emptyTitle, emptyDesc) = when (selectedChip) {
+        "Active" -> "No active tasks" to "You're all caught up 🎉"
+        "Completed" -> "No completed tasks" to "Complete a task to see it here"
+        else -> "No tasks yet" to "Start by adding your first task"
+    }
 
     Box(
         modifier = Modifier
@@ -302,7 +303,10 @@ fun HomeContent(
                             .weight(1f),
                         contentAlignment = Alignment.Center
                     ) {
-                        AxtroEmptyTaskState()
+                        AxtroEmptyTaskState(
+                            title = emptyTitle,
+                            description = emptyDesc
+                        )
                     }
                 }
                 else -> {

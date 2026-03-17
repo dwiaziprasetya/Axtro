@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private fun loadUser() {
         viewModelScope.launch {
 
-            delay(2000)
+            delay(1000)
 
             _state.update { it.copy(isUserLoading = true) }
 
@@ -71,6 +71,8 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
 
             _state.update { it.copy(isLoading = true) }
+
+            delay(1000)
 
             getTasks().collect { result ->
 
