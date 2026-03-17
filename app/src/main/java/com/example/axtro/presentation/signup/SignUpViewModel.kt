@@ -70,7 +70,7 @@ class SignUpViewModel @Inject constructor(
 
                     SnackbarController.sendEvent(
                         SnackbarEvent(
-                            message = "Success register",
+                            message = "Account created successfully",
                             type = SnackbarType.SUCCESS
                         )
                     )

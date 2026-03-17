@@ -65,7 +65,7 @@ class SignInViewModel @Inject constructor(
 
                     SnackbarController.sendEvent(
                         SnackbarEvent(
-                            message = "Success login",
+                            message = "Logged in successfully",
                             type = SnackbarType.SUCCESS
                         )
                     )
@@ -107,7 +107,7 @@ class SignInViewModel @Inject constructor(
 
                     SnackbarController.sendEvent(
                         SnackbarEvent(
-                            message = "Success login with Google",
+                            message = "Logged in successfully",
                             type = SnackbarType.SUCCESS
                         )
                     )
