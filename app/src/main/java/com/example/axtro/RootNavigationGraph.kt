@@ -63,7 +63,7 @@ fun RootNavigationGraph(
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 val backgroundColor = when (snackbarEvent.value?.type) {
                     SnackbarType.SUCCESS -> Color(0xFF00A547)
