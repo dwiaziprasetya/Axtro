@@ -1,15 +1,15 @@
 package com.example.axtro.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.axtro.core.util.AppResult
 import com.example.axtro.domain.usecase.DeleteTask
+import com.example.axtro.domain.usecase.GetCurrentUser
 import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.Logout
 import com.example.axtro.domain.usecase.UpdateTaskStatus
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(
     private val getTasks: GetTasks,
     private val updateTaskStatus: UpdateTaskStatus,
     private val deleteTask: DeleteTask,
-    private val auth: FirebaseAuth,
+    private val getCurrentUser: GetCurrentUser,
     private val logout: Logout
 ) : ViewModel() {
 
@@ -34,18 +34,36 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadUser() {
-        val user = auth.currentUser
+        viewModelScope.launch {
 
-        _state.update {
-            it.copy(
-                userName = user?.displayName,
-                userPhotoUrl = user?.photoUrl?.toString(),
-                email = user?.email ?: "",
-                isUserLoading = false
-            )
+            delay(2000)
+
+            _state.update { it.copy(isUserLoading = true) }
+
+            when (val result = getCurrentUser()) {
+
+                is AppResult.Success -> {
+                    val user = result.data
+                    _state.update {
+                        it.copy(
+                            userName = user.name,
+                            userPhotoUrl = user.photoUrl,
+                            email = user.email ?: "",
+                            isUserLoading = false
+                        )
+                    }
+                }
+
+                is AppResult.Error -> {
+                    _state.update {
+                        it.copy(
+                            isUserLoading = false,
+                            error = result.message
+                        )
+                    }
+                }
+            }
         }
-
-        Log.d("USER_DEBUG", "email: ${user?.email}")
     }
 
     private fun observeTasks() {

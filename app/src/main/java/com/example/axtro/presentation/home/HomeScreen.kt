@@ -55,8 +55,10 @@ import com.example.axtro.R
 import com.example.axtro.core.ui.theme.AxtroTheme
 import com.example.axtro.core.util.DateUtils
 import com.example.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
+import com.example.axtro.presentation.component.AxtroAnimatedShimmerText
 import com.example.axtro.presentation.component.AxtroEmptyTaskState
 import com.example.axtro.presentation.component.AxtroTaskCard
+import com.example.axtro.presentation.component.LogoutBottomSheet
 import com.example.axtro.presentation.component.StatTaskCard
 import com.example.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -129,7 +131,9 @@ fun HomeScreen(
             onDeletedClick = { taskId ->
                 viewModel.removeTask(taskId)
             },
-            onUserProfileClick = { showLogoutSheet = true }
+            onUserProfileClick = {
+                showLogoutSheet = true
+            }
         )
     }
 }
@@ -186,25 +190,9 @@ fun HomeContent(
                 Column {
 
                     if (state.isUserLoading) {
-
-                        Box(
-                            modifier = Modifier
-                                .width(120.dp)
-                                .height(18.dp)
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(Color.LightGray)
-                        )
-
-                        Spacer(Modifier.height(4.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(160.dp)
-                                .height(12.dp)
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(Color.LightGray)
-                        )
-
+                        AxtroAnimatedShimmerText(width = 120.dp)
+                        Spacer(Modifier.height(8.dp))
+                        AxtroAnimatedShimmerText(width = 160.dp)
                     } else {
 
                         Text(
@@ -342,67 +330,6 @@ fun HomeContent(
                                 }
                             )
                         }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LogoutBottomSheet(
-    isLoading: Boolean,
-    onConfirm: () -> Unit,
-    onCancel: () -> Unit
-) {
-
-    ModalBottomSheet(
-        onDismissRequest = onCancel
-    ) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp)
-        ) {
-
-            Text(
-                text = "Logout",
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            Text(
-                text = "Are you sure you want to logout?"
-            )
-
-            Spacer(Modifier.height(24.dp))
-
-            Row {
-
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = onCancel
-                ) {
-                    Text("Cancel")
-                }
-
-                Spacer(Modifier.width(12.dp))
-
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = onConfirm
-                ) {
-
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(18.dp),
-                            strokeWidth = 2.dp
-                        )
-                    } else {
-                        Text("Yes Logout")
                     }
                 }
             }

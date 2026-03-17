@@ -4,6 +4,7 @@ import com.example.axtro.domain.repository.AuthRepository
 import com.example.axtro.domain.repository.TaskRepository
 import com.example.axtro.domain.usecase.AddTask
 import com.example.axtro.domain.usecase.DeleteTask
+import com.example.axtro.domain.usecase.GetCurrentUser
 import com.example.axtro.domain.usecase.GetTasks
 import com.example.axtro.domain.usecase.LoginWithEmail
 import com.example.axtro.domain.usecase.LoginWithGoogle
@@ -96,5 +97,13 @@ object AppModule {
         repository: AuthRepository
     ) : Logout {
         return Logout(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun getCurrentUser(
+        repository: AuthRepository
+    ) : GetCurrentUser {
+        return GetCurrentUser(repository)
     }
 }

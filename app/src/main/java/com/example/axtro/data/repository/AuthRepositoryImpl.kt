@@ -30,7 +30,9 @@ class AuthRepositoryImpl @Inject constructor(
                 AppResult.Success(
                     User(
                         id = firebaseUser.uid,
-                        email = firebaseUser.email
+                        email = firebaseUser.email,
+                        name = firebaseUser.displayName,
+                        photoUrl = firebaseUser.photoUrl?.toString()
                     )
                 )
             } else {
@@ -60,7 +62,9 @@ class AuthRepositoryImpl @Inject constructor(
                 AppResult.Success(
                     User(
                         id = firebaseUser.uid,
-                        email = firebaseUser.email
+                        email = firebaseUser.email,
+                        name = firebaseUser.displayName,
+                        photoUrl = firebaseUser.photoUrl?.toString()
                     )
                 )
             } else {
@@ -82,6 +86,32 @@ class AuthRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             AppResult.Error(
                 message = e.message ?: "Failed to login with Google",
+                throwable = e
+            )
+        }
+    }
+
+    override suspend fun getCurrentUser(): AppResult<User> {
+        return try {
+
+            val user = firebaseAuth.currentUser
+
+            if (user != null) {
+                AppResult.Success(
+                    User(
+                        id = user.uid,
+                        email = user.email,
+                        name = user.displayName,
+                        photoUrl = user.photoUrl?.toString()
+                    )
+                )
+            } else {
+                AppResult.Error("User not logged in")
+            }
+
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Failed to load user",
                 throwable = e
             )
         }
