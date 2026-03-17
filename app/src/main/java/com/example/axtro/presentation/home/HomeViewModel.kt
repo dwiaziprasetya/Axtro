@@ -34,7 +34,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadUser() {
-
         val user = auth.currentUser
 
         _state.update {
@@ -45,6 +44,8 @@ class HomeViewModel @Inject constructor(
                 isUserLoading = false
             )
         }
+
+        Log.d("USER_DEBUG", "email: ${user?.email}")
     }
 
     private fun observeTasks() {

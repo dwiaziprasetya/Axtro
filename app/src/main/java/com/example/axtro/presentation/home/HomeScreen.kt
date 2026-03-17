@@ -141,8 +141,13 @@ fun HomeContent(
     onDeletedClick: (String) -> Unit,
     onUserProfileClick: () -> Unit
 ) {
-    val displayName = state.userName
-        ?: state.email.substringBefore("@")
+    val displayName = remember(state.userName, state.email) {
+        if (!state.userName.isNullOrBlank()) {
+            state.userName
+        } else {
+            state.email.substringBefore("@")
+        }
+    }
     var selectedChip by remember { mutableStateOf("All") }
     val activeCount = remember(state.tasks) {
         state.tasks.count { it.status == "ACTIVE" }
@@ -209,22 +214,33 @@ fun HomeContent(
                         )
 
                         Text(
-                            text = "Let’s get things done today 👋",
+                            text = "Let’s get things done today",
                             fontSize = 12.sp
                         )
                     }
                 }
 
-                if (state.isUserLoading) {
+                if (state.userPhotoUrl.isNullOrBlank()) {
+
+                    val initial = displayName.firstOrNull()?.uppercase() ?: "U"
 
                     Box(
                         modifier = Modifier
                             .size(40.dp)
                             .clip(CircleShape)
-                            .background(Color.LightGray)
-                    )
+                            .background(MaterialTheme.colorScheme.primary)
+                            .clickable { onUserProfileClick() },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = initial,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
 
                 } else {
+
                     AsyncImage(
                         model = state.userPhotoUrl,
                         contentDescription = "User",
