@@ -141,6 +141,8 @@ fun HomeContent(
     onDeletedClick: (String) -> Unit,
     onUserProfileClick: () -> Unit
 ) {
+    val displayName = state.userName
+        ?: state.email.substringBefore("@")
     var selectedChip by remember { mutableStateOf("All") }
     val activeCount = remember(state.tasks) {
         state.tasks.count { it.status == "ACTIVE" }
@@ -201,7 +203,7 @@ fun HomeContent(
                     } else {
 
                         Text(
-                            text = "Hi ${state.userName}",
+                            text = "Hi $displayName",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold,
                         )

@@ -1,5 +1,6 @@
 package com.example.axtro.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.axtro.core.util.AppResult
@@ -38,8 +39,9 @@ class HomeViewModel @Inject constructor(
 
         _state.update {
             it.copy(
-                userName = user?.displayName ?: "User",
+                userName = user?.displayName,
                 userPhotoUrl = user?.photoUrl?.toString(),
+                email = user?.email ?: "",
                 isUserLoading = false
             )
         }
