@@ -46,57 +46,59 @@ class AddTaskViewModel @Inject constructor(
     fun createTask() {
         viewModelScope.launch {
 
-            _state.update { it.copy(isLoading = true) }
+            val current = _state.value
 
-            val calendar = Calendar.getInstance().apply {
-                set(
-                    _state.value.year,
-                    _state.value.month - 1,
-                    _state.value.day
+            if (current.day == null || current.month == null || current.year == null) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent(
+                        message = "Date is incomplete",
+                        type = SnackbarType.ERROR
+                    )
                 )
+                return@launch
             }
 
-            val timestamp = calendar.timeInMillis
+            val calendar = Calendar.getInstance().apply {
+                isLenient = false
+                set(current.year, current.month - 1, current.day)
+            }
+
+            val timestamp = try {
+                calendar.timeInMillis
+            } catch (e: Exception) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent(
+                        message = "Invalid date",
+                        type = SnackbarType.ERROR
+                    )
+                )
+                return@launch
+            }
+
+            _state.update { it.copy(isLoading = true) }
 
             val result = addTask(
-                title = _state.value.title,
+                title = current.title,
                 date = timestamp,
-                priority = _state.value.priority
+                priority = current.priority
             )
 
             when (result) {
-
                 is AppResult.Success -> {
-
                     _state.update {
-                        it.copy(
-                            isLoading = false,
-                            isSuccess = true
-                        )
+                        it.copy(isLoading = false, isSuccess = true)
                     }
-
                     SnackbarController.sendEvent(
-                        SnackbarEvent(
-                            message = "Task created",
-                            type = SnackbarType.SUCCESS
-                        )
+                        SnackbarEvent("Task created", SnackbarType.SUCCESS)
                     )
                 }
 
                 is AppResult.Error -> {
-
                     _state.update {
-                        it.copy(
-                            isLoading = false,
-                            error = result.message
-                        )
+                        it.copy(isLoading = false, error = result.message)
                     }
-
                     SnackbarController.sendEvent(
-                        SnackbarEvent(
-                            message = result.message,
-                            type = SnackbarType.ERROR
-                        )
+                        SnackbarEvent(result.message, SnackbarType.ERROR)
                     )
                 }
             }

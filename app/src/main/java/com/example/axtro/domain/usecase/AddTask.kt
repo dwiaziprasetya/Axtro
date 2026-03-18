@@ -12,6 +12,14 @@ class AddTask(
         priority: String
     ): AppResult<Unit> {
 
+        if (title.isBlank()) {
+            return AppResult.Error("Title cannot be empty")
+        }
+
+        if (priority.isBlank()) {
+            return AppResult.Error("Priority cannot be empty")
+        }
+
         return repository.addTask(
             title = title,
             date = date,

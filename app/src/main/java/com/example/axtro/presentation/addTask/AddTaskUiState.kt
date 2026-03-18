@@ -2,9 +2,9 @@ package com.example.axtro.presentation.addTask
 
 data class AddTaskUiState(
     val title: String = "",
-    val day: Int = 0,
-    val month: Int = 0,
-    val year: Int = 0,
+    val day: Int? = null,
+    val month: Int? = null,
+    val year: Int? = null,
     val priority: String = "Low",
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
