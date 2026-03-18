@@ -67,19 +67,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun observeTasks() {
-
         viewModelScope.launch {
-
             _state.update { it.copy(isLoading = true) }
 
             delay(1000)
 
             getTasks().collect { result ->
-
                 when (result) {
-
                     is AppResult.Success -> {
-
                         _state.update {
                             it.copy(
                                 tasks = result.data,
@@ -87,24 +82,19 @@ class HomeViewModel @Inject constructor(
                                 error = null
                             )
                         }
-
                     }
-
                     is AppResult.Error -> {
-
                         _state.update {
                             it.copy(
                                 isLoading = false,
                                 error = result.message
                             )
                         }
-
                     }
 
                 }
 
             }
-
         }
     }
 

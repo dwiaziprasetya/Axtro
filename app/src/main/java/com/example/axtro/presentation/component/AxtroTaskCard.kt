@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -32,12 +34,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.example.axtro.R
+import com.example.axtro.core.ui.theme.priorityHigh
 
 @Composable
 fun AxtroTaskCard(
+    modifier: Modifier = Modifier,
     status: String,
     title: String,
     date: String,
@@ -47,17 +53,12 @@ fun AxtroTaskCard(
     onDeleteClick: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-
     val isCompleted = isChecked
-
-    // 🎨 Animate warna primary (biru → hijau)
     val animatedPrimaryColor by animateColorAsState(
         targetValue = if (isCompleted) Color(0xFF4CAF50)
         else MaterialTheme.colorScheme.primary,
         animationSpec = tween(300), label = ""
     )
-
-    // 🎨 Animate warna text
     val animatedTextColor by animateColorAsState(
         targetValue = if (isCompleted)
             MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
@@ -65,54 +66,40 @@ fun AxtroTaskCard(
         animationSpec = tween(300), label = ""
     )
 
-
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.onPrimary)
             .padding(16.dp)
     ) {
-
         Row(verticalAlignment = Alignment.Top) {
-
             AxtroCheckbox(
                 checked = isChecked,
                 onCheckedChange = onCheckedChange
             )
-
             Spacer(modifier = Modifier.width(16.dp))
-
             Column(modifier = Modifier.weight(1f)) {
-
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = status,
                         style = MaterialTheme.typography.labelLarge,
                         color = animatedPrimaryColor
                     )
-
                     Spacer(Modifier.weight(1f))
-
                     AxtroPriorityChip(
                         label = priority,
                         isSelected = false,
                         onClick = {}
                     )
                 }
-
                 Spacer(modifier = Modifier.height(12.dp))
-
                 HorizontalDivider(
                     thickness = 1.dp,
                     color = MaterialTheme.colorScheme.outlineVariant
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 Row(verticalAlignment = Alignment.CenterVertically) {
-
-                    // 🔥 garis kiri (ikut animasi warna)
                     Box(
                         modifier = Modifier
                             .width(4.dp)
@@ -120,12 +107,8 @@ fun AxtroTaskCard(
                             .clip(RoundedCornerShape(4.dp))
                             .background(animatedPrimaryColor)
                     )
-
                     Spacer(modifier = Modifier.width(16.dp))
-
                     Column(modifier = Modifier.weight(1f)) {
-
-                        // ✅ Title (coret + fade)
                         Text(
                             text = title,
                             style = MaterialTheme.typography.bodyMedium,
@@ -135,10 +118,7 @@ fun AxtroTaskCard(
                                 TextDecoration.LineThrough
                             else null
                         )
-
                         Spacer(modifier = Modifier.height(6.dp))
-
-                        // ✅ Date (ikut redup)
                         Text(
                             text = "Due $date",
                             style = MaterialTheme.typography.bodySmall,
@@ -147,27 +127,45 @@ fun AxtroTaskCard(
                             else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-
-                    Icon(
-                        imageVector = Icons.Default.MoreVert,
+                    Column(
                         modifier = Modifier
                             .align(Alignment.Top)
-                            .clickable { expanded = true },
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.outline
-                    )
-
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
                     ) {
-                        DropdownMenuItem(
-                            text = { Text("Delete") },
-                            onClick = {
-                                expanded = false
-                                onDeleteClick()
-                            }
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            modifier = Modifier
+                                .clickable { expanded = true },
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.outline
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.onPrimary)
+                                .height(60.dp)
+                        ) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = "Delete",
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.icon_trash),
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp),
+                                        tint = priorityHigh
+                                    )
+                                },
+                                onClick = {
+                                    expanded = false
+                                    onDeleteClick()
+                                }
+                            )
+                        }
                     }
                 }
             }
