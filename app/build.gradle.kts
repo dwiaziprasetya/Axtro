@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.axtro"
+    namespace = "com.dwiaziprasetya.axtro"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.axtro"
+        applicationId = "com.dwiaziprasetya.axtro"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -30,6 +30,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
