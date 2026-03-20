@@ -28,6 +28,8 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.FloatingActionButtonElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -114,6 +116,7 @@ fun HomeScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
+                elevation = FloatingActionButtonDefaults.elevation(0.dp),
                 shape = RoundedCornerShape(50),
                 containerColor = MaterialTheme.colorScheme.primary,
                 onClick = {
@@ -200,7 +203,7 @@ fun HomeContent(
                         AxtroAnimatedShimmerText(width = 160.dp)
                     } else {
                         Text(
-                            text = "Hi $displayName",
+                            text = "Halo i $displayName",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold,
                         )
