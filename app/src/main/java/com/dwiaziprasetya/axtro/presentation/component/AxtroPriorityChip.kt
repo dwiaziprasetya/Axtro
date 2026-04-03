@@ -1,6 +1,7 @@
 package com.dwiaziprasetya.axtro.presentation.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,13 +23,17 @@ fun AxtroPriorityChip(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
+    val isDarkTheme = isSystemInDarkTheme()
     val colors = getPriorityColor(label)
+
+    val containerColor = if (isDarkTheme) colors.selected else colors.container
+    val selectedColor = if (isDarkTheme) colors.container else colors.selected
 
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
-        color = if (isSelected) colors.selected.copy(alpha = 0.2f) else colors.container,
-        border = if (isSelected) BorderStroke(1.dp, colors.selected) else null,
+        color = if (isSelected) selectedColor.copy(alpha = 0.2f) else containerColor,
+        border = if (isSelected) BorderStroke(1.dp, selectedColor) else null,
         modifier = Modifier.height(30.dp)
     ) {
         Box(
@@ -40,7 +45,7 @@ fun AxtroPriorityChip(
                 text = label,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = if (isSelected) colors.selected else colors.selected.copy(alpha = 0.8f)
+                    color = if (isSelected) selectedColor else selectedColor.copy(alpha = 0.8f)
                 )
             )
         }

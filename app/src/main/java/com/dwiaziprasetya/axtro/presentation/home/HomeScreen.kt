@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -77,6 +78,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val isDarkTheme = isSystemInDarkTheme()
     val systemUiController = rememberSystemUiController()
     val state by viewModel.state.collectAsState()
     var showLogoutSheet by remember { mutableStateOf(false) }
@@ -84,7 +86,7 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         systemUiController.setSystemBarsColor(
             color = Color.Transparent,
-            darkIcons = true
+            darkIcons = !isDarkTheme
         )
     }
 
@@ -125,7 +127,7 @@ fun HomeScreen(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.icon_plus),
-                    tint = MaterialTheme.colorScheme.background,
+                    tint = Color.White,
                     contentDescription = null
                 )
             }
@@ -188,7 +190,7 @@ fun HomeContent(
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .background(Color(0XFFf2f6fc))
+            .background(MaterialTheme.colorScheme.background)
     ){
         Column {
             Row(
@@ -203,7 +205,7 @@ fun HomeContent(
                         AxtroAnimatedShimmerText(width = 160.dp)
                     } else {
                         Text(
-                            text = "Halo i $displayName",
+                            text = "Halo $displayName",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold,
                         )
@@ -284,10 +286,9 @@ fun HomeContent(
                             )
                         },
                         colors = FilterChipDefaults.filterChipColors(
-                            containerColor = Color.White,
+                            containerColor = MaterialTheme.colorScheme.onPrimary,
                             selectedContainerColor = MaterialTheme.colorScheme.primary,
                             selectedLabelColor = Color.White,
-                            labelColor = Color.Black,
                         )
                     )
                 }

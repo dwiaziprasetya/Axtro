@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,7 +63,10 @@ fun LogoutBottomSheet(
                     modifier = Modifier.weight(1f),
                     onClick = onCancel
                 ) {
-                    Text("Cancel")
+                    Text(
+                        "Cancel",
+                        color = Color.White
+                    )
                 }
 
                 Spacer(Modifier.width(12.dp))
@@ -79,7 +83,10 @@ fun LogoutBottomSheet(
                             color = MaterialTheme.colorScheme.onPrimary
                         )
                     } else {
-                        Text("Yes Logout")
+                        Text(
+                            "Yes, Logout",
+                            color = Color.White
+                        )
                     }
                 }
             }

@@ -1,6 +1,7 @@
 package com.dwiaziprasetya.axtro.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -47,12 +49,12 @@ fun StatTaskCard(
                     text = value,
                     fontSize = 35.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.White
                 )
                 Text(
                     text = type,
                     fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.White
                 )
             }
             Icon(
@@ -60,7 +62,7 @@ fun StatTaskCard(
                 modifier = Modifier
                     .size(30.dp)
                     .offset(y = 10.dp),
-                tint = MaterialTheme.colorScheme.background,
+                tint = Color.White,
                 contentDescription = null
             )
         }

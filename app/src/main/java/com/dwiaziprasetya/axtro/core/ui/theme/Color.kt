@@ -44,7 +44,7 @@ val priorityHigh = Color(0xFFC93E3E)
 val priorityHighContainer = Color(0xFFFDE8E8)
 
 val primaryDark = Color(0xFF407BFF)
-val onPrimaryDark = Color(0xFF002B74)
+val onPrimaryDark = Color(0xFF011633)
 val primaryContainerDark = Color(0xFF5D8BFF)
 val onPrimaryContainerDark = Color(0xFF001746)
 val secondaryDark = Color(0xFFB2C5FF)
