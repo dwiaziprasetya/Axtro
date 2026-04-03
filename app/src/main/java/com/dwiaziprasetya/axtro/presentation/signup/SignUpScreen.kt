@@ -125,7 +125,7 @@ fun SignUpScreenContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
@@ -176,7 +176,7 @@ fun SignUpScreenContent(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .background(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.background,
                         shape = RoundedCornerShape(10.dp)
                     )
                     .fillMaxWidth()
@@ -251,7 +251,7 @@ fun SignUpScreenContent(
                                 fontFamily = poppinsFontFamily,
                                 text = "Sign up",
                                 fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.background
+                                color = Color.White
                             )
                         }
                     }
