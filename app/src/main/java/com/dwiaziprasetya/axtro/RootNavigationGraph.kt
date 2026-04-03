@@ -74,6 +74,7 @@ fun RootNavigationGraph(
                 Snackbar(containerColor = backgroundColor) {
                     Text(
                         text = it.visuals.message,
+                        color = Color.White
                     )
                 }
             }
