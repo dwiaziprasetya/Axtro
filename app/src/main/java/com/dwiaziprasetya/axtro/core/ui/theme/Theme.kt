@@ -1,6 +1,7 @@
 package com.dwiaziprasetya.axtro.core.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -88,11 +89,7 @@ fun AxtroTheme(
     content: @Composable() () -> Unit
 ) {
 
-    val colorScheme = when {
-      darkTheme -> darkScheme
-      else -> lightScheme
-
-    }
+    val colorScheme = if (darkTheme) darkScheme else lightScheme
 
     MaterialTheme(
     colorScheme = colorScheme,

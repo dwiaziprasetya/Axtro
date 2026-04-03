@@ -218,7 +218,7 @@ fun SignInScreenContent(
         modifier = modifier
             .fillMaxSize()
             .navigationBarsPadding()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
@@ -269,7 +269,7 @@ fun SignInScreenContent(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .background(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.background,
                         shape = RoundedCornerShape(10.dp)
                     )
                     .fillMaxWidth()
@@ -290,9 +290,10 @@ fun SignInScreenContent(
                                 width = 1.dp,
                                 shape = RoundedCornerShape(10.dp)
                             ),
+                        shape = RoundedCornerShape(10.dp),
                         onClick = onClickGoogleButton,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.onPrimary
+                            containerColor = MaterialTheme.colorScheme.background
                         )
                     ) {
                         Row(
@@ -390,7 +391,7 @@ fun SignInScreenContent(
                         shape = RoundedCornerShape(10.dp),
                         onClick = signIn,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary
+                            containerColor = MaterialTheme.colorScheme.primary,
                         )
                     ) {
                         if (state.isLoadingEmailSignIn) {
@@ -403,7 +404,7 @@ fun SignInScreenContent(
                                 fontFamily = poppinsFontFamily,
                                 text = "Sign in",
                                 fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.background
+                                color = Color.White
                             )
                         }
                     }
