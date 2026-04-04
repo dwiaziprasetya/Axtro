@@ -1,6 +1,8 @@
 package com.dwiaziprasetya.axtro.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,9 +13,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -24,25 +32,39 @@ fun AxtroTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    hint: String = "Input task name"
+    hint: String = "Input task name",
 ) {
     val focusManager = LocalFocusManager.current
+    val isDarkTheme = isSystemInDarkTheme()
+
+    val backgroundColor = MaterialTheme.colorScheme.background
+    val borderColor = if (isDarkTheme) Color.Gray else Color.LightGray
+
+    var isFocused by remember { mutableStateOf(false) }
 
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
         textStyle = MaterialTheme.typography.bodyMedium.copy(
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onBackground
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+        modifier = modifier.onFocusChanged { isFocused = it.isFocused },
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         decorationBox = { innerTextField ->
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        color = Color(0xFFF1F3F6),
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = if (isFocused) MaterialTheme.colorScheme.primary else borderColor,
                         shape = RoundedCornerShape(16.dp)
                     )
                     .padding(horizontal = 20.dp, vertical = 16.dp),
@@ -52,8 +74,8 @@ fun AxtroTextField(
                     Text(
                         text = hint,
                         style = MaterialTheme.typography.bodyMedium.copy(
-                            color = Color(0xFF8E8E93),
-                            fontSize = 14.sp
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.outline,
                         )
                     )
                 }

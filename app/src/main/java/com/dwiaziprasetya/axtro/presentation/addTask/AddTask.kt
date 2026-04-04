@@ -148,7 +148,7 @@ fun AddTaskContent(
             }
             Surface(
                 modifier = Modifier.fillMaxSize(),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
             ) {
                 Box(
@@ -243,7 +243,7 @@ fun AddTaskContent(
                     ) {
                         if (state.isLoading) {
                             CircularProgressIndicator(
-                                color = MaterialTheme.colorScheme.background,
+                                color = Color.White,
                                 modifier = Modifier.size(18.dp),
                                 strokeWidth = 2.dp
                             )
@@ -252,7 +252,7 @@ fun AddTaskContent(
                                 fontFamily = poppinsFontFamily,
                                 text = "Create Task",
                                 fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.background
+                                color = Color.White
                             )
                         }
                     }

@@ -32,8 +32,8 @@ fun AxtroPriorityChip(
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
-        color = if (isSelected) selectedColor.copy(alpha = 0.2f) else containerColor,
-        border = if (isSelected) BorderStroke(1.dp, selectedColor) else null,
+        color = containerColor,
+        border = if (isSelected) BorderStroke(3.dp, selectedColor) else null,
         modifier = Modifier.height(30.dp)
     ) {
         Box(
