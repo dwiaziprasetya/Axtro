@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import com.dwiaziprasetya.axtro.presentation.addTask.AddTaskScreen
 import com.dwiaziprasetya.axtro.presentation.calendar.CalendarScreen
 import com.dwiaziprasetya.axtro.presentation.home.HomeScreen
-import com.dwiaziprasetya.axtro.presentation.navigation.animation.slideComposable
 import com.dwiaziprasetya.axtro.presentation.navigation.animation.tabComposable
 import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 import com.dwiaziprasetya.axtro.presentation.profile.ProfileScreen
@@ -22,10 +21,20 @@ fun MainNavGraph(
         startDestination = Screen.Home.route,
         route = Screen.Main.route,
     ) {
-        tabComposable(route = Screen.AddTask.route) { AddTaskScreen(navController = navController) }
-        tabComposable(route = Screen.Home.route) { HomeScreen(navController = navController, rootController = rootController) }
-        tabComposable(route = Screen.Task.route) { TaskScreen() }
-        tabComposable(route = Screen.Profile.route) { ProfileScreen() }
-        tabComposable(route = Screen.Calendar.route) { CalendarScreen() }
+        tabComposable(route = Screen.AddTask.route) {
+            AddTaskScreen(rootController = navController)
+        }
+        tabComposable(route = Screen.Home.route) { HomeScreen(
+            rootController = rootController)
+        }
+        tabComposable(route = Screen.Task.route) {
+            TaskScreen()
+        }
+        tabComposable(route = Screen.Profile.route) {
+            ProfileScreen()
+        }
+        tabComposable(route = Screen.Calendar.route) {
+            CalendarScreen()
+        }
     }
 }

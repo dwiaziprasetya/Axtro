@@ -51,7 +51,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(
-    navController: NavController,
+    rootController: NavController,
     viewModel: AddTaskViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
@@ -73,7 +73,7 @@ fun AddTaskScreen(
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             delay(1200)
-            navController.popBackStack()
+            rootController.popBackStack()
             viewModel.resetSuccess()
         }
     }
@@ -95,7 +95,7 @@ fun AddTaskScreen(
             focusManager.clearFocus()
         },
         onBackClick = {
-            navController.popBackStack()
+            rootController.popBackStack()
         }
     )
 }

@@ -64,7 +64,9 @@ fun MainScreen(rootController: NavHostController) {
                     .size(65.dp)
                     .offset(y = 75.dp),
                 containerColor = MaterialTheme.colorScheme.primary,
-                onClick = {}
+                onClick = {
+                    rootController.navigate(Screen.AddTask.route)
+                }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.icon_plus),

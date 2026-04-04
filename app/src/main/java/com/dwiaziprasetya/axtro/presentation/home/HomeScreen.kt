@@ -75,7 +75,6 @@ import kotlinx.coroutines.delay
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun HomeScreen(
-    navController: NavController,
     rootController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {

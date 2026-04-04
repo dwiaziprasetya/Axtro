@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun CalendarScreen(modifier: Modifier = Modifier) {
@@ -18,7 +19,7 @@ fun CalendarScreen(modifier: Modifier = Modifier) {
     ){
         Text(
             text = "Calendar Screen",
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = Color.Black,
             modifier = Modifier.align(Alignment.Center)
         )
     }

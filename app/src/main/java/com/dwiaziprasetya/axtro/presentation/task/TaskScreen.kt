@@ -19,7 +19,7 @@ fun TaskScreen(modifier: Modifier = Modifier) {
     ){
         Text(
             text = "Task Screen",
-            color = Color.White,
+            color = Color.Black,
             modifier = Modifier.align(Alignment.Center)
         )
     }

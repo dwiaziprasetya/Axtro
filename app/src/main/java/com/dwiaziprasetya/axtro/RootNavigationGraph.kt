@@ -18,12 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import com.dwiaziprasetya.axtro.core.util.ObserveAsEvents
 import com.dwiaziprasetya.axtro.core.util.SnackbarController
 import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
 import com.dwiaziprasetya.axtro.core.util.SnackbarType
+import com.dwiaziprasetya.axtro.presentation.addTask.AddTaskScreen
 import com.dwiaziprasetya.axtro.presentation.main.MainScreen
+import com.dwiaziprasetya.axtro.presentation.navigation.animation.slideComposable
 import com.dwiaziprasetya.axtro.presentation.navigation.graph.authNav
 import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 import kotlinx.coroutines.launch
@@ -86,10 +87,15 @@ fun RootNavigationGraph(
             startDestination = startDestination,
         ) {
             authNav(navController)
-            composable(
+            slideComposable(
                 route = Screen.Main.route
             ) {
                 MainScreen(rootController = navController)
+            }
+            slideComposable(
+                route = Screen.AddTask.route
+            ) {
+                AddTaskScreen(rootController = navController)
             }
         }
     }
