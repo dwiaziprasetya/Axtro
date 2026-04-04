@@ -55,18 +55,15 @@ fun BottomNavigation(
             ),
             BottomBarItem(
                 "Task",
-                painterResource(R.drawable.icon_task),
-                painterResource(R.drawable.icon_task),
+                painterResource(R.drawable.icon_task_outlined),
+                painterResource(R.drawable.icon_task_filled),
                 Screen.Task
             ),
-
-            // 🔥 DUMMY BUAT FAB
             BottomBarItem(isDummy = true),
-
             BottomBarItem(
                 "Calendar",
-                painterResource(R.drawable.icon_calendar),
-                painterResource(R.drawable.icon_calendar),
+                painterResource(R.drawable.icon_calendar_outlined),
+                painterResource(R.drawable.icon_calendar_filled),
                 Screen.Calendar
             ),
             BottomBarItem(
@@ -123,7 +120,7 @@ fun BottomNavigation(
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = MaterialTheme.colorScheme.background
+                        indicatorColor = Color.Transparent
                     )
                 )
             }

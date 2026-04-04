@@ -28,10 +28,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.FloatingActionButtonElevation
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -253,7 +249,7 @@ fun HomeContent(
                     modifier = Modifier.weight(1f),
                     value = activeCount.toString(),
                     type = "Active",
-                    icon = R.drawable.icon_task
+                    icon = R.drawable.icon_task_outlined
                 )
                 Spacer(Modifier.width(16.dp))
                 StatTaskCard(
