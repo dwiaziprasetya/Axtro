@@ -11,22 +11,27 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.dwiaziprasetya.axtro.presentation.navigation.graph.MainNavGraph
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
+import com.dwiaziprasetya.axtro.presentation.component.BottomNavigation
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController = rememberNavController()) {
+fun MainScreen(rootController: NavHostController) {
+
+    val mainNavController = rememberNavController()
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier
             .fillMaxSize(),
-//        bottomBar = {
-//            BottomNavigation(
-//                navController = navController,
-//            )
-//        }
+        bottomBar = {
+            BottomNavigation(
+                navController = mainNavController,
+            )
+        }
     ) { _ ->
         MainNavGraph(
-            navController = navController,
+            navController = mainNavController,
+            rootController = rootController
         )
     }
 }
@@ -35,6 +40,6 @@ fun MainScreen(navController: NavHostController = rememberNavController()) {
 @Composable
 private fun MainScreenPreview() {
     AxtroTheme(dynamicColor = false) {
-        MainScreen()
+        MainScreen(rememberNavController())
     }
 }

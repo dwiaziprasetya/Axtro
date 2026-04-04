@@ -11,14 +11,14 @@ import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
+    rootController: NavHostController
 ) {
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
         route = Screen.Main.route,
     ) {
-        authNav(navController)
         animatedComposable(route = Screen.AddTask.route) { AddTaskScreen(navController = navController) }
-        animatedComposable(route = Screen.Home.route) { HomeScreen(navController = navController) }
+        animatedComposable(route = Screen.Home.route) { HomeScreen(navController = navController, rootController = rootController) }
     }
 }

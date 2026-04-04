@@ -89,7 +89,7 @@ fun RootNavigationGraph(
             composable(
                 route = Screen.Main.route
             ) {
-                MainScreen()
+                MainScreen(rootController = navController)
             }
         }
     }

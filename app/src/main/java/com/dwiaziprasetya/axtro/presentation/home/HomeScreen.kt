@@ -76,6 +76,7 @@ import kotlinx.coroutines.delay
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun HomeScreen(
     navController: NavController,
+    rootController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val isDarkTheme = isSystemInDarkTheme()
@@ -94,8 +95,8 @@ fun HomeScreen(
         if (state.isLogoutSuccess) {
             showLogoutSheet = false
             delay(500)
-            navController.navigate(Screen.AuthNav.route) {
-                popUpTo(Screen.Home.route) {
+            rootController.navigate(Screen.AuthNav.route) {
+                popUpTo(Screen.Main.route) {
                     inclusive = true
                 }
             }

@@ -22,8 +22,5 @@ fun NavGraphBuilder.authNav(
         animatedComposable(Screen.SignUp.route) {
             SignUpScreen(navController = navController)
         }
-        animatedComposable(Screen.Main.route) {
-            MainScreen()
-        }
     }
 }
