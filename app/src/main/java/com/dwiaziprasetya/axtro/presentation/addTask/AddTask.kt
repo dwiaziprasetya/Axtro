@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
@@ -51,7 +52,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskScreen(
-    rootController: NavController,
+    onNavigateToMain: () -> Unit,
     viewModel: AddTaskViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
@@ -73,7 +74,7 @@ fun AddTaskScreen(
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             delay(1200)
-            rootController.popBackStack()
+            onNavigateToMain()
             viewModel.resetSuccess()
         }
     }
@@ -94,9 +95,7 @@ fun AddTaskScreen(
             viewModel.createTask()
             focusManager.clearFocus()
         },
-        onBackClick = {
-            rootController.popBackStack()
-        }
+        onBackClick = { onNavigateToMain() }
     )
 }
 

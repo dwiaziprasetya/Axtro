@@ -95,7 +95,7 @@ fun RootNavigationGraph(
             slideComposable(
                 route = Screen.AddTask.route
             ) {
-                AddTaskScreen(rootController = navController)
+                AddTaskScreen(onNavigateToMain = { navController.popBackStack() })
             }
         }
     }

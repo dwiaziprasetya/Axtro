@@ -21,11 +21,16 @@ fun MainNavGraph(
         startDestination = Screen.Home.route,
         route = Screen.Main.route,
     ) {
-        tabComposable(route = Screen.AddTask.route) {
-            AddTaskScreen(rootController = navController)
-        }
-        tabComposable(route = Screen.Home.route) { HomeScreen(
-            rootController = rootController)
+        tabComposable(route = Screen.Home.route) {
+            HomeScreen(
+                onNavigateToAuth = {
+                    rootController.navigate(Screen.AuthNav.route) {
+                        popUpTo(Screen.Main.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
         tabComposable(route = Screen.Task.route) {
             TaskScreen()

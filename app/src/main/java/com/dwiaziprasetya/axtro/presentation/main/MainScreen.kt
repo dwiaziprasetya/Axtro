@@ -1,8 +1,6 @@
 package com.dwiaziprasetya.axtro.presentation.main
 
-import android.R.attr.onClick
 import android.annotation.SuppressLint
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.presentation.navigation.graph.MainNavGraph
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.presentation.component.BottomNavigation
+import com.dwiaziprasetya.axtro.presentation.navigation.graph.MainNavGraph
 import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
