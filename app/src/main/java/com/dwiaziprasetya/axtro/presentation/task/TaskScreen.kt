@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun TaskScreen(modifier: Modifier = Modifier) {
@@ -18,7 +19,7 @@ fun TaskScreen(modifier: Modifier = Modifier) {
     ){
         Text(
             text = "Task Screen",
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = Color.White,
             modifier = Modifier.align(Alignment.Center)
         )
     }
