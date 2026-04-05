@@ -19,9 +19,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
@@ -74,8 +76,6 @@ fun AddTaskScreen(
     val focusManager = LocalFocusManager.current
     val state by viewModel.state.collectAsState()
 
-
-
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             delay(1200)
@@ -122,20 +122,22 @@ fun AddTaskContent(
 ) {
     var input by remember { mutableStateOf("") }
     var input2 by remember { mutableStateOf("") }
-    var input3 by remember { mutableStateOf("") }
+    var input5 by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .padding(
                 horizontal = 24.dp,
                 vertical = 16.dp
             )
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -154,53 +156,95 @@ fun AddTaskContent(
                     tint = MaterialTheme.colorScheme.outline,
                 )
             }
-            Spacer(Modifier.height(16.dp))
-            LabeledTextField(
-                label = "Title",
-                hint = "Enter your title",
-                text = input,
-                onTextChange = { input = it },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(16.dp))
-            LabeledTextField(
-                label = "Description",
-                hint = "Enter your description",
-                text = input2,
-                isSingleLine = false,
-                onTextChange = { input2 = it },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(16.dp))
-            LabeledTextField(
-                label = "Date",
-                hint = "dd/MM/yyyy",
-                text = input3,
-                onTextChange = { input3 = it },
-                modifier = Modifier.fillMaxWidth(),
-                trailingIconResId = R.drawable.icon_calendar_outlined
-            )
-            Spacer(Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(32.dp)
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
             ) {
+                Spacer(Modifier.height(16.dp))
                 LabeledTextField(
-                    label = "Start Time",
-                    hint = "HH:mm",
-                    text = "",
+                    label = "Title",
+                    hint = "Enter your title",
+                    text = input,
+                    onTextChange = { input = it },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(16.dp))
+                LabeledTextField(
+                    label = "Description",
+                    hint = "Enter your description",
+                    text = input2,
+                    isSingleLine = false,
+                    onTextChange = { input2 = it },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(16.dp))
+                LabeledTextField(
+                    label = "Date",
+                    hint = "dd/MM/yyyy",
+                    text = "25/12/2026",
                     onTextChange = {},
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.fillMaxWidth(),
                     trailingIconResId = R.drawable.icon_calendar_outlined
                 )
+                Spacer(Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    LabeledTextField(
+                        label = "Start Time",
+                        hint = "HH:mm",
+                        text = "09:45",
+                        onTextChange = {},
+                        modifier = Modifier.weight(1f),
+                        trailingIconResId = R.drawable.icon_clock
+                    )
+                    LabeledTextField(
+                        label = "End Time",
+                        hint = "HH:mm",
+                        text = "10:30",
+                        onTextChange = {},
+                        modifier = Modifier.weight(1f),
+                        trailingIconResId = R.drawable.icon_clock
+                    )
+                }
+                Spacer(Modifier.height(16.dp))
                 LabeledTextField(
-                    label = "End Time",
-                    hint = "HH:mm",
-                    text = "",
-                    onTextChange = {},
-                    modifier = Modifier.weight(1f),
-                    trailingIconResId = R.drawable.icon_calendar_outlined
+                    label = "Priority",
+                    hint = "Select Priority",
+                    text = "High",
+                    onTextChange = { input5 = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    trailingIconResId = R.drawable.icon_arrow_down
                 )
+                Spacer(Modifier.height(16.dp))
+            }
+            Button(
+                modifier = Modifier
+                    .height(52.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                onClick = onCreateTask,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = Modifier.size(18.dp),
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    Text(
+                        fontFamily = poppinsFontFamily,
+                        text = "Create",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
+                }
             }
         }
 //        Column(modifier = Modifier.fillMaxSize()) {
@@ -360,8 +404,8 @@ fun LabeledTextField(
     Column(modifier = modifier) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 14.sp,
         )
         Spacer(Modifier.height(4.dp))
         TextField(
@@ -383,9 +427,9 @@ fun LabeledTextField(
                 )
             },
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                unfocusedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                disabledContainerColor = Color.White,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
