@@ -27,6 +27,10 @@ class AddTaskViewModel @Inject constructor(
         _state.update { it.copy(title = value) }
     }
 
+    fun onDescriptionChange(value: String) {
+        _state.update { it.copy(description = value) }
+    }
+
     fun onDayChange(value: Int) {
         _state.update { it.copy(day = value) }
     }
