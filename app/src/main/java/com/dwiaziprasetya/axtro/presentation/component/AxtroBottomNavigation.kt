@@ -106,7 +106,7 @@ fun BottomNavigation(
                             color = if (isSelected)
                                 MaterialTheme.colorScheme.primary
                             else
-                                MaterialTheme.colorScheme.outline
+                                Color.Black
                         )
                     },
                     icon = {
@@ -116,7 +116,7 @@ fun BottomNavigation(
                             tint = if (isSelected)
                                 MaterialTheme.colorScheme.primary
                             else
-                                MaterialTheme.colorScheme.outline
+                                Color.Black
                         )
                     },
                     colors = NavigationBarItemDefaults.colors(
