@@ -161,7 +161,7 @@ fun AxtroCustomDatePicker(
                 Button(
                     onClick = { onDateSelected(selectedDate) },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2D5CFF)),
-                    shape = RoundedCornerShape(24.dp),
+                    shape = RoundedCornerShape(16.dp),
                     modifier = Modifier.height(48.dp).width(120.dp)
                 ) {
                     Text("Apply", color = Color.White)

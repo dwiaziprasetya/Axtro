@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -47,6 +48,10 @@ fun AxtroLabeledTextField(
             modifier = Modifier.fillMaxWidth(),
             singleLine = isSingleLine,
             value = text,
+            textStyle = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 16.sp,
+                textDecoration = TextDecoration.None
+            ),
             shape = RoundedCornerShape(10.dp),
             onValueChange = { onTextChange(it) },
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -58,7 +63,7 @@ fun AxtroLabeledTextField(
                 Text(
                     text = hint,
                     color = MaterialTheme.colorScheme.outline,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                 )
             },
             colors = TextFieldDefaults.colors(

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,21 +22,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,34 +41,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.anhaki.picktime.PickHourMinute
+import com.anhaki.picktime.utils.PickTimeFocusIndicator
+import com.anhaki.picktime.utils.PickTimeTextStyle
+import com.anhaki.picktime.utils.TimeFormat
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
-import com.dwiaziprasetya.axtro.core.util.getDatesInMonth
 import com.dwiaziprasetya.axtro.presentation.component.AxtroCustomDatePicker
 import com.dwiaziprasetya.axtro.presentation.component.AxtroDatePickerField
 import com.dwiaziprasetya.axtro.presentation.component.AxtroLabeledTextField
 import com.dwiaziprasetya.axtro.presentation.component.AxtroPriorityDropdown
+import com.dwiaziprasetya.axtro.presentation.component.AxtroTimePickerField
 import kotlinx.coroutines.delay
-import java.time.LocalDate
-import java.time.YearMonth
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -139,6 +137,7 @@ fun AddTaskContent(
     var input2 by remember { mutableStateOf("") }
     var input5 by remember { mutableStateOf("") }
 
+    var selected by remember { mutableStateOf("Low") }
 
     Box(
         modifier = Modifier
@@ -207,11 +206,9 @@ fun AddTaskContent(
                     Dialog(onDismissRequest = { showDatePicker = false }) {
                         AxtroCustomDatePicker(
                             onDateSelected = { localDate ->
-                                // Format tanggal sesuai keinginan, misal: "07 Apr 2026"
                                 val formatter = java.time.format.DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
                                 selectedDateText = localDate.format(formatter)
 
-                                // Update ke ViewModel jika perlu
                                 onDayChange(localDate.dayOfMonth)
                                 onMonthChange(localDate.monthValue)
                                 onYearChange(localDate.year)
@@ -222,39 +219,17 @@ fun AddTaskContent(
                         )
                     }
                 }
-
                 AxtroDatePickerField(
                     selectedDate = selectedDateText,
                     onDateSelected = { showDatePicker = true }
                 )
                 Spacer(Modifier.height(16.dp))
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.spacedBy(32.dp)
-//                ) {
-//                    AxtroLabeledTextField(
-//                        label = "Start Time",
-//                        hint = "HH:mm",
-//                        text = "09:45",
-//                        onTextChange = {},
-//                        modifier = Modifier.weight(1f),
-//                        trailingIconResId = R.drawable.icon_clock
-//                    )
-//                    AxtroLabeledTextField(
-//                        label = "End Time",
-//                        hint = "HH:mm",
-//                        text = "10:30",
-//                        onTextChange = {},
-//                        modifier = Modifier.weight(1f),
-//                        trailingIconResId = R.drawable.icon_clock
-//                    )
-//                }
                 var showTimePicker by remember { mutableStateOf(false) }
-                var timeText by remember { mutableStateOf("09:45 AM") }
-
+                var timeText by remember { mutableStateOf("HH:mm") }
+                var timeText2 by remember { mutableStateOf("HH:mm") }
                 if (showTimePicker) {
                     Dialog(onDismissRequest = { showTimePicker = false }) {
-                        CustomTimePicker(
+                        AxtroTimePicker(
                             onTimeSelected = { h, m, p ->
                                 timeText = String.format("%02d:%02d %s", h, m, p)
                                 showTimePicker = false
@@ -263,24 +238,40 @@ fun AddTaskContent(
                         )
                     }
                 }
-                AxtroLabeledTextField(
-                    label = "Start Time",
-                    hint = "HH:mm",
-                    text = timeText,
-                    onTextChange = {}, // Biarkan kosong karena input dari picker
-                    modifier = Modifier.weight(1f).clickable { showTimePicker = true },
-                    trailingIconResId = R.drawable.icon_clock
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text(
+                            text = "Start Time",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 14.sp,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        AxtroTimePickerField(
+                            time = timeText,
+                            onTimePickerClick = { showTimePicker = true }
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text(
+                            text = "End Time",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 14.sp,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        AxtroTimePickerField(
+                            time = timeText2,
+                            onTimePickerClick = { showTimePicker = true }
+                        )
+                    }
+                }
                 Spacer(Modifier.height(16.dp))
-//                LabeledTextField(
-//                    label = "Priority",
-//                    hint = "Select Priority",
-//                    text = "High",
-//                    onTextChange = { input5 = it },
-//                    modifier = Modifier.fillMaxWidth(),
-//                    trailingIconResId = R.drawable.icon_arrow_down
-//                )
-                var selected by remember { mutableStateOf("Low") }
                 Text(
                     text = "Select Priority",
                     fontWeight = FontWeight.SemiBold,
@@ -460,131 +451,72 @@ fun AddTaskContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WheelPicker(
-    count: Int,
-    label: (Int) -> String,
-    onItemSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val state = rememberPagerState(initialPage = Int.MAX_VALUE / 2, pageCount = { Int.MAX_VALUE })
-
-    // Sinkronisasi pilihan ke parent
-    LaunchedEffect(state.currentPage) {
-        onItemSelected(state.currentPage % count)
-    }
-
-    VerticalPager(
-        state = state,
-        modifier = modifier.height(150.dp),
-        contentPadding = PaddingValues(vertical = 60.dp), // Membuat item tengah jadi fokus
-    ) { page ->
-        val index = page % count
-        val isSelected = state.currentPage == page
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = label(index),
-                style = TextStyle(
-                    fontSize = if (isSelected) 20.sp else 16.sp,
-                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                    color = if (isSelected) Color.Black else Color.LightGray
-                )
-            )
-        }
-    }
-}
-
-@Composable
-fun CustomTimePicker(
+fun AxtroTimePicker(
     onTimeSelected: (hour: Int, minute: Int, period: String) -> Unit,
     onDismiss: () -> Unit
 ) {
-    var selectedHour by remember { mutableStateOf(3) }
-    var selectedMinute by remember { mutableStateOf(12) }
-    var selectedPeriod by remember { mutableStateOf("AM") }
+    var hour by remember { mutableIntStateOf(3) }
+    var minute by remember { mutableIntStateOf(12) }
+    var period by remember { mutableStateOf("AM") }
 
     Surface(
         shape = RoundedCornerShape(24.dp),
         color = Color.White,
-        modifier = Modifier.width(280.dp)
+        modifier = Modifier.width(300.dp)
     ) {
         Column(
             modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Text(
                 text = "Select time",
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            Box(contentAlignment = Alignment.Center) {
-                // Background Highlight di tengah
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .background(Color(0xFFF7F7F7), RoundedCornerShape(8.dp))
-                        .border(0.5.dp, Color(0xFFE0E0E0), RoundedCornerShape(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                PickHourMinute(
+                    initialHour = hour,
+                    onHourChange = { hour = it },
+                    initialMinute = minute,
+                    onMinuteChange = { minute = it },
+                    timeFormat = TimeFormat.HOUR_24,
+                    selectedTextStyle = PickTimeTextStyle(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    focusIndicator = PickTimeFocusIndicator(
+                        enabled = true,
+                        widthFull = false,
+                        background = Color.Transparent,
+                        shape = RoundedCornerShape(16.dp),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                    )
                 )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Jam (1-12)
-                    WheelPicker(
-                        count = 12,
-                        label = { String.format("%02d", it + 1) },
-                        onItemSelected = { selectedHour = it + 1 },
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    Text(":", style = TextStyle(fontWeight = FontWeight.Bold))
-
-                    // Menit (0-59)
-                    WheelPicker(
-                        count = 60,
-                        label = { String.format("%02d", it) },
-                        onItemSelected = { selectedMinute = it },
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    // AM/PM
-                    val periods = listOf("AM", "PM")
-                    WheelPicker(
-                        count = 2,
-                        label = { periods[it] },
-                        onItemSelected = { selectedPeriod = periods[it] },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("Cancel", color = Color.Black)
                 }
-                Spacer(modifier = Modifier.width(8.dp))
                 Button(
-                    onClick = { onTimeSelected(selectedHour, selectedMinute, selectedPeriod) },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    border = BorderStroke(1.dp, Color.LightGray),
-                    shape = RoundedCornerShape(12.dp)
+                    onClick = { onTimeSelected(hour, minute, period) },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2D5CFF)),
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.height(48.dp).width(120.dp)
                 ) {
-                    Text("Save", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("Apply", color = Color.White)
                 }
             }
         }
