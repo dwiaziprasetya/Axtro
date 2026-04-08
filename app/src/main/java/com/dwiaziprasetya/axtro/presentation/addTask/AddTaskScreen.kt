@@ -48,6 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
+import com.dwiaziprasetya.axtro.data.model.TimeType
 import com.dwiaziprasetya.axtro.presentation.component.AxtroCustomDatePicker
 import com.dwiaziprasetya.axtro.presentation.component.AxtroDatePickerField
 import com.dwiaziprasetya.axtro.presentation.component.AxtroLabeledTextField
@@ -122,9 +123,7 @@ fun AddTaskContent(
     var selectedDateText by remember { mutableStateOf("DD/MM/YYYY") }
     var showTimePicker by remember { mutableStateOf(false) }
     var currentTimeType by remember { mutableStateOf<TimeType?>(null) }
-
     val formatter = DateTimeFormatter.ofPattern("HH:mm")
-
     val dateText = state.date?.format(
         DateTimeFormatter.ofPattern("dd MMM yyyy")
     ) ?: "DD/MM/YYYY"
@@ -312,10 +311,6 @@ fun AddTaskContent(
             }
         }
     }
-}
-
-enum class TimeType {
-    START, END
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
