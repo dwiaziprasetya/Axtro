@@ -73,6 +73,20 @@ class AddTaskViewModel @Inject constructor(
                 return@launch
             }
 
+            if (current.priority.isBlank()) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent("Priority is required", SnackbarType.ERROR)
+                )
+                return@launch
+            }
+
+            if (current.endTime != null && current.endTime == current.startTime) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent("End time cannot be the same as start time", SnackbarType.ERROR)
+                )
+                return@launch
+            }
+
             if (current.startTime == null) {
                 SnackbarController.sendEvent(
                     SnackbarEvent("Start time is required", SnackbarType.ERROR)
@@ -80,7 +94,7 @@ class AddTaskViewModel @Inject constructor(
                 return@launch
             }
 
-            if (current.endTime != null && current.endTime.isBefore(current.startTime)) {
+            if (current.endTime != null && !current.endTime.isAfter(current.startTime)) {
                 SnackbarController.sendEvent(
                     SnackbarEvent("End time must be after start time", SnackbarType.ERROR)
                 )

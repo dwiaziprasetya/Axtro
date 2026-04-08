@@ -19,9 +19,17 @@ class AddTask(
             return AppResult.Error("Title cannot be empty")
         }
 
+        if (priority.isBlank()) {
+            return AppResult.Error("Priority must be selected")
+        }
+
+        if (endTime != null && endTime < startTime) {
+            return AppResult.Error("End time must be after start time")
+        }
+
         return repository.addTask(
-            title = title,
-            description = description,
+            title = title.trim(),
+            description = description.trim(),
             date = date,
             startTime = startTime,
             endTime = endTime,
