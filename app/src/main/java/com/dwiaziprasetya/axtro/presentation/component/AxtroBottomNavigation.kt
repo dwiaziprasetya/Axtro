@@ -75,16 +75,13 @@ fun BottomNavigation(
         )
 
         navigationItems.forEach { item ->
-
             if (item.isDummy) {
                 Box(
                     modifier = Modifier
                         .weight(1f)
                 )
             } else {
-
                 val isSelected = currentRoute == item.screen?.route
-
                 NavigationBarItem(
                     selected = isSelected,
                     onClick = {
@@ -102,7 +99,7 @@ fun BottomNavigation(
                         Text(
                             text = item.title,
                             fontFamily = poppinsFontFamily,
-                            fontWeight = FontWeight.Medium,
+                            fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
                             color = if (isSelected)
                                 MaterialTheme.colorScheme.primary
                             else

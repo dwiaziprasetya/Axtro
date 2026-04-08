@@ -123,7 +123,7 @@ fun AddTaskContent(
     var showTimePicker by remember { mutableStateOf(false) }
     var currentTimeType by remember { mutableStateOf<TimeType?>(null) }
 
-    val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
     val dateText = state.date?.format(
         DateTimeFormatter.ofPattern("dd MMM yyyy")
@@ -137,9 +137,7 @@ fun AddTaskContent(
                 onDateSelected = { localDate ->
                     val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
                     selectedDateText = localDate.format(formatter)
-
                     onDateChange(localDate)
-
                     showDatePicker = false
                 },
                 onDismiss = { showDatePicker = false }
@@ -151,15 +149,9 @@ fun AddTaskContent(
     if (showTimePicker && currentTimeType != null) {
         Dialog(onDismissRequest = { showTimePicker = false }) {
             AxtroTimePicker(
-                onTimeSelected = { h, m, p ->
+                onTimeSelected = { hour24, minute ->
 
-                    val hour24 = when {
-                        p == "PM" && h != 12 -> h + 12
-                        p == "AM" && h == 12 -> 0
-                        else -> h
-                    }
-
-                    val localTime = LocalTime.of(hour24, m)
+                    val localTime = LocalTime.of(hour24, minute)
 
                     when (currentTimeType) {
                         TimeType.START -> onStartTimeChange(localTime)
@@ -197,13 +189,13 @@ fun AddTaskContent(
                     text = "Create New Task",
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
+                    fontSize = 35.sp
                 )
                 Icon(
                     modifier = Modifier.clickable { onBackClick() },
                     painter = painterResource(R.drawable.icon_cancel),
                     contentDescription = "cancel",
-                    tint = MaterialTheme.colorScheme.outline,
+                    tint = Color.Black,
                 )
             }
             Column(
