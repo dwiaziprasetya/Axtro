@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -119,6 +120,7 @@ fun AddTaskContent(
     onDateChange: (LocalDate) -> Unit,
     onCreateTask: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
     var showDatePicker by remember { mutableStateOf(false) }
     var selectedDateText by remember { mutableStateOf("DD/MM/YYYY") }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -172,9 +174,15 @@ fun AddTaskContent(
             .navigationBarsPadding()
             .background(MaterialTheme.colorScheme.background)
             .padding(
-                horizontal = 24.dp,
+                horizontal = 24.dp ,
                 vertical = 16.dp
             )
+            .clickable(
+                indication = null ,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                focusManager.clearFocus()
+            }
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -228,7 +236,10 @@ fun AddTaskContent(
                 Spacer(Modifier.height(4.dp))
                 AxtroDatePickerField(
                     selectedDate = dateText,
-                    onDateSelected = { showDatePicker = true }
+                    onDateSelected = {
+                        showDatePicker = true
+                        focusManager.clearFocus()
+                    }
                 )
                 Spacer(Modifier.height(16.dp))
                 Row(
@@ -249,6 +260,7 @@ fun AddTaskContent(
                             onTimePickerClick = {
                                 currentTimeType = TimeType.START
                                 showTimePicker = true
+                                focusManager.clearFocus()
                             }
                         )
                     }
@@ -266,6 +278,7 @@ fun AddTaskContent(
                             onTimePickerClick = {
                                 currentTimeType = TimeType.END
                                 showTimePicker = true
+                                focusManager.clearFocus()
                             }
                         )
                     }
@@ -279,7 +292,10 @@ fun AddTaskContent(
                 Spacer(Modifier.height(4.dp))
                 AxtroPriorityDropdown(
                     selectedOption = selectedPriority,
-                    onOptionSelected = onPriorityChange
+                    onOptionSelected = {
+                        onPriorityChange
+                        focusManager.clearFocus()
+                    }
                 )
                 Spacer(Modifier.height(16.dp))
             }
@@ -288,7 +304,10 @@ fun AddTaskContent(
                     .height(52.dp)
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
-                onClick = onCreateTask,
+                onClick = {
+                    onCreateTask()
+                    focusManager.clearFocus()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
