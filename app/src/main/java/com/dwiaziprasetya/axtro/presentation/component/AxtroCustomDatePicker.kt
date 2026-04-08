@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
@@ -53,72 +55,104 @@ fun AxtroCustomDatePicker(
     onDateSelected: (LocalDate) -> Unit,
     onDismiss: () -> Unit
 ) {
-    var currentMonth by remember { mutableStateOf(YearMonth.from(initialDate)) }
-    var selectedDate by remember { mutableStateOf(initialDate) }
+    val today = LocalDate.now()
+    val currentMonthNow = YearMonth.now()
+
+    var currentMonth by remember {
+        mutableStateOf(YearMonth.from(initialDate))
+    }
+
+    var selectedDate by remember {
+        mutableStateOf(
+            if (initialDate.isBefore(today)) today else initialDate
+        )
+    }
+
+    val isCurrentMonth = currentMonth == currentMonthNow
 
     val daysOfWeek = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
     val dates = remember(currentMonth) { getDatesInMonth(currentMonth) }
+    val rows = dates.chunked(7)
 
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
         tonalElevation = 4.dp,
-        modifier = Modifier
-            .width(500.dp)
+        modifier = Modifier.width(500.dp)
     ) {
         Column(
             modifier = Modifier.padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header: Bulan dan Navigasi
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = { currentMonth = currentMonth.minusMonths(1) },
-                    modifier = Modifier.border(1.dp, Color.LightGray, CircleShape).size(36.dp)
+                    onClick = {
+                        if (!isCurrentMonth) {
+                            currentMonth = currentMonth.minusMonths(1)
+                        }
+                    },
+                    enabled = !isCurrentMonth,
+                    modifier = Modifier
+                        .border(
+                            1.dp,
+                            if (isCurrentMonth) Color.LightGray.copy(alpha = 0.3f) else Color.LightGray,
+                            CircleShape
+                        )
+                        .size(36.dp)
                 ) {
-                    Icon(Icons.Default.KeyboardArrowLeft, contentDescription = null)
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowLeft ,
+                        contentDescription = null,
+                        tint = if (isCurrentMonth) Color.Black.copy(alpha = 0.3f) else Color.Black
+                    )
                 }
-
                 Text(
-                    text = "${currentMonth.month.getDisplayName(java.time.format.TextStyle.FULL, Locale.ENGLISH)} ${currentMonth.year}",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    text = "${currentMonth.month.getDisplayName(
+                        java.time.format.TextStyle.FULL,
+                        Locale.ENGLISH
+                    )} ${currentMonth.year}",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
-
                 IconButton(
                     onClick = { currentMonth = currentMonth.plusMonths(1) },
-                    modifier = Modifier.background(Color(0xFFF2F2F2), CircleShape).size(36.dp)
+                    modifier = Modifier
+                        .border(1.dp, Color.LightGray, CircleShape)
+                        .size(36.dp)
                 ) {
-                    Icon(Icons.Default.KeyboardArrowRight, contentDescription = null)
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight ,
+                        contentDescription = null,
+                        tint = Color.Black
+                    )
                 }
             }
-
             Spacer(modifier = Modifier.height(24.dp))
-
-            // Nama Hari
             Row(modifier = Modifier.fillMaxWidth()) {
                 daysOfWeek.forEach { day ->
                     Text(
                         text = day,
                         modifier = Modifier.weight(1f),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold)
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Grid Tanggal
-            val rows = dates.chunked(7)
             rows.forEach { week ->
                 Row(modifier = Modifier.fillMaxWidth()) {
                     week.forEach { date ->
+
                         val isSelected = date == selectedDate
-                        val isCurrentMonth = date?.month == currentMonth.month
+                        val isCurrentMonthDate = date?.month == currentMonth.month
+                        val isPastDate = date?.isBefore(today) == true
 
                         Box(
                             modifier = Modifier
@@ -126,8 +160,15 @@ fun AxtroCustomDatePicker(
                                 .aspectRatio(1f)
                                 .padding(4.dp)
                                 .clip(CircleShape)
-                                .background(if (isSelected) Color(0xFF2D5CFF) else Color.Transparent)
-                                .clickable { date?.let { selectedDate = it } },
+                                .background(
+                                    if (isSelected) MaterialTheme.colorScheme.primary
+                                    else Color.Transparent
+                                )
+                                .clickable(
+                                    enabled = date != null && !isPastDate
+                                ) {
+                                    date?.let { selectedDate = it }
+                                },
                             contentAlignment = Alignment.Center
                         ) {
                             if (date != null) {
@@ -135,7 +176,8 @@ fun AxtroCustomDatePicker(
                                     text = date.dayOfMonth.toString(),
                                     color = when {
                                         isSelected -> Color.White
-                                        isCurrentMonth -> Color.Black
+                                        isPastDate -> Color.LightGray
+                                        isCurrentMonthDate -> Color.Black
                                         else -> Color.LightGray
                                     },
                                     style = MaterialTheme.typography.bodyMedium
@@ -145,10 +187,7 @@ fun AxtroCustomDatePicker(
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(32.dp))
-
-            // Footer Buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -160,9 +199,13 @@ fun AxtroCustomDatePicker(
 
                 Button(
                     onClick = { onDateSelected(selectedDate) },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2D5CFF)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.height(48.dp).width(120.dp)
+                    modifier = Modifier
+                        .height(48.dp)
+                        .width(120.dp)
                 ) {
                     Text("Apply", color = Color.White)
                 }
