@@ -1,11 +1,13 @@
 package com.dwiaziprasetya.axtro.domain.model
 
 data class Task(
-    val userId: String = "",
     val id: String = "",
     val title: String = "",
+    val description: String = "",
     val date: Long = 0L,
-    val priority: String = "Low",
-    val status: String = "ACTIVE",
-    val createdAt: Long = System.currentTimeMillis()
+    val startTime: Long = 0L,
+    val endTime: Long? = null,
+    val priority: String = "",
+    val status: String = "",
+    val userId: String = ""
 )

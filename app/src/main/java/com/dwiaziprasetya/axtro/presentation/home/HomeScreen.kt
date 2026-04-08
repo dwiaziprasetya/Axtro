@@ -108,22 +108,6 @@ fun HomeScreen(
     }
 
     Scaffold(
-        floatingActionButton = {
-//            FloatingActionButton(
-//                elevation = FloatingActionButtonDefaults.elevation(0.dp),
-//                shape = RoundedCornerShape(50),
-//                containerColor = MaterialTheme.colorScheme.primary,
-//                onClick = {
-//                    navController.navigate(Screen.AddTask.route)
-//                }
-//            ) {
-//                Icon(
-//                    painter = painterResource(R.drawable.icon_plus),
-//                    tint = Color.White,
-//                    contentDescription = null
-//                )
-//            }
-        }
     ) { _ ->
         HomeContent(
             state = state,

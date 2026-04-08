@@ -1,5 +1,7 @@
 package com.dwiaziprasetya.axtro.presentation.addTask
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwiaziprasetya.axtro.core.util.AppResult
@@ -12,9 +14,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
 import java.util.Calendar
 import javax.inject.Inject
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class AddTaskViewModel @Inject constructor(
     private val addTask: AddTask
@@ -31,59 +37,89 @@ class AddTaskViewModel @Inject constructor(
         _state.update { it.copy(description = value) }
     }
 
-    fun onDayChange(value: Int) {
-        _state.update { it.copy(day = value) }
+    fun onDateChange(date: LocalDate) {
+        _state.update { it.copy(date = date) }
     }
 
-    fun onMonthChange(value: Int) {
-        _state.update { it.copy(month = value) }
+    fun onStartTimeChange(time: LocalTime) {
+        _state.update { it.copy(startTime = time) }
     }
 
-    fun onYearChange(value: Int) {
-        _state.update { it.copy(year = value) }
+    fun onEndTimeChange(time: LocalTime) {
+        _state.update { it.copy(endTime = time) }
     }
 
     fun onPriorityChange(value: String) {
         _state.update { it.copy(priority = value) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun createTask() {
         viewModelScope.launch {
 
             val current = _state.value
 
-            if (current.day == null || current.month == null || current.year == null) {
+            // ✅ VALIDASI
+            if (current.title.isBlank()) {
                 SnackbarController.sendEvent(
-                    SnackbarEvent(
-                        message = "Date is incomplete",
-                        type = SnackbarType.ERROR
-                    )
+                    SnackbarEvent("Title cannot be empty", SnackbarType.ERROR)
                 )
                 return@launch
             }
 
-            val calendar = Calendar.getInstance().apply {
-                isLenient = false
-                set(current.year, current.month - 1, current.day)
-            }
-
-            val timestamp = try {
-                calendar.timeInMillis
-            } catch (e: Exception) {
+            if (current.date == null) {
                 SnackbarController.sendEvent(
-                    SnackbarEvent(
-                        message = "Invalid date",
-                        type = SnackbarType.ERROR
-                    )
+                    SnackbarEvent("Date is required", SnackbarType.ERROR)
                 )
                 return@launch
+            }
+
+            if (current.startTime == null) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent("Start time is required", SnackbarType.ERROR)
+                )
+                return@launch
+            }
+
+            if (current.endTime != null && current.endTime.isBefore(current.startTime)) {
+                SnackbarController.sendEvent(
+                    SnackbarEvent("End time must be after start time", SnackbarType.ERROR)
+                )
+                return@launch
+            }
+
+            val zone = ZoneId.systemDefault()
+
+            // ✅ DATE (jam 00:00)
+            val dateMillis = current.date
+                .atStartOfDay(zone)
+                .toInstant()
+                .toEpochMilli()
+
+            // ✅ START TIME (tanggal + jam)
+            val startMillis = current.date
+                .atTime(current.startTime)
+                .atZone(zone)
+                .toInstant()
+                .toEpochMilli()
+
+            // ✅ END TIME
+            val endMillis = current.endTime?.let {
+                current.date
+                    .atTime(it)
+                    .atZone(zone)
+                    .toInstant()
+                    .toEpochMilli()
             }
 
             _state.update { it.copy(isLoading = true) }
 
             val result = addTask(
                 title = current.title,
-                date = timestamp,
+                description = current.description,
+                date = dateMillis,
+                startTime = startMillis,
+                endTime = endMillis,
                 priority = current.priority
             )
 

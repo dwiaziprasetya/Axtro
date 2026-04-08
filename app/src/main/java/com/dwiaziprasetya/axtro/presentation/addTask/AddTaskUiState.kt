@@ -1,11 +1,14 @@
 package com.dwiaziprasetya.axtro.presentation.addTask
 
+import java.time.LocalDate
+import java.time.LocalTime
+
 data class AddTaskUiState(
     val title: String = "",
     val description: String = "",
-    val day: Int? = null,
-    val month: Int? = null,
-    val year: Int? = null,
+    val date: LocalDate? = null,
+    val startTime: LocalTime? = null,
+    val endTime: LocalTime? = null,
     val priority: String = "Low",
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,

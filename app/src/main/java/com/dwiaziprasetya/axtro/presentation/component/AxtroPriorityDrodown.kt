@@ -58,7 +58,6 @@ fun AxtroPriorityDropdown(
                 focusedBorderColor = Color.Transparent
             )
         )
-
         ExposedDropdownMenu(
             modifier = Modifier
                 .background(

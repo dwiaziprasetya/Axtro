@@ -8,7 +8,10 @@ interface TaskRepository {
 
     suspend fun addTask(
         title: String,
+        description: String,
         date: Long,
+        startTime: Long,
+        endTime: Long?,
         priority: String
     ): AppResult<Unit>
 

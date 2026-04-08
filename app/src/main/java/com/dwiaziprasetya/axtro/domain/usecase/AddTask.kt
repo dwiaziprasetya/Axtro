@@ -8,7 +8,10 @@ class AddTask(
 ) {
     suspend operator fun invoke(
         title: String,
+        description: String,
         date: Long,
+        startTime: Long,
+        endTime: Long?,
         priority: String
     ): AppResult<Unit> {
 
@@ -16,13 +19,12 @@ class AddTask(
             return AppResult.Error("Title cannot be empty")
         }
 
-        if (priority.isBlank()) {
-            return AppResult.Error("Priority cannot be empty")
-        }
-
         return repository.addTask(
             title = title,
+            description = description,
             date = date,
+            startTime = startTime,
+            endTime = endTime,
             priority = priority
         )
     }

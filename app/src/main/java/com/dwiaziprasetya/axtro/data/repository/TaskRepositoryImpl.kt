@@ -19,7 +19,10 @@ class TaskRepositoryImpl @Inject constructor(
 
     override suspend fun addTask(
         title: String,
+        description: String,
         date: Long,
+        startTime: Long,
+        endTime: Long?,
         priority: String
     ): AppResult<Unit> {
 
@@ -32,7 +35,10 @@ class TaskRepositoryImpl @Inject constructor(
             val task = Task(
                 id = taskId,
                 title = title,
+                description = description,
                 date = date,
+                startTime = startTime,
+                endTime = endTime,
                 priority = priority,
                 status = "ACTIVE",
                 userId = uid
@@ -45,8 +51,8 @@ class TaskRepositoryImpl @Inject constructor(
                 .await()
 
             AppResult.Success(Unit)
-        } catch (e: Exception) {
 
+        } catch (e: Exception) {
             AppResult.Error(
                 message = e.message ?: "Failed to add task",
                 throwable = e
