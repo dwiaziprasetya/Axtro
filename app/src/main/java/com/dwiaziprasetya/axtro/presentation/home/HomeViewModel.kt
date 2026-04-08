@@ -3,6 +3,9 @@ package com.dwiaziprasetya.axtro.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwiaziprasetya.axtro.core.util.AppResult
+import com.dwiaziprasetya.axtro.core.util.SnackbarController
+import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
+import com.dwiaziprasetya.axtro.core.util.SnackbarType
 import com.dwiaziprasetya.axtro.domain.usecase.DeleteTask
 import com.dwiaziprasetya.axtro.domain.usecase.GetCurrentUser
 import com.dwiaziprasetya.axtro.domain.usecase.GetTasks
@@ -139,6 +142,10 @@ class HomeViewModel @Inject constructor(
                             isLogoutSuccess = true
                         )
                     }
+
+                    SnackbarController.sendEvent(
+                        SnackbarEvent("Logout success", SnackbarType.SUCCESS)
+                    )
                 }
 
                 is AppResult.Error -> {
