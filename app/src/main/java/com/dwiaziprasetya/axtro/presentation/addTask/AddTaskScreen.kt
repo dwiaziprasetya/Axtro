@@ -3,6 +3,7 @@ package com.dwiaziprasetya.axtro.presentation.addTask
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -45,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
@@ -293,7 +295,7 @@ fun AddTaskContent(
                 AxtroPriorityDropdown(
                     selectedOption = selectedPriority,
                     onOptionSelected = {
-                        onPriorityChange
+                        onPriorityChange(it)
                         focusManager.clearFocus()
                     }
                 )

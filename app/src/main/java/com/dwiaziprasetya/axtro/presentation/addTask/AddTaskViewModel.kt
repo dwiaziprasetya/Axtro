@@ -10,6 +10,7 @@ import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
 import com.dwiaziprasetya.axtro.core.util.SnackbarType
 import com.dwiaziprasetya.axtro.domain.usecase.AddTask
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -55,7 +56,6 @@ class AddTaskViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun createTask() {
         viewModelScope.launch {
-
             val current = _state.value
 
             if (current.title.isBlank()) {
