@@ -49,7 +49,7 @@ fun AxtroLabeledTextField(
             singleLine = isSingleLine,
             value = text,
             textStyle = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 textDecoration = TextDecoration.None
             ),
             shape = RoundedCornerShape(10.dp),
@@ -63,7 +63,7 @@ fun AxtroLabeledTextField(
                 Text(
                     text = hint,
                     color = MaterialTheme.colorScheme.outline,
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                 )
             },
             colors = TextFieldDefaults.colors(

@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.dwiaziprasetya.axtro.R
 
 @Composable
@@ -33,7 +35,17 @@ fun AxtroTimePickerField(
             onValueChange = {},
             readOnly = true,
             enabled = false,
-            placeholder = { Text(label) },
+            textStyle = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 14.sp,
+                textDecoration = TextDecoration.None
+            ),
+            placeholder =  {
+                Text(
+                    text = label,
+                    color = MaterialTheme.colorScheme.outline,
+                    fontSize = 14.sp,
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             trailingIcon = {
