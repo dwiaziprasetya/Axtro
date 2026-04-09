@@ -322,7 +322,6 @@ fun AddTaskContent(
                     )
                 } else {
                     Text(
-                        fontFamily = poppinsFontFamily,
                         text = "Create",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
