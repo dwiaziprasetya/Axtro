@@ -76,7 +76,7 @@ fun AxtroCustomDatePicker(
 
     Surface(
         shape = RoundedCornerShape(16.dp),
-        color = Color.White,
+        color = MaterialTheme.colorScheme.background,
         tonalElevation = 4.dp,
         modifier = Modifier.width(500.dp)
     ) {
@@ -107,7 +107,13 @@ fun AxtroCustomDatePicker(
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowLeft ,
                         contentDescription = null,
-                        tint = if (isCurrentMonth) Color.Black.copy(alpha = 0.3f) else Color.Black
+                        tint = if (isCurrentMonth) MaterialTheme
+                            .colorScheme
+                            .onBackground
+                            .copy(alpha = 0.3f)
+                        else MaterialTheme
+                            .colorScheme
+                            .onBackground
                     )
                 }
                 Text(
@@ -128,7 +134,7 @@ fun AxtroCustomDatePicker(
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowRight ,
                         contentDescription = null,
-                        tint = Color.Black
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -176,9 +182,9 @@ fun AxtroCustomDatePicker(
                                     text = date.dayOfMonth.toString(),
                                     color = when {
                                         isSelected -> Color.White
-                                        isPastDate -> Color.LightGray
-                                        isCurrentMonthDate -> Color.Black
-                                        else -> Color.LightGray
+                                        isPastDate -> MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+                                        isCurrentMonthDate -> MaterialTheme.colorScheme.onBackground
+                                        else -> MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
                                     },
                                     style = MaterialTheme.typography.bodyMedium
                                 )
@@ -194,7 +200,12 @@ fun AxtroCustomDatePicker(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel", color = Color.Black)
+                    Text(
+                        "Cancel",
+                        color = MaterialTheme
+                            .colorScheme
+                            .onBackground
+                    )
                 }
 
                 Button(
