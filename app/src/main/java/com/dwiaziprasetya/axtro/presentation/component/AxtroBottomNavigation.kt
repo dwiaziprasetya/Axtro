@@ -23,7 +23,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
-import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
 import com.dwiaziprasetya.axtro.presentation.navigation.model.BottomBarItem
 import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 
@@ -98,7 +97,6 @@ fun BottomNavigation(
                     label = {
                         Text(
                             text = item.title,
-                            fontFamily = poppinsFontFamily,
                             fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
                             color = if (isSelected)
                                 MaterialTheme.colorScheme.primary

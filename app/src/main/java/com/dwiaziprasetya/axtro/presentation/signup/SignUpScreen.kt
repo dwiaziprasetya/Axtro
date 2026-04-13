@@ -44,7 +44,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
-import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
 import com.dwiaziprasetya.axtro.presentation.component.CustomOutlinedTextField
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -161,7 +160,6 @@ fun SignUpScreenContent(
                 color = Color.White,
                 fontSize = 32.sp,
                 lineHeight = 32.sp,
-                fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.SemiBold,
             )
             Spacer(Modifier.height(8.dp))
@@ -169,7 +167,6 @@ fun SignUpScreenContent(
                 text = "Get started and list your task",
                 color = Color.White,
                 fontSize = 12.sp,
-                fontFamily = poppinsFontFamily,
             )
             Spacer(Modifier.height(32.dp))
             Box(
@@ -194,7 +191,6 @@ fun SignUpScreenContent(
                         Text(
                             text = "Email",
                             fontSize = 14.sp,
-                            fontFamily = poppinsFontFamily,
                         )
                         Spacer(Modifier.height(4.dp))
                         CustomOutlinedTextField(
@@ -213,7 +209,6 @@ fun SignUpScreenContent(
                         Text(
                             text = "Password",
                             fontSize = 14.sp,
-                            fontFamily = poppinsFontFamily,
                         )
                         Spacer(Modifier.height(4.dp))
                         CustomOutlinedTextField(
@@ -248,7 +243,6 @@ fun SignUpScreenContent(
                             )
                         } else {
                             Text(
-                                fontFamily = poppinsFontFamily,
                                 text = "Sign up",
                                 fontSize = 14.sp,
                                 color = Color.White
@@ -260,12 +254,10 @@ fun SignUpScreenContent(
                     ) {
                         Text(
                             text = "Already have an account?",
-                            fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                         )
                         Text(
                             text = " " + "Sign in",
-                            fontFamily = poppinsFontFamily,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.clickable { navigateToSignIn() }

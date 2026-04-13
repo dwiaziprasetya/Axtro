@@ -57,7 +57,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
-import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
 import com.dwiaziprasetya.axtro.core.util.SnackbarController
 import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
 import com.dwiaziprasetya.axtro.core.util.SnackbarType
@@ -254,7 +253,6 @@ fun SignInScreenContent(
                 color = Color.White,
                 fontSize = 32.sp,
                 lineHeight = 32.sp,
-                fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.SemiBold,
             )
             Spacer(Modifier.height(8.dp))
@@ -262,7 +260,6 @@ fun SignInScreenContent(
                 text = "Enter your email and password to sign in",
                 color = Color.White,
                 fontSize = 12.sp,
-                fontFamily = poppinsFontFamily,
             )
             Spacer(Modifier.height(32.dp))
             Box(
@@ -350,7 +347,6 @@ fun SignInScreenContent(
                         Text(
                             text = "Email",
                             fontSize = 14.sp,
-                            fontFamily = poppinsFontFamily,
                         )
                         Spacer(Modifier.height(4.dp))
                         CustomOutlinedTextField(
@@ -368,7 +364,6 @@ fun SignInScreenContent(
                         Text(
                             text = "Password",
                             fontSize = 14.sp,
-                            fontFamily = poppinsFontFamily,
                         )
                         Spacer(Modifier.height(4.dp))
                         CustomOutlinedTextField(
@@ -401,7 +396,6 @@ fun SignInScreenContent(
                             )
                         } else {
                             Text(
-                                fontFamily = poppinsFontFamily,
                                 text = "Sign in",
                                 fontSize = 14.sp,
                                 color = Color.White

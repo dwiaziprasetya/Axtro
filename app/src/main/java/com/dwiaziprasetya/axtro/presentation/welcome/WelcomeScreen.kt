@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import com.dwiaziprasetya.axtro.data.model.sliderImage
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
-import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -92,7 +91,6 @@ fun WelcomeScreen() {
                             color = MaterialTheme.colorScheme.onPrimary,
                             textAlign = TextAlign.Center,
                             text = sliderImage[page].title,
-                            fontFamily = poppinsFontFamily,
                             fontWeight = FontWeight.Bold,
                             fontSize = 35.sp,
                         )
@@ -100,7 +98,6 @@ fun WelcomeScreen() {
                             textAlign = TextAlign.Center,
                             color = Color("#8d8d8d".toColorInt()),
                             text = sliderImage[page].description,
-                            fontFamily = poppinsFontFamily,
                             fontSize = 16.sp,
                             maxLines = 3
                         )
@@ -125,7 +122,6 @@ fun WelcomeScreen() {
                 )
             ) {
                 Text(
-                    fontFamily = poppinsFontFamily,
                     text = "Get Started",
                     fontSize = 18.sp,
                     color = Color.White,

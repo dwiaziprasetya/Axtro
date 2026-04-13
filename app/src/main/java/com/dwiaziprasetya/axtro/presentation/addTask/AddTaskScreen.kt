@@ -3,7 +3,6 @@ package com.dwiaziprasetya.axtro.presentation.addTask
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,11 +44,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.axtro.R
+import com.dwiaziprasetya.axtro.core.helper.VSpacer
 import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
-import com.dwiaziprasetya.axtro.core.ui.theme.poppinsFontFamily
+import com.dwiaziprasetya.axtro.core.util.AxtroSpacing
 import com.dwiaziprasetya.axtro.data.model.TimeType
 import com.dwiaziprasetya.axtro.presentation.component.AxtroCustomDatePicker
 import com.dwiaziprasetya.axtro.presentation.component.AxtroDatePickerField
@@ -196,9 +194,9 @@ fun AddTaskContent(
             ) {
                 Text(
                     text = "Create New Task",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 35.sp
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
                 Icon(
                     modifier = Modifier.clickable { onBackClick() },
@@ -212,7 +210,7 @@ fun AddTaskContent(
                     .weight(1f)
                     .verticalScroll(rememberScrollState()),
             ) {
-                Spacer(Modifier.height(16.dp))
+                VSpacer(AxtroSpacing.MD)
                 AxtroLabeledTextField(
                     label = "Title",
                     hint = "Enter your title",
@@ -220,7 +218,7 @@ fun AddTaskContent(
                     onTextChange = onTitleChange,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(Modifier.height(16.dp))
+                VSpacer(AxtroSpacing.MD)
                 AxtroLabeledTextField(
                     label = "Description",
                     hint = "Enter your description",
@@ -229,13 +227,13 @@ fun AddTaskContent(
                     onTextChange = onDescriptionChange,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(Modifier.height(16.dp))
+                VSpacer(AxtroSpacing.MD)
                 Text(
                     text = "Select Date",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp,
                 )
-                Spacer(Modifier.height(4.dp))
+                VSpacer(AxtroSpacing.XS)
                 AxtroDatePickerField(
                     selectedDate = dateText,
                     onDateSelected = {
@@ -243,7 +241,7 @@ fun AddTaskContent(
                         focusManager.clearFocus()
                     }
                 )
-                Spacer(Modifier.height(16.dp))
+                VSpacer(AxtroSpacing.MD)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(32.dp)
@@ -256,7 +254,7 @@ fun AddTaskContent(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp,
                         )
-                        Spacer(Modifier.height(4.dp))
+                        VSpacer(AxtroSpacing.XS)
                         AxtroTimePickerField(
                             time = startTimeText,
                             onTimePickerClick = {
@@ -274,7 +272,7 @@ fun AddTaskContent(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp,
                         )
-                        Spacer(Modifier.height(4.dp))
+                        VSpacer(AxtroSpacing.XS)
                         AxtroTimePickerField(
                             time = endTimeText,
                             onTimePickerClick = {
@@ -285,13 +283,13 @@ fun AddTaskContent(
                         )
                     }
                 }
-                Spacer(Modifier.height(16.dp))
+                VSpacer(AxtroSpacing.MD)
                 Text(
                     text = "Select Priority",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp,
                 )
-                Spacer(Modifier.height(4.dp))
+                VSpacer(AxtroSpacing.XS)
                 AxtroPriorityDropdown(
                     selectedOption = selectedPriority,
                     onOptionSelected = {
@@ -299,7 +297,7 @@ fun AddTaskContent(
                         focusManager.clearFocus()
                     }
                 )
-                Spacer(Modifier.height(16.dp))
+                VSpacer(AxtroSpacing.MD)
             }
             Button(
                 modifier = Modifier

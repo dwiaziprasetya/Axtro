@@ -92,10 +92,9 @@ fun AxtroTheme(
     val colorScheme = if (darkTheme) darkScheme else lightScheme
 
     MaterialTheme(
-    colorScheme = colorScheme,
-    typography = AxtroTypography,
-    content = content
-
+        colorScheme = colorScheme,
+        typography = AxtroTypography,
+        content = content
     )
 }
 
