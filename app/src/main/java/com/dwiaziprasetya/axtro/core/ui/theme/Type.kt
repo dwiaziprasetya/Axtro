@@ -6,7 +6,6 @@ import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.sp
 import com.dwiaziprasetya.axtro.R
 
-// 🔤 Font Family
 val PoppinsFontFamily = FontFamily(
     Font(R.font.poppinsextralight, FontWeight.ExtraLight),
     Font(R.font.poppinsthin, FontWeight.Thin),
@@ -19,10 +18,7 @@ val PoppinsFontFamily = FontFamily(
     Font(R.font.poppinsblack, FontWeight.Black),
 )
 
-// 🎯 FULL TYPOGRAPHY SYSTEM (Material 3)
 val AxtroTypography = Typography(
-
-    // 🔥 DISPLAY (Hero / Landing / Big Title)
     displayLarge = TextStyle(
         fontFamily = PoppinsFontFamily,
         fontWeight = FontWeight.Bold,
@@ -41,8 +37,6 @@ val AxtroTypography = Typography(
         fontSize = 36.sp,
         lineHeight = 44.sp
     ),
-
-    // 🔥 HEADLINE (Screen Title / Section Besar)
     headlineLarge = TextStyle(
         fontFamily = PoppinsFontFamily,
         fontWeight = FontWeight.SemiBold,
@@ -61,8 +55,6 @@ val AxtroTypography = Typography(
         fontSize = 24.sp,
         lineHeight = 32.sp
     ),
-
-    // 🔥 TITLE (Card title / Form label / Important text)
     titleLarge = TextStyle(
         fontFamily = PoppinsFontFamily,
         fontWeight = FontWeight.Medium,
@@ -101,8 +93,6 @@ val AxtroTypography = Typography(
         fontSize = 12.sp,
         lineHeight = 16.sp
     ),
-
-    // 🔥 LABEL (Button / Caption / Small UI)
     labelLarge = TextStyle(
         fontFamily = PoppinsFontFamily,
         fontWeight = FontWeight.SemiBold,
