@@ -202,7 +202,7 @@ fun AddTaskContent(
                     modifier = Modifier.clickable { onBackClick() },
                     painter = painterResource(R.drawable.icon_cancel),
                     contentDescription = "cancel",
-                    tint = Color.Black,
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
             Column(
@@ -230,8 +230,7 @@ fun AddTaskContent(
                 VSpacer(AxtroSpacing.MD)
                 Text(
                     text = "Select Date",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.labelLarge
                 )
                 VSpacer(AxtroSpacing.XS)
                 AxtroDatePickerField(
@@ -251,8 +250,7 @@ fun AddTaskContent(
                     ) {
                         Text(
                             text = "Start Time",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp,
+                            style = MaterialTheme.typography.labelLarge
                         )
                         VSpacer(AxtroSpacing.XS)
                         AxtroTimePickerField(
@@ -269,8 +267,7 @@ fun AddTaskContent(
                     ) {
                         Text(
                             text = "End Time",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp,
+                            style = MaterialTheme.typography.labelLarge
                         )
                         VSpacer(AxtroSpacing.XS)
                         AxtroTimePickerField(
@@ -286,8 +283,7 @@ fun AddTaskContent(
                 VSpacer(AxtroSpacing.MD)
                 Text(
                     text = "Select Priority",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.labelLarge
                 )
                 VSpacer(AxtroSpacing.XS)
                 AxtroPriorityDropdown(
@@ -321,9 +317,9 @@ fun AddTaskContent(
                 } else {
                     Text(
                         text = "Create",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            Color.White
+                        )
                     )
                 }
             }

@@ -56,15 +56,15 @@ fun AxtroLabeledTextField(
             placeholder =  {
                 Text(
                     text = hint,
-                    style = MaterialTheme.typography.labelLarge.copy(
+                    style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.outline
                     )
                 )
             },
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                disabledContainerColor = Color.White,
+                focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.onSecondary,
+                disabledContainerColor = MaterialTheme.colorScheme.onSecondary,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),

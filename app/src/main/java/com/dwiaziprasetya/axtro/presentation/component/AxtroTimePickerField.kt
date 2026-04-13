@@ -1,5 +1,6 @@
 package com.dwiaziprasetya.axtro.presentation.component
 
+import android.R.attr.label
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +22,6 @@ import com.dwiaziprasetya.axtro.R
 @Composable
 fun AxtroTimePickerField(
     modifier: Modifier = Modifier,
-    label: String = "HH:mm",
     time: String,
     onTimePickerClick: () -> Unit
 ) {
@@ -39,13 +39,6 @@ fun AxtroTimePickerField(
                 fontSize = 14.sp,
                 textDecoration = TextDecoration.None
             ),
-            placeholder =  {
-                Text(
-                    text = label,
-                    color = MaterialTheme.colorScheme.outline,
-                    fontSize = 14.sp,
-                )
-            },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             trailingIcon = {
@@ -56,8 +49,8 @@ fun AxtroTimePickerField(
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                disabledTextColor = if (time == "HH:mm") Color.Gray else Color.Black,
-                disabledContainerColor = Color.White,
+                disabledTextColor = if (time == "HH:mm") MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.onBackground,
+                disabledContainerColor = MaterialTheme.colorScheme.onSecondary,
                 disabledBorderColor = Color.Transparent,
                 disabledPlaceholderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,

@@ -21,7 +21,6 @@ import com.dwiaziprasetya.axtro.R
 @Composable
 fun AxtroDatePickerField(
     modifier: Modifier = Modifier,
-    label: String = "Select date",
     selectedDate: String,
     onDateSelected: () -> Unit
 ) {
@@ -35,17 +34,7 @@ fun AxtroDatePickerField(
             onValueChange = {},
             readOnly = true,
             enabled = false,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 14.sp,
-                textDecoration = TextDecoration.None
-            ),
-            placeholder =  {
-                Text(
-                    text = label,
-                    color = MaterialTheme.colorScheme.outline,
-                    fontSize = 14.sp,
-                )
-            },
+            textStyle = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             trailingIcon = {
@@ -56,8 +45,8 @@ fun AxtroDatePickerField(
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                disabledTextColor = if (selectedDate == "DD/MM/YYYY") Color.Gray else Color.Black,
-                disabledContainerColor = Color.White,
+                disabledTextColor = if (selectedDate == "DD/MM/YYYY") MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.onBackground,
+                disabledContainerColor = MaterialTheme.colorScheme.onSecondary,
                 disabledBorderColor = Color.Transparent,
                 disabledPlaceholderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent,

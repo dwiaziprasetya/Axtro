@@ -58,9 +58,9 @@ fun AxtroPriorityDropdown(
                 textDecoration = TextDecoration.None
             ),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                disabledContainerColor = Color.White,
+                focusedContainerColor = MaterialTheme.colorScheme.onSecondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.onSecondary,
+                disabledContainerColor = MaterialTheme.colorScheme.onSecondary,
                 unfocusedBorderColor = Color.Transparent,
                 focusedBorderColor = Color.Transparent
             )
@@ -68,14 +68,19 @@ fun AxtroPriorityDropdown(
         ExposedDropdownMenu(
             modifier = Modifier
                 .background(
-                    color = Color.White
+                    color = MaterialTheme.colorScheme.onSecondary
                 ),
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option) },
+                    text = {
+                        Text(
+                            text = option,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
                     onClick = {
                         onOptionSelected(option)
                         expanded = false
