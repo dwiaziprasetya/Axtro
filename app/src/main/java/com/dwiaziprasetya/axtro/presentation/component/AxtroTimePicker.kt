@@ -47,7 +47,7 @@ fun AxtroTimePicker(
 
     Surface(
         shape = RoundedCornerShape(24.dp),
-        color = Color.White,
+        color = MaterialTheme.colorScheme.background,
         modifier = Modifier.width(300.dp)
     ) {
         Column(
@@ -66,13 +66,18 @@ fun AxtroTimePicker(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 PickHourMinute(
+                    containerColor = MaterialTheme.colorScheme.background,
                     initialHour = hour,
                     onHourChange = { hour = it },
                     initialMinute = minute,
                     onMinuteChange = { minute = it },
                     timeFormat = TimeFormat.HOUR_24,
+                    unselectedTextStyle = PickTimeTextStyle(
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
+                    ),
                     selectedTextStyle = PickTimeTextStyle(
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
                     ),
                     focusIndicator = PickTimeFocusIndicator(
                         enabled = true,
@@ -93,7 +98,7 @@ fun AxtroTimePicker(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel", color = Color.Black)
+                    Text("Cancel", color = MaterialTheme.colorScheme.onBackground)
                 }
                 Button(
                     onClick = { onTimeSelected(hour, minute) },
