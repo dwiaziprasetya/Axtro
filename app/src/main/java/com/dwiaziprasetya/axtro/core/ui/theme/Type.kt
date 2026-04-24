@@ -73,8 +73,6 @@ val AxtroTypography = Typography(
         fontSize = 14.sp,
         lineHeight = 20.sp
     ),
-
-    // 🔥 BODY (Content / Description)
     bodyLarge = TextStyle(
         fontFamily = PoppinsFontFamily,
         fontWeight = FontWeight.Normal,
