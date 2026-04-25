@@ -44,8 +44,6 @@ fun MainScreen(rootController: NavHostController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-                    .navigationBarsPadding()
             ) {
                 BottomNavigation(
                     navController = mainNavController,
@@ -53,26 +51,26 @@ fun MainScreen(rootController: NavHostController) {
                 )
             }
         },
-        floatingActionButtonPosition = FabPosition.Center,
-        floatingActionButton = {
-            FloatingActionButton(
-                elevation = FloatingActionButtonDefaults.elevation(0.dp),
-                shape = RoundedCornerShape(50),
-                modifier = Modifier
-                    .size(65.dp)
-                    .offset(y = 75.dp),
-                containerColor = MaterialTheme.colorScheme.primary,
-                onClick = {
-                    rootController.navigate(Screen.AddTask.route)
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.icon_plus),
-                    tint = Color.White,
-                    contentDescription = null
-                )
-            }
-        }
+//        floatingActionButtonPosition = FabPosition.Center,
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                elevation = FloatingActionButtonDefaults.elevation(0.dp),
+//                shape = RoundedCornerShape(50),
+//                modifier = Modifier
+//                    .size(65.dp)
+//                    .offset(y = 75.dp),
+//                containerColor = MaterialTheme.colorScheme.primary,
+//                onClick = {
+//                    rootController.navigate(Screen.AddTask.route)
+//                }
+//            ) {
+//                Icon(
+//                    painter = painterResource(R.drawable.icon_plus),
+//                    tint = Color.White,
+//                    contentDescription = null
+//                )
+//            }
+//        }
     ) { padding ->
         MainNavGraph(
             navController = mainNavController,

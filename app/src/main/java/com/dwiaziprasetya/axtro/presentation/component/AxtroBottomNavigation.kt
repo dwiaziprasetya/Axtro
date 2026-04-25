@@ -35,11 +35,6 @@ fun BottomNavigation(
         containerColor = Color.White,
         modifier = modifier
             .fillMaxWidth()
-            .shadow(
-                elevation = 10.dp,
-                shape = RoundedCornerShape(16.dp)
-            )
-            .clip(RoundedCornerShape(16.dp))
     ) {
 
         val navBackStackEntry = navController.currentBackStackEntryAsState()
@@ -58,7 +53,7 @@ fun BottomNavigation(
                 painterResource(R.drawable.icon_task_filled),
                 Screen.Task
             ),
-            BottomBarItem(isDummy = true),
+//            BottomBarItem(isDummy = true),
             BottomBarItem(
                 "Calendar",
                 painterResource(R.drawable.icon_calendar_outlined),
