@@ -39,13 +39,13 @@ fun MainScreen(rootController: NavHostController) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier
-            .fillMaxSize()
-            .navigationBarsPadding(),
+            .fillMaxSize(),
         bottomBar = {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .navigationBarsPadding()
             ) {
                 BottomNavigation(
                     navController = mainNavController,
