@@ -51,7 +51,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwiaziprasetya.axtro.R
@@ -64,7 +63,6 @@ import com.dwiaziprasetya.axtro.presentation.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.axtro.presentation.component.AxtroTaskCard
 import com.dwiaziprasetya.axtro.presentation.component.LogoutBottomSheet
 import com.dwiaziprasetya.axtro.presentation.component.StatTaskCard
-import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
