@@ -18,7 +18,7 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route,
+        startDestination = Screen.Task.route,
         route = Screen.Main.route,
     ) {
         tabComposable(route = Screen.Home.route) {

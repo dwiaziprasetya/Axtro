@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.Listify.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#407bff</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.Listify</item>
     </style>
 </resources>
