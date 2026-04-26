@@ -113,8 +113,7 @@ fun TaskContent(
                         label = {
                             Text(
                                 text = chip,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         },
                         colors = FilterChipDefaults.filterChipColors(
@@ -139,7 +138,7 @@ fun TaskContent(
                 filteredTasks.isEmpty() -> {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
                         AxtroEmptyTaskState(
