@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.data.model
+package com.dwiaziprasetya.core_ui.model
 
 import com.dwiaziprasetya.axtro.R
 

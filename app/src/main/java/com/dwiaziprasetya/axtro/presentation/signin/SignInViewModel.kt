@@ -4,9 +4,9 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dwiaziprasetya.axtro.core.util.AppResult
-import com.dwiaziprasetya.axtro.core.util.SnackbarController
-import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
-import com.dwiaziprasetya.axtro.core.util.SnackbarType
+import com.dwiaziprasetya.core_ui.util.SnackbarController
+import com.dwiaziprasetya.core_ui.util.SnackbarEvent
+import com.dwiaziprasetya.core_ui.util.SnackbarType
 import com.dwiaziprasetya.axtro.domain.usecase.LoginWithEmail
 import com.dwiaziprasetya.axtro.domain.usecase.LoginWithGoogle
 import dagger.hilt.android.lifecycle.HiltViewModel

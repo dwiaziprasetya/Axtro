@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.core.util
+package com.dwiaziprasetya.core_common.util
 
 sealed class AppResult<out T> {
     data class Success<T>(val data: T) : AppResult<T>()

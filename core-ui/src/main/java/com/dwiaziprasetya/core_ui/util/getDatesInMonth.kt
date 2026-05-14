@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.core.util
+package com.dwiaziprasetya.core_ui.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi

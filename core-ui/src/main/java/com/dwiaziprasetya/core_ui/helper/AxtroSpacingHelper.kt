@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.core.helper
+package com.dwiaziprasetya.axtro.core.util
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

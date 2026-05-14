@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
-import com.dwiaziprasetya.axtro.data.model.sliderImage
+import com.dwiaziprasetya.core_ui.model.sliderImage
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 
 @OptIn(ExperimentalFoundationApi::class)

@@ -22,9 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.dwiaziprasetya.axtro.core.util.ObserveAsEvents
-import com.dwiaziprasetya.axtro.core.util.SnackbarController
-import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
+import com.dwiaziprasetya.core_ui.util.ObserveAsEvents
+import com.dwiaziprasetya.core_ui.util.SnackbarController
+import com.dwiaziprasetya.core_ui.util.SnackbarEvent
 import com.dwiaziprasetya.axtro.presentation.addTask.AddTaskScreen
 import com.dwiaziprasetya.axtro.presentation.component.AxtroTopSnackbar
 import com.dwiaziprasetya.axtro.presentation.main.MainScreen

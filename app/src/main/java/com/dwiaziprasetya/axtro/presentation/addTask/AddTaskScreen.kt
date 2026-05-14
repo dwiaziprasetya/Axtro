@@ -44,9 +44,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.core.helper.VSpacer
-import com.dwiaziprasetya.axtro.core.util.AxtroSpacing
-import com.dwiaziprasetya.axtro.data.model.TimeType
+import com.dwiaziprasetya.axtro.core.util.VSpacer
+import com.dwiaziprasetya.core_ui.util.AxtroSpacing
+import com.dwiaziprasetya.core_ui.model.TimeType
 import com.dwiaziprasetya.core_ui.component.AxtroCustomDatePicker
 import com.dwiaziprasetya.core_ui.component.AxtroDatePickerField
 import com.dwiaziprasetya.core_ui.component.AxtroLabeledTextField

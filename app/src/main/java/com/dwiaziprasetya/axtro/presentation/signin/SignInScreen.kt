@@ -56,9 +56,9 @@ import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.core.util.SnackbarController
-import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
-import com.dwiaziprasetya.axtro.core.util.SnackbarType
+import com.dwiaziprasetya.core_ui.util.SnackbarController
+import com.dwiaziprasetya.core_ui.util.SnackbarEvent
+import com.dwiaziprasetya.core_ui.util.SnackbarType
 import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 import com.dwiaziprasetya.core_ui.component.CustomOutlinedTextField
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme

@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.core.util
+package com.dwiaziprasetya.core_ui.util
 
 import androidx.compose.ui.graphics.Color
 import com.dwiaziprasetya.core_ui.theme.priorityHigh
