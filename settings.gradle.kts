@@ -22,5 +22,13 @@ dependencyResolutionManagement {
 
 rootProject.name = "Axtro"
 include(":app")
-include(":core-util")
 include(":core-ui")
+include(":feature-addtask")
+include(":feature-task")
+include(":feature-calendar")
+include(":feature-welcome")
+include(":feature-resetpassword")
+include(":feature-home")
+include(":feature-profile")
+include(":feature-signin")
+include(":feature-signup")

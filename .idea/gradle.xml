@@ -13,7 +13,15 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core-ui" />
-            <option value="$PROJECT_DIR$/core-util" />
+            <option value="$PROJECT_DIR$/feature-addtask" />
+            <option value="$PROJECT_DIR$/feature-calendar" />
+            <option value="$PROJECT_DIR$/feature-home" />
+            <option value="$PROJECT_DIR$/feature-profile" />
+            <option value="$PROJECT_DIR$/feature-resetpassword" />
+            <option value="$PROJECT_DIR$/feature-signin" />
+            <option value="$PROJECT_DIR$/feature-signup" />
+            <option value="$PROJECT_DIR$/feature-task" />
+            <option value="$PROJECT_DIR$/feature-welcome" />
           </set>
         </option>
       </GradleProjectSettings>
