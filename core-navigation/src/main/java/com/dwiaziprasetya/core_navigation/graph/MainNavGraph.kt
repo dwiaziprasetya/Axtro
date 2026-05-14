@@ -3,13 +3,8 @@ package com.dwiaziprasetya.core_navigation.graph
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.dwiaziprasetya.axtro.presentation.home.HomeScreen
 import com.dwiaziprasetya.core_navigation.animation.tabComposable
 import com.dwiaziprasetya.core_navigation.model.Screen
-import com.dwiaziprasetya.axtro.presentation.profile.ProfileScreen
-import com.dwiaziprasetya.axtro.presentation.task.TaskScreen
-import com.dwiaziprasetya.core_navigation.animation.tabComposable
-import com.dwiaziprasetya.feature_calendar.screen.CalendarScreen
 
 @Composable
 fun MainNavGraph(

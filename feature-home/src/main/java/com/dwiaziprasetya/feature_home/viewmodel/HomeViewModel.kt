@@ -1,23 +1,12 @@
-package com.dwiaziprasetya.axtro.presentation.home
+package com.dwiaziprasetya.feature_home.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.dwiaziprasetya.axtro.core.util.AppResult
-import com.dwiaziprasetya.axtro.core.util.SnackbarController
-import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
-import com.dwiaziprasetya.axtro.core.util.SnackbarType
-import com.dwiaziprasetya.axtro.domain.usecase.DeleteTask
-import com.dwiaziprasetya.axtro.domain.usecase.GetCurrentUser
-import com.dwiaziprasetya.axtro.domain.usecase.GetTasks
-import com.dwiaziprasetya.axtro.domain.usecase.Logout
-import com.dwiaziprasetya.axtro.domain.usecase.UpdateTaskStatus
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.dwiaziprasetya.feature_home.state.HomeUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dwiaziprasetya.core_navigation"
+    namespace = "com.dwiaziprasetya.api_task"
     compileSdk = 35
 
     defaultConfig {
@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.navigation.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

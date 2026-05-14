@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.presentation.home
+package com.dwiaziprasetya.feature_home.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.util.DateUtils
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerCircle
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
@@ -63,8 +62,12 @@ import com.dwiaziprasetya.core_ui.component.AxtroTaskCard
 import com.dwiaziprasetya.core_ui.component.LogoutBottomSheet
 import com.dwiaziprasetya.core_ui.component.StatTaskCard
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
+import com.dwiaziprasetya.feature_home.state.HomeUiState
+import com.dwiaziprasetya.feature_home.viewmodel.HomeViewModel
+import com.dwiaziprasetya.feature_home.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
+import kotlin.collections.filter
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -124,9 +127,9 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(
-    state: HomeUiState,
-    onCheckedChange: (String, Boolean) -> Unit,
-    onDeletedClick: (String) -> Unit,
+    state: HomeUiState ,
+    onCheckedChange: (String, Boolean) -> Unit ,
+    onDeletedClick: (String) -> Unit ,
     onUserProfileClick: () -> Unit
 ) {
     val displayName = remember(state.userName, state.email) {
@@ -326,7 +329,7 @@ fun HomeContent(
 private fun HomeContentPreview() {
     AxtroTheme {
         HomeContent(
-            state = HomeUiState(),
+            state = HomeUiState() ,
             onCheckedChange = {_, _ ->},
             onDeletedClick = {_ ->},
             onUserProfileClick = {}

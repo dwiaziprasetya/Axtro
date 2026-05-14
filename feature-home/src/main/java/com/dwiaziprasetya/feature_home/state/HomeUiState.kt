@@ -1,6 +1,4 @@
-package com.dwiaziprasetya.axtro.presentation.home
-
-import com.dwiaziprasetya.axtro.domain.model.Task
+package com.dwiaziprasetya.feature_home.state
 
 data class HomeUiState(
     val tasks: List<Task> = emptyList(),
