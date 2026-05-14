@@ -1,6 +1,6 @@
 package com.dwiaziprasetya.api_task.domain.usecase
 
-import com.dwiaziprasetya.axtro.domain.repository.TaskRepository
+import com.dwiaziprasetya.api_task.domain.repository.TaskRepository
 
 class UpdateTaskStatus(
     private val repository: TaskRepository

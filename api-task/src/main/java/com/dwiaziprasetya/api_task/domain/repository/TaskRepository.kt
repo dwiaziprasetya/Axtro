@@ -1,6 +1,8 @@
 package com.dwiaziprasetya.api_task.domain.repository
 
 import com.dwiaziprasetya.api_task.domain.model.Task
+import com.dwiaziprasetya.core_common.util.AppResult
+import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
 

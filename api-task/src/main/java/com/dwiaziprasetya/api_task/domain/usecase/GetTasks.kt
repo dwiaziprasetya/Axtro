@@ -1,8 +1,8 @@
 package com.dwiaziprasetya.api_task.domain.usecase
 
-import com.dwiaziprasetya.axtro.core.util.AppResult
-import com.dwiaziprasetya.axtro.domain.model.Task
-import com.dwiaziprasetya.axtro.domain.repository.TaskRepository
+import com.dwiaziprasetya.api_task.domain.model.Task
+import com.dwiaziprasetya.api_task.domain.repository.TaskRepository
+import com.dwiaziprasetya.core_common.util.AppResult
 import kotlinx.coroutines.flow.Flow
 
 class GetTasks(
