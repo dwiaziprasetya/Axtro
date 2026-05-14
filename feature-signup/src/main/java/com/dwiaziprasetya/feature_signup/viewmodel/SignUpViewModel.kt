@@ -2,12 +2,20 @@ package com.dwiaziprasetya.feature_signup.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dwiaziprasetya.api_auth.domain.usecase.RegisterWithEmail
+import com.dwiaziprasetya.core_common.util.AppResult
+import com.dwiaziprasetya.core_ui.util.SnackbarController
+import com.dwiaziprasetya.core_ui.util.SnackbarEvent
+import com.dwiaziprasetya.core_ui.util.SnackbarType
 import com.dwiaziprasetya.feature_signup.state.SignUpUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(

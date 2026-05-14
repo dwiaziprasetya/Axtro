@@ -2,11 +2,20 @@ package com.dwiaziprasetya.feature_signin.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dwiaziprasetya.api_auth.domain.usecase.LoginWithEmail
+import com.dwiaziprasetya.api_auth.domain.usecase.LoginWithGoogle
+import com.dwiaziprasetya.core_common.util.AppResult
+import com.dwiaziprasetya.core_ui.util.SnackbarController
+import com.dwiaziprasetya.core_ui.util.SnackbarEvent
+import com.dwiaziprasetya.core_ui.util.SnackbarType
 import com.dwiaziprasetya.feature_signin.state.SignInUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(

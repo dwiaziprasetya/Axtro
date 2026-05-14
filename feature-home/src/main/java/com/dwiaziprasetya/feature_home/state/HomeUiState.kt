@@ -1,5 +1,7 @@
 package com.dwiaziprasetya.feature_home.state
 
+import com.dwiaziprasetya.api_task.domain.model.Task
+
 data class HomeUiState(
     val tasks: List<Task> = emptyList(),
     val isLoading: Boolean = false,

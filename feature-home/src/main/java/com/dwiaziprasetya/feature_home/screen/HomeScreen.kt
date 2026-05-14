@@ -47,13 +47,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.dwiaziprasetya.axtro.core.util.DateUtils
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerCircle
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerText
@@ -61,13 +59,19 @@ import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.core_ui.component.AxtroTaskCard
 import com.dwiaziprasetya.core_ui.component.LogoutBottomSheet
 import com.dwiaziprasetya.core_ui.component.StatTaskCard
-import com.dwiaziprasetya.core_ui.theme.AxtroTheme
+import com.dwiaziprasetya.core_ui.util.DateUtils
+import com.dwiaziprasetya.feature_home.R as FeatureHomeR
+import com.dwiaziprasetya.core_ui.R as CoreUiR
 import com.dwiaziprasetya.feature_home.state.HomeUiState
 import com.dwiaziprasetya.feature_home.viewmodel.HomeViewModel
-import com.dwiaziprasetya.feature_home.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
+import kotlin.collections.count
 import kotlin.collections.filter
+import kotlin.collections.forEach
+import kotlin.collections.listOf
+import kotlin.text.isNullOrBlank
+import kotlin.text.substringBefore
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -214,7 +218,7 @@ fun HomeContent(
                                 .crossfade(enable = true)
                                 .build(),
                             contentDescription = "User photo profile",
-                            placeholder = painterResource(R.drawable.image_placholder),
+                            placeholder = painterResource(FeatureHomeR.drawable.image_placholder),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .size(40.dp)
@@ -230,14 +234,14 @@ fun HomeContent(
                     modifier = Modifier.weight(1f),
                     value = activeCount.toString(),
                     type = "Active",
-                    icon = R.drawable.icon_task_outlined
+                    icon = CoreUiR.drawable.icon_task_outlined
                 )
                 Spacer(Modifier.width(16.dp))
                 StatTaskCard(
                     modifier = Modifier.weight(1f),
                     value = completedCount.toString(),
                     type = "Completed",
-                    icon = R.drawable.icon_checklist
+                    icon = CoreUiR.drawable.icon_checklist
                 )
             }
             Spacer(Modifier.height(16.dp))
@@ -321,18 +325,5 @@ fun HomeContent(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFf2f6fc)
-@Composable
-private fun HomeContentPreview() {
-    AxtroTheme {
-        HomeContent(
-            state = HomeUiState() ,
-            onCheckedChange = {_, _ ->},
-            onDeletedClick = {_ ->},
-            onUserProfileClick = {}
-        )
     }
 }

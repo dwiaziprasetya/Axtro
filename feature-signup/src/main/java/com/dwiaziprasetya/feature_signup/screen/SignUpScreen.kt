@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.dwiaziprasetya.axtro.R
+import com.dwiaziprasetya.core_ui.R as CoreUiR
 import com.dwiaziprasetya.core_ui.component.CustomOutlinedTextField
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 import com.dwiaziprasetya.feature_signup.state.SignUpUiState
@@ -62,9 +62,9 @@ fun SignUpScreen(
     val state by viewModel.state.collectAsState()
 
     val icon = if (passwordVisibility)
-        R.drawable.icon_visibility
+        CoreUiR.drawable.icon_visibility
     else
-        R.drawable.icon_visibility_off
+        CoreUiR.drawable.icon_visibility_off
 
     LaunchedEffect(Unit) {
         systemUiController.setStatusBarColor(
@@ -150,7 +150,7 @@ fun SignUpScreenContent(
                 .fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(R.drawable.logo),
+                painter = painterResource(CoreUiR.drawable.logo),
                 contentDescription = "Logo",
                 modifier = Modifier
                     .size(60.dp)
@@ -268,32 +268,5 @@ fun SignUpScreenContent(
                 }
             }
         }
-    }
-}
-
-@Preview(
-    showBackground = true,
-)
-@Composable
-private fun SignUpScreenContentPreview(
-) {
-    AxtroTheme(
-        dynamicColor = false
-    ) {
-        SignUpScreenContent(
-            state = SignUpUiState() ,
-            email = "",
-            password = "",
-            onEmailChange = {},
-            onEmailFocusChange = {},
-            onPasswordChange = {},
-            passwordVisibility = false,
-            onPasswordVisibilityChange = {},
-            emailError = false,
-            iconPasswordVisibility = R.drawable.icon_visibility,
-            passwordError = false,
-            navigateToSignIn = {},
-            onClickSignUp = {}
-        )
     }
 }

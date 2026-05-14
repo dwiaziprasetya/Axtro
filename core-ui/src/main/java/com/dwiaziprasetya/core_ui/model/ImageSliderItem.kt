@@ -1,6 +1,7 @@
 package com.dwiaziprasetya.core_ui.model
 
-import com.dwiaziprasetya.axtro.R
+import com.dwiaziprasetya.core_ui.R
+
 
 data class ImageSliderItem(
     val imageUrl: Int,

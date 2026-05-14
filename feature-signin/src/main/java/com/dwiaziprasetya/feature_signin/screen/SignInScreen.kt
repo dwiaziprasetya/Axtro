@@ -55,13 +55,14 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.dwiaziprasetya.axtro.R
+import com.dwiaziprasetya.core_navigation.model.Screen
 import com.dwiaziprasetya.core_ui.util.SnackbarController
 import com.dwiaziprasetya.core_ui.util.SnackbarEvent
 import com.dwiaziprasetya.core_ui.util.SnackbarType
-import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
 import com.dwiaziprasetya.core_ui.component.CustomOutlinedTextField
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
+import com.dwiaziprasetya.feature_signin.R
+import com.dwiaziprasetya.core_ui.R as CoreUiR
 import com.dwiaziprasetya.feature_signin.state.SignInUiState
 import com.dwiaziprasetya.feature_signin.viewmodel.SignInViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -98,9 +99,9 @@ fun SignInScreen(
     var isEmailFocused by remember { mutableStateOf(false) }
     var passwordVisibility by remember { mutableStateOf(false) }
     val icon = if (passwordVisibility)
-        R.drawable.icon_visibility
+        CoreUiR.drawable.icon_visibility
     else
-        R.drawable.icon_visibility_off
+        CoreUiR.drawable.icon_visibility_off
 
     LaunchedEffect(Unit) {
         systemUiController.setStatusBarColor(
@@ -221,7 +222,7 @@ fun SignInScreenContent(
             .navigationBarsPadding()
             .background(MaterialTheme.colorScheme.background)
             .clickable(
-                indication = null,
+                indication = null ,
                 interactionSource = remember { MutableInteractionSource() }
             ) {
                 focusManager.clearFocus()
@@ -236,46 +237,46 @@ fun SignInScreenContent(
         )
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally ,
             modifier = Modifier
                 .statusBarsPadding()
                 .padding(vertical = 16.dp)
                 .fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(R.drawable.logo),
-                contentDescription = "Logo",
+                painter = painterResource(CoreUiR.drawable.logo) ,
+                contentDescription = "Logo" ,
                 modifier = Modifier
                     .size(60.dp)
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                text = "Sign in to your\naccount",
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                fontSize = 32.sp,
-                lineHeight = 32.sp,
-                fontWeight = FontWeight.SemiBold,
+                text = "Sign in to your\naccount" ,
+                textAlign = TextAlign.Center ,
+                color = Color.White ,
+                fontSize = 32.sp ,
+                lineHeight = 32.sp ,
+                fontWeight = FontWeight.SemiBold ,
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Enter your email and password to sign in",
-                color = Color.White,
-                fontSize = 12.sp,
+                text = "Enter your email and password to sign in" ,
+                color = Color.White ,
+                fontSize = 12.sp ,
             )
             Spacer(Modifier.height(32.dp))
             Box(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .background(
-                        color = MaterialTheme.colorScheme.background,
+                        color = MaterialTheme.colorScheme.background ,
                         shape = RoundedCornerShape(10.dp)
                     )
                     .fillMaxWidth()
                     .wrapContentHeight()
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally ,
                     modifier = Modifier
                         .padding(32.dp)
                         .fillMaxWidth()
@@ -285,60 +286,60 @@ fun SignInScreenContent(
                             .height(55.dp)
                             .fillMaxWidth()
                             .border(
-                                color = Color(0xFFE3E3E3),
-                                width = 1.dp,
+                                color = Color(0xFFE3E3E3) ,
+                                width = 1.dp ,
                                 shape = RoundedCornerShape(10.dp)
-                            ),
-                        shape = RoundedCornerShape(10.dp),
-                        onClick = onClickGoogleButton,
+                            ) ,
+                        shape = RoundedCornerShape(10.dp) ,
+                        onClick = onClickGoogleButton ,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.background
                         )
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth() ,
                             horizontalArrangement = Arrangement.Center
                         ) {
                             if (state.isLoadingGoogleSignIn) {
                                 CircularProgressIndicator(
-                                    color = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(18.dp),
+                                    color = MaterialTheme.colorScheme.primary ,
+                                    modifier = Modifier.size(18.dp) ,
                                 )
                             } else {
                                 Icon(
-                                    painter = painterResource(R.drawable.icon_google),
-                                    contentDescription = "",
+                                    painter = painterResource(R.drawable.icon_google) ,
+                                    contentDescription = "" ,
                                     tint = Color.Unspecified
                                 )
                                 Spacer(Modifier.width(8.dp))
                                 Text(
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    text = "Continue with Google",
-                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurface ,
+                                    text = "Continue with Google" ,
+                                    fontSize = 14.sp ,
                                 )
                             }
                         }
                     }
                     Spacer(Modifier.height(16.dp))
-                    Row (
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
+                    Row(
+                        horizontalArrangement = Arrangement.Center ,
+                        verticalAlignment = Alignment.CenterVertically ,
                         modifier = Modifier
                             .fillMaxWidth()
-                    ){
+                    ) {
                         HorizontalDivider(
-                            modifier = Modifier.weight(2f),
-                            thickness = 1.dp,
+                            modifier = Modifier.weight(2f) ,
+                            thickness = 1.dp ,
                             color = Color(0xFFCAC8C8)
                         )
                         Text(
-                            text = "Or sign in with",
-                            modifier = Modifier.padding(horizontal = 16.dp),
+                            text = "Or sign in with" ,
+                            modifier = Modifier.padding(horizontal = 16.dp) ,
                             fontSize = 14.sp
                         )
                         HorizontalDivider(
-                            modifier = Modifier.weight(2f),
-                            thickness = 1.dp,
+                            modifier = Modifier.weight(2f) ,
+                            thickness = 1.dp ,
                             color = Color(0xFFCAC8C8)
                         )
                     }
@@ -347,36 +348,36 @@ fun SignInScreenContent(
                         horizontalAlignment = Alignment.Start
                     ) {
                         Text(
-                            text = "Email",
-                            fontSize = 14.sp,
+                            text = "Email" ,
+                            fontSize = 14.sp ,
                         )
                         Spacer(Modifier.height(4.dp))
                         CustomOutlinedTextField(
-                            value = email,
-                            onValueChange = onEmailChange,
-                            onFocusChange = onEmailFocusChange,
-                            trailingIconResId = null,
-                            onTrailingIconClick = {},
-                            isError = emailError,
-                            errorMessage = "Invalid email address",
+                            value = email ,
+                            onValueChange = onEmailChange ,
+                            onFocusChange = onEmailFocusChange ,
+                            trailingIconResId = null ,
+                            onTrailingIconClick = {} ,
+                            isError = emailError ,
+                            errorMessage = "Invalid email address" ,
                             hint = "Enter your email"
                         )
                     }
                     Column {
                         Text(
-                            text = "Password",
-                            fontSize = 14.sp,
+                            text = "Password" ,
+                            fontSize = 14.sp ,
                         )
                         Spacer(Modifier.height(4.dp))
                         CustomOutlinedTextField(
-                            value = password,
-                            hint = "Enter your password",
-                            onValueChange = onPasswordChange,
-                            onFocusChange = {},
-                            trailingIconResId = iconPasswordVisibility,
-                            onTrailingIconClick = { onPasswordVisibilityChange() },
-                            isError = passwordError,
-                            errorMessage = "Password error",
+                            value = password ,
+                            hint = "Enter your password" ,
+                            onValueChange = onPasswordChange ,
+                            onFocusChange = {} ,
+                            trailingIconResId = iconPasswordVisibility ,
+                            onTrailingIconClick = { onPasswordVisibilityChange() } ,
+                            isError = passwordError ,
+                            errorMessage = "Password error" ,
                             visualTransformation = if (passwordVisibility) VisualTransformation.None
                             else PasswordVisualTransformation()
                         )
@@ -384,22 +385,22 @@ fun SignInScreenContent(
                     Button(
                         modifier = Modifier
                             .padding(top = 27.dp)
-                            .fillMaxWidth(),
-                        shape = RoundedCornerShape(10.dp),
-                        onClick = signIn,
+                            .fillMaxWidth() ,
+                        shape = RoundedCornerShape(10.dp) ,
+                        onClick = signIn ,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
+                            containerColor = MaterialTheme.colorScheme.primary ,
                         )
                     ) {
                         if (state.isLoadingEmailSignIn) {
                             CircularProgressIndicator(
-                                color = MaterialTheme.colorScheme.background,
+                                color = MaterialTheme.colorScheme.background ,
                                 modifier = Modifier.size(18.dp)
                             )
                         } else {
                             Text(
-                                text = "Sign in",
-                                fontSize = 14.sp,
+                                text = "Sign in" ,
+                                fontSize = 14.sp ,
                                 color = Color.White
                             )
                         }
@@ -408,13 +409,13 @@ fun SignInScreenContent(
                         modifier = Modifier.padding(top = 20.dp)
                     ) {
                         Text(
-                            text = "Don't have an account?",
-                            fontSize = 14.sp,
+                            text = "Don't have an account?" ,
+                            fontSize = 14.sp ,
                         )
                         Text(
-                            text = " " + "Sign up",
-                            fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.primary,
+                            text = " " + "Sign up" ,
+                            fontSize = 14.sp ,
+                            color = MaterialTheme.colorScheme.primary ,
                             modifier = Modifier.clickable {
                                 navigateToSignUp()
                             }
@@ -423,33 +424,5 @@ fun SignInScreenContent(
                 }
             }
         }
-    }
-}
-
-@Preview(
-    showBackground = true,
-)
-@Composable
-private fun SignInScreenContentPreview(
-) {
-    AxtroTheme(
-        dynamicColor = false
-    ) {
-        SignInScreenContent(
-            state = SignInUiState() ,
-            email = "",
-            password = "",
-            onEmailChange = {},
-            onEmailFocusChange = {},
-            onPasswordChange = {},
-            passwordVisibility = false,
-            onPasswordVisibilityChange = {},
-            emailError = false,
-            iconPasswordVisibility = R.drawable.icon_visibility,
-            passwordError = false,
-            navigateToSignUp = {},
-            signIn = {},
-            onClickGoogleButton = {}
-        )
     }
 }
