@@ -39,21 +39,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.util.VSpacer
-import com.dwiaziprasetya.core_ui.util.AxtroSpacing
-import com.dwiaziprasetya.core_ui.model.TimeType
 import com.dwiaziprasetya.core_ui.component.AxtroCustomDatePicker
 import com.dwiaziprasetya.core_ui.component.AxtroDatePickerField
 import com.dwiaziprasetya.core_ui.component.AxtroLabeledTextField
 import com.dwiaziprasetya.core_ui.component.AxtroPriorityDropdown
 import com.dwiaziprasetya.core_ui.component.AxtroTimePicker
 import com.dwiaziprasetya.core_ui.component.AxtroTimePickerField
-import com.dwiaziprasetya.core_ui.theme.AxtroTheme
+import com.dwiaziprasetya.core_ui.model.TimeType
+import com.dwiaziprasetya.core_ui.util.AxtroSpacing
+import com.dwiaziprasetya.feature_addtask.R
 import com.dwiaziprasetya.feature_addtask.state.AddTaskUiState
 import com.dwiaziprasetya.feature_addtask.viewmodel.AddTaskViewModel
 import kotlinx.coroutines.delay
@@ -324,29 +322,5 @@ fun AddTaskContent(
                 }
             }
         }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-private fun AddTaskContentPreview() {
-    AxtroTheme {
-        AddTaskContent(
-            state = AddTaskUiState() ,
-            onBackClick = {} ,
-            title = "" ,
-            selectedPriority = "" ,
-            onTitleChange = {} ,
-            onPriorityChange = {} ,
-            onCreateTask = {} ,
-            description = "" ,
-            onDescriptionChange = {} ,
-            startTime = TODO() ,
-            endTime = TODO() ,
-            onStartTimeChange = TODO() ,
-            onEndTimeChange = TODO() ,
-            onDateChange = TODO() ,
-        )
     }
 }
