@@ -9,7 +9,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
+import com.dwiaziprasetya.axtro.graph.RootNavigationGraph
+import com.dwiaziprasetya.core_navigation.model.Screen
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             AxtroTheme {
                 RootNavigationGraph(
-                    navController = navController,
+                    navController = navController ,
                     startDestination = startDestination
                 )
             }

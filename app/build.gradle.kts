@@ -53,8 +53,17 @@ android {
 }
 
 dependencies {
+    implementation(project(":api-auth"))
+    implementation(project(":api-task"))
     implementation(project(":core-ui"))
+    implementation(project(":core-navigation"))
+    implementation(project(":feature-home"))
+    implementation(project(":feature-addtask"))
+    implementation(project(":feature-task"))
+    implementation(project(":feature-signup"))
+    implementation(project(":feature-signin"))
     implementation(project(":feature-calendar"))
+    implementation(project(":feature-profile"))
     implementation(libs.google.accompanist.systemuicontroller)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)
@@ -72,7 +81,6 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.firebase.firestore)
     implementation(libs.coil.compose)
-    implementation(libs.picktime.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

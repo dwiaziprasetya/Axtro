@@ -18,8 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
-import com.dwiaziprasetya.axtro.core.util.SnackbarType
+import com.dwiaziprasetya.core_ui.util.SnackbarEvent
+import com.dwiaziprasetya.core_ui.util.SnackbarType
 
 @Composable
 fun AxtroTopSnackbar(

@@ -1,4 +1,5 @@
-package com.dwiaziprasetya.feature_main.screen
+package com.dwiaziprasetya.axtro.screen
+
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -12,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.dwiaziprasetya.axtro.presentation.navigation.graph.MainNavGraph
+import com.dwiaziprasetya.axtro.graph.MainNavGraph
 import com.dwiaziprasetya.core_ui.component.BottomNavigation
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 

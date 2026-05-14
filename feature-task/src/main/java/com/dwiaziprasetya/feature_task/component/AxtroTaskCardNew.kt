@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.core_ui.component
+package com.dwiaziprasetya.feature_task.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,13 +25,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.presentation.task.StatusBadge
-import com.dwiaziprasetya.axtro.presentation.task.StatusType
-import com.dwiaziprasetya.core_ui.theme.AxtroTheme
+import com.dwiaziprasetya.core_ui.R
+import com.dwiaziprasetya.feature_task.screen.StatusBadge
+import com.dwiaziprasetya.feature_task.screen.StatusType
 
 @Composable
 fun AxtroTaskCardNew() {
@@ -130,13 +128,5 @@ fun AxtroTaskCardNew() {
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun AxtroTaskCardNewPreview() {
-    AxtroTheme {
-        AxtroTaskCardNew()
     }
 }

@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dwiaziprasetya.core_ui.component.AxtroTaskCardNew
+import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
 import kotlin.collections.filter

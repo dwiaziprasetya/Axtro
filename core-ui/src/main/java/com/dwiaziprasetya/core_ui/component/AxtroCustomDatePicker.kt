@@ -43,7 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dwiaziprasetya.axtro.core.util.getDatesInMonth
+import com.dwiaziprasetya.core_ui.util.getDatesInMonth
 import java.time.LocalDate
 import java.time.YearMonth
 import java.util.Locale

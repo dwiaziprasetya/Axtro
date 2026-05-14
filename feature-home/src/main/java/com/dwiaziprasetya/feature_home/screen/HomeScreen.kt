@@ -57,7 +57,7 @@ import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerText
 import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.core_ui.component.AxtroTaskCard
-import com.dwiaziprasetya.core_ui.component.LogoutBottomSheet
+import com.dwiaziprasetya.feature_home.component.LogoutBottomSheet
 import com.dwiaziprasetya.core_ui.component.StatTaskCard
 import com.dwiaziprasetya.core_ui.util.DateUtils
 import com.dwiaziprasetya.feature_home.R as FeatureHomeR

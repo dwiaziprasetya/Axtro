@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro
+package com.dwiaziprasetya.axtro.graph
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -22,15 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.dwiaziprasetya.core_navigation.animation.slideComposable
+import com.dwiaziprasetya.core_navigation.model.Screen
+import com.dwiaziprasetya.core_ui.component.AxtroTopSnackbar
 import com.dwiaziprasetya.core_ui.util.ObserveAsEvents
 import com.dwiaziprasetya.core_ui.util.SnackbarController
 import com.dwiaziprasetya.core_ui.util.SnackbarEvent
-import com.dwiaziprasetya.axtro.presentation.addTask.AddTaskScreen
-import com.dwiaziprasetya.axtro.presentation.component.AxtroTopSnackbar
-import com.dwiaziprasetya.axtro.presentation.main.MainScreen
-import com.dwiaziprasetya.axtro.presentation.navigation.animation.slideComposable
-import com.dwiaziprasetya.axtro.presentation.navigation.graph.authNav
-import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
+import com.dwiaziprasetya.feature_addtask.screen.AddTaskScreen
+import com.dwiaziprasetya.feature_main.screen.MainScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

@@ -1,12 +1,12 @@
-package com.dwiaziprasetya.core_navigation.graph
+package com.dwiaziprasetya.axtro.graph
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.dwiaziprasetya.core_navigation.animation.slideComposable
 import com.dwiaziprasetya.core_navigation.model.Screen
-import com.dwiaziprasetya.axtro.presentation.signin.SignInScreen
-import com.dwiaziprasetya.axtro.presentation.signup.SignUpScreen
+import com.dwiaziprasetya.feature_signin.screen.SignInScreen
+import com.dwiaziprasetya.feature_signup.screen.SignUpScreen
 
 fun NavGraphBuilder.authNav(
     navController: NavController

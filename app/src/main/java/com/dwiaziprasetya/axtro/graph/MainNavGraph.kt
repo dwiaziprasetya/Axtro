@@ -1,10 +1,14 @@
-package com.dwiaziprasetya.core_navigation.graph
+package com.dwiaziprasetya.axtro.graph
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.dwiaziprasetya.core_navigation.animation.tabComposable
 import com.dwiaziprasetya.core_navigation.model.Screen
+import com.dwiaziprasetya.feature_calendar.screen.CalendarScreen
+import com.dwiaziprasetya.feature_home.screen.HomeScreen
+import com.dwiaziprasetya.feature_profile.screen.ProfileScreen
+import com.dwiaziprasetya.feature_task.screen.TaskScreen
 
 @Composable
 fun MainNavGraph(

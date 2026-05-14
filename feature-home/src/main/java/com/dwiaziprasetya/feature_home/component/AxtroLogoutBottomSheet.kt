@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.core_ui.component
+package com.dwiaziprasetya.feature_home.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dwiaziprasetya.axtro.presentation.home.HomeUiState
+import com.dwiaziprasetya.feature_home.state.HomeUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

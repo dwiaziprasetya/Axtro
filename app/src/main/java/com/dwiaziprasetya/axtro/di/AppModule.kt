@@ -1,16 +1,16 @@
 package com.dwiaziprasetya.axtro.di
 
-import com.dwiaziprasetya.axtro.domain.repository.AuthRepository
-import com.dwiaziprasetya.axtro.domain.repository.TaskRepository
-import com.dwiaziprasetya.axtro.domain.usecase.AddTask
-import com.dwiaziprasetya.axtro.domain.usecase.DeleteTask
-import com.dwiaziprasetya.axtro.domain.usecase.GetCurrentUser
-import com.dwiaziprasetya.axtro.domain.usecase.GetTasks
-import com.dwiaziprasetya.axtro.domain.usecase.LoginWithEmail
-import com.dwiaziprasetya.axtro.domain.usecase.LoginWithGoogle
-import com.dwiaziprasetya.axtro.domain.usecase.Logout
-import com.dwiaziprasetya.axtro.domain.usecase.RegisterWithEmail
-import com.dwiaziprasetya.axtro.domain.usecase.UpdateTaskStatus
+import com.dwiaziprasetya.api_auth.domain.repository.AuthRepository
+import com.dwiaziprasetya.api_auth.domain.usecase.GetCurrentUser
+import com.dwiaziprasetya.api_auth.domain.usecase.LoginWithEmail
+import com.dwiaziprasetya.api_auth.domain.usecase.LoginWithGoogle
+import com.dwiaziprasetya.api_auth.domain.usecase.Logout
+import com.dwiaziprasetya.api_auth.domain.usecase.RegisterWithEmail
+import com.dwiaziprasetya.api_task.domain.repository.TaskRepository
+import com.dwiaziprasetya.api_task.domain.usecase.AddTask
+import com.dwiaziprasetya.api_task.domain.usecase.DeleteTask
+import com.dwiaziprasetya.api_task.domain.usecase.GetTasks
+import com.dwiaziprasetya.api_task.domain.usecase.UpdateTaskStatus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
