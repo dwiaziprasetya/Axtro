@@ -1,8 +1,8 @@
 package com.dwiaziprasetya.api_auth.domain.usecase
 
-import com.dwiaziprasetya.axtro.core.util.AppResult
-import com.dwiaziprasetya.axtro.domain.model.User
-import com.dwiaziprasetya.axtro.domain.repository.AuthRepository
+import com.dwiaziprasetya.api_auth.domain.model.User
+import com.dwiaziprasetya.api_auth.domain.repository.AuthRepository
+import com.dwiaziprasetya.core_common.util.AppResult
 
 class LoginWithEmail(
     private val repository: AuthRepository
