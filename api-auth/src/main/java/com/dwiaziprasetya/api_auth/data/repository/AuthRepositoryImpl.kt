@@ -1,0 +1,135 @@
+package com.dwiaziprasetya.api_auth.data.repository
+
+import com.dwiaziprasetya.api_auth.domain.model.User
+import com.dwiaziprasetya.api_auth.domain.repository.AuthRepository
+import com.dwiaziprasetya.core_common.util.AppResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
+
+class AuthRepositoryImpl @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+) : AuthRepository {
+    override suspend fun registerWithEmail(
+        email: String,
+        password: String
+    ): AppResult<User> {
+
+        return try {
+
+            val result = firebaseAuth
+                .createUserWithEmailAndPassword(email, password)
+                .await()
+
+            val firebaseUser = result.user
+
+            if (firebaseUser != null) {
+                firebaseAuth.signOut()
+
+                AppResult.Success(
+                    User(
+                        id = firebaseUser.uid,
+                        email = firebaseUser.email,
+                        name = firebaseUser.displayName,
+                        photoUrl = firebaseUser.photoUrl?.toString()
+                    )
+                )
+            } else {
+                AppResult.Error("Failed to create User")
+            }
+
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Failed to register",
+                throwable = e
+            )
+        }
+    }
+
+    override suspend fun loginWithEmail(
+        email: String,
+        password: String
+    ): AppResult<User> {
+        return try {
+            val result = firebaseAuth
+                .signInWithEmailAndPassword(email, password)
+                .await()
+
+            val firebaseUser = result.user
+
+            if (firebaseUser != null) {
+                AppResult.Success(
+                    User(
+                        id = firebaseUser.uid,
+                        email = firebaseUser.email,
+                        name = firebaseUser.displayName,
+                        photoUrl = firebaseUser.photoUrl?.toString()
+                    )
+                )
+            } else {
+                AppResult.Error("User not found")
+            }
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Failed to login",
+                throwable = e
+            )
+        }
+    }
+
+    override suspend fun loginWithGoogle(idToken: String): AppResult<Unit> {
+        return try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            firebaseAuth.signInWithCredential(credential).await()
+            AppResult.Success(Unit)
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Failed to login with Google",
+                throwable = e
+            )
+        }
+    }
+
+    override suspend fun getCurrentUser(): AppResult<User> {
+        return try {
+
+            val user = firebaseAuth.currentUser
+
+            if (user != null) {
+                AppResult.Success(
+                    User(
+                        id = user.uid,
+                        email = user.email,
+                        name = user.displayName,
+                        photoUrl = user.photoUrl?.toString()
+                    )
+                )
+            } else {
+                AppResult.Error("User not logged in")
+            }
+
+        } catch (e: Exception) {
+            AppResult.Error(
+                message = e.message ?: "Failed to load user",
+                throwable = e
+            )
+        }
+    }
+
+    override suspend fun logout(): AppResult<Unit> {
+        return try {
+
+            firebaseAuth.signOut()
+
+            AppResult.Success(Unit)
+
+        } catch (e: Exception) {
+
+            AppResult.Error(
+                message = e.message ?: "Logout failed",
+                throwable = e
+            )
+        }
+    }
+}
