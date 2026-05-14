@@ -39,15 +39,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.axtro.R
 import com.dwiaziprasetya.axtro.core.helper.VSpacer
-import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.core.util.AxtroSpacing
 import com.dwiaziprasetya.axtro.data.model.TimeType
 import com.dwiaziprasetya.axtro.presentation.component.AxtroCustomDatePicker
@@ -56,6 +53,7 @@ import com.dwiaziprasetya.axtro.presentation.component.AxtroLabeledTextField
 import com.dwiaziprasetya.axtro.presentation.component.AxtroPriorityDropdown
 import com.dwiaziprasetya.axtro.presentation.component.AxtroTimePicker
 import com.dwiaziprasetya.axtro.presentation.component.AxtroTimePickerField
+import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.time.LocalTime

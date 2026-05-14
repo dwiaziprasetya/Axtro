@@ -1,12 +1,12 @@
 package com.dwiaziprasetya.axtro.core.util
 
 import androidx.compose.ui.graphics.Color
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityHigh
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityHighContainer
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityLow
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityLowContainer
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityMedium
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityMediumContainer
+import com.dwiaziprasetya.core_ui.theme.priorityHigh
+import com.dwiaziprasetya.core_ui.theme.priorityHighContainer
+import com.dwiaziprasetya.core_ui.theme.priorityLow
+import com.dwiaziprasetya.core_ui.theme.priorityLowContainer
+import com.dwiaziprasetya.core_ui.theme.priorityMedium
+import com.dwiaziprasetya.core_ui.theme.priorityMediumContainer
 
 data class PriorityColor(
     val selected: Color,

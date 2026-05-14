@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.core.ui.theme
+package com.dwiaziprasetya.core_ui.theme
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp

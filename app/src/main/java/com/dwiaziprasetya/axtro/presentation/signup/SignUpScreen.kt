@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.presentation.component.CustomOutlinedTextField
+import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable

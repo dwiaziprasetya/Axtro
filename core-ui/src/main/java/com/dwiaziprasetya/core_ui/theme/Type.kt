@@ -1,10 +1,10 @@
-package com.dwiaziprasetya.axtro.core.ui.theme
+package com.dwiaziprasetya.core_ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.unit.sp
-import com.dwiaziprasetya.axtro.R
+import com.dwiaziprasetya.core_ui.R
 
 val PlusJakartaSans = FontFamily(
     Font(R.font.plusjakartasanslight, FontWeight.Light),

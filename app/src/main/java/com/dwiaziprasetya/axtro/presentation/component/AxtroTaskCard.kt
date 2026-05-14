@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.core.ui.theme.priorityHigh
+import com.dwiaziprasetya.core_ui.theme.priorityHigh
 
 @Composable
 fun AxtroTaskCard(

@@ -54,7 +54,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.core.util.DateUtils
 import com.dwiaziprasetya.axtro.presentation.component.AxtroAnimatedShimmerCircle
 import com.dwiaziprasetya.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
@@ -63,6 +62,7 @@ import com.dwiaziprasetya.axtro.presentation.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.axtro.presentation.component.AxtroTaskCard
 import com.dwiaziprasetya.axtro.presentation.component.LogoutBottomSheet
 import com.dwiaziprasetya.axtro.presentation.component.StatTaskCard
+import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 

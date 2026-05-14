@@ -56,12 +56,12 @@ import androidx.credentials.exceptions.NoCredentialException
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.dwiaziprasetya.axtro.R
-import com.dwiaziprasetya.axtro.core.ui.theme.AxtroTheme
 import com.dwiaziprasetya.axtro.core.util.SnackbarController
 import com.dwiaziprasetya.axtro.core.util.SnackbarEvent
 import com.dwiaziprasetya.axtro.core.util.SnackbarType
 import com.dwiaziprasetya.axtro.presentation.component.CustomOutlinedTextField
 import com.dwiaziprasetya.axtro.presentation.navigation.model.Screen
+import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential

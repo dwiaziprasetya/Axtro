@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core-ui"))
     implementation(libs.google.accompanist.systemuicontroller)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.navigation.compose)

@@ -1,5 +1,7 @@
-package com.dwiaziprasetya.axtro.core.ui.theme
+package com.dwiaziprasetya.core_ui.theme
+
 import androidx.compose.ui.graphics.Color
+
 
 val primaryLight = Color(0xFF407BFF)
 val onPrimaryLight = Color(0xFFFFFFFF)
