@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.axtro.presentation.calendar
+package com.dwiaziprasetya.feature_calendar.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
