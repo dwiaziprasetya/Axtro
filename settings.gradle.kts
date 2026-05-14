@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Axtro"
 include(":app")
+include(":core-util")
