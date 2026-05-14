@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.dwiaziprasetya.axtro.screen.MainScreen
 import com.dwiaziprasetya.core_navigation.animation.slideComposable
 import com.dwiaziprasetya.core_navigation.model.Screen
 import com.dwiaziprasetya.core_ui.component.AxtroTopSnackbar
@@ -29,7 +30,6 @@ import com.dwiaziprasetya.core_ui.util.ObserveAsEvents
 import com.dwiaziprasetya.core_ui.util.SnackbarController
 import com.dwiaziprasetya.core_ui.util.SnackbarEvent
 import com.dwiaziprasetya.feature_addtask.screen.AddTaskScreen
-import com.dwiaziprasetya.feature_main.screen.MainScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
