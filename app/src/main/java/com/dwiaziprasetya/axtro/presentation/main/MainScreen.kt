@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.dwiaziprasetya.axtro.presentation.component.BottomNavigation
 import com.dwiaziprasetya.axtro.presentation.navigation.graph.MainNavGraph
+import com.dwiaziprasetya.core_ui.component.BottomNavigation
 import com.dwiaziprasetya.core_ui.theme.AxtroTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

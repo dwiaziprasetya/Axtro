@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dwiaziprasetya.core_ui"
+    namespace = "com.dwiaziprasetya.core_navigation"
     compileSdk = 35
 
     defaultConfig {
@@ -30,22 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
 }
 
 dependencies {
-    implementation(project(":core-navigation"))
-    implementation(libs.androidx.navigation.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

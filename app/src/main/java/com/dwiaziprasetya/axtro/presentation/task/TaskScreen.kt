@@ -42,10 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.axtro.core.util.DateUtils
-import com.dwiaziprasetya.axtro.presentation.component.AxtroAnimatedShimmerTaskCard
-import com.dwiaziprasetya.axtro.presentation.component.AxtroEmptyTaskState
-import com.dwiaziprasetya.axtro.presentation.component.AxtroTaskCard
-import com.dwiaziprasetya.axtro.presentation.component.AxtroTaskCardNew
+import com.dwiaziprasetya.core_ui.component.AxtroTaskCardNew
 
 @Composable
 fun TaskScreen(
