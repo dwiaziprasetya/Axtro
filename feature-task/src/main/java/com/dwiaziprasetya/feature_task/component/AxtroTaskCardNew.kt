@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dwiaziprasetya.core_ui.R
+import com.dwiaziprasetya.core_ui.util.getPriorityColor
 import com.dwiaziprasetya.core_ui.util.toFormattedTimeString
 import com.dwiaziprasetya.feature_task.model.StatusType
 
@@ -124,7 +125,7 @@ fun AxtroTaskCardNew(
                 }
                 Surface(
                     shape = RoundedCornerShape(10.dp) ,
-                    color = Color(0XFFE87F24)
+                    color = getPriorityColor(priority).container
                 ) {
                     Box(
                         Modifier.padding(8.dp)

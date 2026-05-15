@@ -26,8 +26,8 @@ fun AxtroPriorityChip(
     val isDarkTheme = isSystemInDarkTheme()
     val colors = getPriorityColor(label)
 
-    val containerColor = if (isDarkTheme) colors.selected else colors.container
-    val selectedColor = if (isDarkTheme) colors.container else colors.selected
+    val containerColor = colors.container
+    val selectedColor = colors.container
 
     Surface(
         onClick = onClick,
