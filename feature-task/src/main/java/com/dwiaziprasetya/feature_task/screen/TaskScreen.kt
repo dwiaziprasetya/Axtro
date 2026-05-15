@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
+import com.dwiaziprasetya.feature_task.model.Quadruple
+import com.dwiaziprasetya.feature_task.model.StatusType
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
 import kotlin.collections.filter
@@ -79,19 +81,6 @@ fun TaskContent(
 
     Scaffold(
         modifier = modifier ,
-//        topBar = {
-//            TopAppBar(
-//                title = {
-//                    Text(
-//                        text = "Task",
-//                        style = MaterialTheme.typography.headlineSmall
-//                    )
-//                } ,
-//                colors = TopAppBarDefaults.topAppBarColors(
-//                    containerColor = Color.White
-//                )
-//            )
-//        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -240,59 +229,3 @@ fun TaskFilterChips() {
         }
     }
 }
-
-@Composable
-fun StatusBadge(
-    status: StatusType
-) {
-    val (text, bgColor, dotColor, textColor) = when (status) {
-        StatusType.RUNNING -> Quadruple(
-            "Running",
-            Color(0xFFFFF4CC),
-            Color(0xFFFFC107),
-            Color(0xFFB78103)
-        )
-
-        StatusType.COMPLETED -> Quadruple(
-            "Completed",
-            Color(0xFFD1FADF),
-            Color(0xFF12B76A),
-            Color(0xFF027A48)
-        )
-    }
-
-    Row(
-        modifier = Modifier
-            .background(bgColor, RoundedCornerShape(6.dp))
-            .padding(horizontal = 10.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(6.dp)
-                .background(dotColor, CircleShape)
-        )
-
-        Spacer(modifier = Modifier.width(6.dp))
-
-        Text(
-            text = text,
-            color = textColor,
-            style = MaterialTheme.typography.bodySmall.copy(
-                fontWeight = FontWeight.SemiBold
-            )
-        )
-    }
-}
-
-enum class StatusType {
-    RUNNING,
-    COMPLETED
-}
-
-data class Quadruple<A, B, C, D>(
-    val first: A,
-    val second: B,
-    val third: C,
-    val fourth: D
-)
