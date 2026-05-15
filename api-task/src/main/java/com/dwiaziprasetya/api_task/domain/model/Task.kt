@@ -6,7 +6,7 @@ data class Task(
     val description: String = "",
     val date: Long = 0L,
     val startTime: Long = 0L,
-    val endTime: Long? = null,
+    val endTime: Long = 0L,
     val priority: String = "",
     val status: String = "",
     val userId: String = ""

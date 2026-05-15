@@ -1,5 +1,7 @@
 package com.dwiaziprasetya.feature_task.component
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,13 +30,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dwiaziprasetya.core_ui.R
+import com.dwiaziprasetya.core_ui.util.toFormattedTimeString
 import com.dwiaziprasetya.feature_task.model.StatusType
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AxtroTaskCardNew(
     modifier: Modifier = Modifier,
     title: String,
+    description: String,
     date: String,
+    startTime: Long,
+    endTime: Long,
     priority: String,
 ) {
     Card(
@@ -75,7 +82,7 @@ fun AxtroTaskCardNew(
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Navigate effortlessly through our site from this central starting point. Effortlessly through our site from this central starting point" ,
+                text = description,
                 style = MaterialTheme.typography.bodySmall,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 2
@@ -95,7 +102,7 @@ fun AxtroTaskCardNew(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "14:00 - 21:00" ,
+                        "${startTime.toFormattedTimeString()} - ${endTime.toFormattedTimeString()}" ,
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.SemiBold
                         )

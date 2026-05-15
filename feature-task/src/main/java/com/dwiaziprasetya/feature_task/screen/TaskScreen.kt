@@ -1,14 +1,9 @@
 package com.dwiaziprasetya.feature_task.screen
 
-import android.R.attr.scaleX
-import android.R.attr.scaleY
-import androidx.compose.animation.AnimatedVisibility
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,6 +52,7 @@ import com.dwiaziprasetya.feature_task.component.TaskFilterChips
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TaskScreen(
     viewModel: TaskViewModel = hiltViewModel(),
@@ -66,10 +62,11 @@ fun TaskScreen(
 
     Content(
         state = state,
-        onNavigateToAddTask = onNavigateToAddTask
+        onNavigateToAddTask = onNavigateToAddTask,
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun Content(
@@ -200,6 +197,9 @@ internal fun Content(
                                 title = task.title ,
                                 priority = task.priority ,
                                 date = DateUtils.formatDate(task.date),
+                                description = task.description,
+                                startTime = task.startTime,
+                                endTime = task.endTime
                             )
                         }
                     }

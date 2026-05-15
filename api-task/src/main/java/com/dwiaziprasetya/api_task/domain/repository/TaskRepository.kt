@@ -11,7 +11,7 @@ interface TaskRepository {
         description: String,
         date: Long,
         startTime: Long,
-        endTime: Long?,
+        endTime: Long,
         priority: String
     ): AppResult<Unit>
 

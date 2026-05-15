@@ -128,7 +128,7 @@ class AddTaskViewModel @Inject constructor(
                 description = current.description,
                 date = dateMillis,
                 startTime = startMillis,
-                endTime = endMillis,
+                endTime = endMillis!!,
                 priority = current.priority
             )
 

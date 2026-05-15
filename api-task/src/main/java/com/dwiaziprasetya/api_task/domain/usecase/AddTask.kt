@@ -11,7 +11,7 @@ class AddTask(
         description: String,
         date: Long,
         startTime: Long,
-        endTime: Long?,
+        endTime: Long,
         priority: String
     ): AppResult<Unit> {
 
@@ -23,7 +23,7 @@ class AddTask(
             return AppResult.Error("Priority must be selected")
         }
 
-        if (endTime != null && endTime < startTime) {
+        if (endTime < startTime) {
             return AppResult.Error("End time must be after start time")
         }
 
