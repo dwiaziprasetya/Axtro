@@ -28,17 +28,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dwiaziprasetya.core_ui.R
-import com.dwiaziprasetya.feature_task.screen.StatusBadge
-import com.dwiaziprasetya.feature_task.screen.StatusType
+import com.dwiaziprasetya.feature_task.model.StatusType
 
 @Composable
-fun AxtroTaskCardNew() {
+fun AxtroTaskCardNew(
+    modifier: Modifier = Modifier,
+    title: String,
+    date: String,
+    priority: String,
+) {
     Card(
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.onPrimary
         ) ,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth() ,
         elevation = CardDefaults.cardElevation(
             defaultElevation = 1.dp
@@ -63,7 +67,7 @@ fun AxtroTaskCardNew() {
             }
             Spacer(Modifier.height(24.dp))
             Text(
-                text = "Design for Task Card" ,
+                text = title,
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold
@@ -106,7 +110,7 @@ fun AxtroTaskCardNew() {
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "25 August 2026" ,
+                        date,
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.SemiBold
                         )                    )
@@ -119,7 +123,7 @@ fun AxtroTaskCardNew() {
                         Modifier.padding(8.dp)
                     ) {
                         Text(
-                            text = "Medium",
+                            text = priority,
                             style = MaterialTheme.typography.bodySmall.copy(
                                 color = Color.White
                             )

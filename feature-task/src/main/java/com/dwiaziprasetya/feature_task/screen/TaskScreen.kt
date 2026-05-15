@@ -1,71 +1,81 @@
 package com.dwiaziprasetya.feature_task.screen
 
+import android.R.attr.scaleX
+import android.R.attr.scaleY
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
+import com.dwiaziprasetya.core_ui.util.DateUtils
 import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
-import com.dwiaziprasetya.feature_task.model.Quadruple
-import com.dwiaziprasetya.feature_task.model.StatusType
+import com.dwiaziprasetya.feature_task.component.TaskFilterChips
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
-import kotlin.collections.filter
 
 @Composable
 fun TaskScreen(
-    viewModel: TaskViewModel = hiltViewModel()
+    viewModel: TaskViewModel = hiltViewModel(),
+    onNavigateToAddTask: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
-    TaskContent(
-        state = state ,
-        onCheckedChange = { taskId , isChecked ->
-            viewModel.updateTaskStatus(taskId , isChecked)
-        } ,
-        onDeletedClick = { taskId ->
-            viewModel.removeTask(taskId)
-        } ,
+    Content(
+        state = state,
+        onNavigateToAddTask = onNavigateToAddTask
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskContent(
-    modifier: Modifier = Modifier ,
-    state: TaskState ,
-    onCheckedChange: (String , Boolean) -> Unit ,
-    onDeletedClick: (String) -> Unit ,
+internal fun Content(
+    modifier: Modifier = Modifier,
+    state: TaskState,
+    onNavigateToAddTask: () -> Unit,
 ) {
     var selectedChip by remember { mutableStateOf("All") }
     val filteredTasks = when (selectedChip) {
@@ -79,90 +89,58 @@ fun TaskContent(
         else -> "No tasks yet" to "Start by adding your first task"
     }
 
+    val listState = rememberLazyListState()
+    val isFabVisible by remember {
+        derivedStateOf {
+            listState.firstVisibleItemScrollOffset == 0 ||
+                    !listState.isScrollInProgress
+        }
+    }
+    val fabAlpha by animateFloatAsState(
+        targetValue = if (isFabVisible) 1f else 0f,
+        animationSpec = tween(300),
+        label = ""
+    )
+
     Scaffold(
         modifier = modifier ,
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            FloatingActionButton(
+                shape = RoundedCornerShape(50),
+                modifier = Modifier
+                    .size(60.dp)
+                    .offset(y = (-100).dp)
+                    .graphicsLayer {
+                        alpha = fabAlpha
+                        scaleX = fabAlpha
+                        scaleY = fabAlpha
+                    },
+                elevation = FloatingActionButtonDefaults.elevation(
+                    defaultElevation = 0.dp,
+                    pressedElevation = 0.dp,
+                    focusedElevation = 0.dp,
+                    hoveredElevation = 0.dp
+                ),
+                onClick = onNavigateToAddTask
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null
+                )
+            }
+        }
     ) { padding ->
         Column(
             modifier = Modifier
+                .padding(padding)
                 .padding(
                     start = 16.dp ,
                     top = 8.dp ,
                     end = 16.dp ,
                 )
                 .fillMaxSize()
-                .padding(padding) ,
         ) {
-//            Row(
-//                horizontalArrangement = Arrangement.spacedBy(8.dp)
-//            ) {
-//                listOf("All", "Active", "Completed").forEach { chip ->
-//                    FilterChip(
-//                        selected = selectedChip == chip,
-//                        onClick = { selectedChip = chip },
-//                        border = BorderStroke(0.dp, Color.Transparent),
-//                        label = {
-//                            Text(
-//                                text = chip,
-//                                style = MaterialTheme.typography.bodyMedium
-//                            )
-//                        },
-//                        colors = FilterChipDefaults.filterChipColors(
-//                            containerColor = Color.Transparent,
-//                            selectedContainerColor = MaterialTheme.colorScheme.primary,
-//                            selectedLabelColor = Color.White,
-//                        )
-//                    )
-//                }
-//            }
-//            Spacer(Modifier.height(8.dp))
-//            when {
-//                state.isLoading -> {
-//                    LazyColumn(
-//                        verticalArrangement = Arrangement.spacedBy(12.dp)
-//                    ) {
-//                        items(10) {
-//                            AxtroAnimatedShimmerTaskCard()
-//                        }
-//                    }
-//                }
-//                filteredTasks.isEmpty() -> {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxSize(),
-//                        contentAlignment = Alignment.Center
-//                    ) {
-//                        AxtroEmptyTaskState(
-//                            title = emptyTitle,
-//                            description = emptyDesc
-//                        )
-//                    }
-//                }
-//                else -> {
-//                    LazyColumn(
-//                        contentPadding = PaddingValues(bottom = 20.dp),
-//                        verticalArrangement = Arrangement.spacedBy(12.dp)
-//                    ) {
-//                        items(
-//                            items = filteredTasks,
-//                            key = { it.id }
-//                        ) { task ->
-//                            AxtroTaskCard(
-//                                status = task.status,
-//                                title = task.title,
-//                                priority = task.priority,
-//                                date = DateUtils.formatDate(task.date),
-//                                isChecked = task.status == "COMPLETED",
-//                                onCheckedChange = { isChecked ->
-//                                    onCheckedChange(task.id, isChecked)
-//                                },
-//                                onDeleteClick = {
-//                                    onDeletedClick(task.id)
-//                                }
-//                            )
-//                        }
-//                    }
-//                }
-//            }
             Text(
                 text = "Let's your daily task",
                 style = MaterialTheme.typography.headlineMedium
@@ -180,52 +158,53 @@ fun TaskContent(
                     )
                     .padding(horizontal = 8.dp)
             ) {
-                TaskFilterChips()
+                TaskFilterChips(
+                    selectedFilter = selectedChip,
+                    onFilterSelected = { selectedChip = it }
+                )
             }
             Spacer(Modifier.height(8.dp))
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(20) {
-                    AxtroTaskCardNew()
+            when {
+                state.isLoading -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+                filteredTasks.isEmpty() -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        AxtroEmptyTaskState(
+                            title = emptyTitle,
+                            description = emptyDesc
+                        )
+                    }
+                }
+                else -> {
+                    LazyColumn(
+                        state = listState,
+                        contentPadding = PaddingValues(bottom = 20.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(
+                            items = filteredTasks,
+                            key = { it.id }
+                        ) { task ->
+                            AxtroTaskCardNew(
+                                title = task.title ,
+                                priority = task.priority ,
+                                date = DateUtils.formatDate(task.date),
+                            )
+                        }
+                    }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun TaskFilterChips() {
-    val filters = listOf("All" , "Running" , "Completed")
-    var selectedFilter by remember { mutableStateOf("All") }
-
-    Row(
-        modifier = Modifier.fillMaxWidth() ,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        filters.forEach { filter ->
-            FilterChip(
-                modifier = Modifier.weight(1f) ,
-                selected = selectedFilter == filter ,
-                onClick = { selectedFilter = filter } ,
-                label = {
-                    Text(
-                        text = filter ,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Normal
-                        ),
-                        modifier = Modifier.fillMaxWidth() ,
-                        textAlign = TextAlign.Center
-                    )
-                } ,
-                shape = RoundedCornerShape(10.dp) ,
-                colors = FilterChipDefaults.filterChipColors(
-                    containerColor = Color.Transparent ,
-                    selectedContainerColor = MaterialTheme.colorScheme.primary ,
-                    selectedLabelColor = Color.White ,
-                ) ,
-                border = null
-            )
         }
     }
 }

@@ -32,7 +32,9 @@ fun MainNavGraph(
             )
         }
         tabComposable(route = Screen.Task.route) {
-            TaskScreen()
+            TaskScreen(
+                onNavigateToAddTask = { rootController.navigate(Screen.AddTask.route) }
+            )
         }
         tabComposable(route = Screen.Profile.route) {
             ProfileScreen()
