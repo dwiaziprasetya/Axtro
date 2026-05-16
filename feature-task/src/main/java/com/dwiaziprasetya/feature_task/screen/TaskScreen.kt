@@ -2,12 +2,8 @@ package com.dwiaziprasetya.feature_task.screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,27 +19,28 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,11 +55,14 @@ import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
 import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.core_ui.util.DateUtils
 import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
+import com.dwiaziprasetya.feature_task.component.FilterAndSortBottomSheet
 import com.dwiaziprasetya.feature_task.component.TaskFilterChips
 import com.dwiaziprasetya.feature_task.model.StatusType
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TaskScreen(
@@ -70,12 +70,48 @@ fun TaskScreen(
     onNavigateToAddTask: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+
+    var showFilterBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
+    if (showFilterBottomSheet) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = {
+                showFilterBottomSheet = false
+            },
+            containerColor = Color.White,
+            dragHandle = null
+        ) {
+            FilterAndSortBottomSheet(
+                onClose = {
+                    scope.launch {
+                        sheetState.hide()
+                    }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            showFilterBottomSheet = false
+                        }
+                    }
+                },
+                onResetAll = {
+
+                },
+                onApply = {
+
+                }
+            )
+        }
+    }
 
     Content(
         state = state,
         onDeleteTask = viewModel::removeTask,
         onMarkAsCompleted = viewModel::updateTaskStatus,
         onNavigateToAddTask = onNavigateToAddTask,
+        onFilterAndSortClick = { showFilterBottomSheet = true }
     )
 }
 
@@ -88,6 +124,7 @@ internal fun Content(
     onDeleteTask: (String) -> Unit,
     onMarkAsCompleted: (String, Boolean) -> Unit,
     onNavigateToAddTask: () -> Unit,
+    onFilterAndSortClick: () -> Unit,
 ) {
     var selectedChip by remember { mutableStateOf("All") }
     val filteredTasks = when (selectedChip) {
@@ -183,7 +220,7 @@ internal fun Content(
                     modifier = Modifier.size(40.dp),
                     shape = RoundedCornerShape(10.dp),
                     color = Color.White,
-                    onClick = {}
+                    onClick = onFilterAndSortClick
                 ) {
                     Box(
                         contentAlignment = Alignment.Center
