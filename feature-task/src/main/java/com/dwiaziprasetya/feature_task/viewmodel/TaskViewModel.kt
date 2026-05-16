@@ -32,9 +32,7 @@ class TaskViewModel @Inject constructor(
     private fun observeTasks() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-
             delay(1000)
-
             getTasks().collect { result ->
                 when (result) {
                     is AppResult.Success -> {
@@ -46,7 +44,6 @@ class TaskViewModel @Inject constructor(
                             )
                         }
                     }
-
                     is AppResult.Error -> {
                         _state.update {
                             it.copy(

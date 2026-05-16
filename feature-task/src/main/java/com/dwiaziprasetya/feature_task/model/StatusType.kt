@@ -1,6 +1,6 @@
 package com.dwiaziprasetya.feature_task.model
 
 enum class StatusType {
-    RUNNING,
+    ACTIVE,
     COMPLETED
 }

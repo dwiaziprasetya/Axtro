@@ -1,5 +1,11 @@
 package com.dwiaziprasetya.feature_task.component
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -12,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,14 +29,15 @@ import com.dwiaziprasetya.feature_task.model.StatusType
 
 @Composable
 fun StatusBadge(
-    status: StatusType
+    status: StatusType,
+    modifier: Modifier = Modifier
 ) {
-    val (text, bgColor, dotColor, textColor) = when (status) {
-        StatusType.RUNNING -> Quadruple(
-            "Running",
-            Color(0xFFFFF4CC),
-            Color(0xFFFFC107),
-            Color(0xFFB78103)
+    val (targetText, targetBgColor, targetDotColor, targetTextColor) = when (status) {
+        StatusType.ACTIVE -> Quadruple(
+            "Active",
+            Color(0xFFEDF3FF),
+            Color(0xFF407BFF),
+            Color(0xFF00298A)
         )
 
         StatusType.COMPLETED -> Quadruple(
@@ -40,26 +48,49 @@ fun StatusBadge(
         )
     }
 
+    val animatedBgColor by animateColorAsState(
+        targetValue = targetBgColor,
+        animationSpec = tween(durationMillis = 400),
+        label = "BgColorAnimation"
+    )
+    val animatedDotColor by animateColorAsState(
+        targetValue = targetDotColor,
+        animationSpec = tween(durationMillis = 400),
+        label = "DotColorAnimation"
+    )
+    val animatedTextColor by animateColorAsState(
+        targetValue = targetTextColor,
+        animationSpec = tween(durationMillis = 400),
+        label = "TextColorAnimation"
+    )
+
     Row(
-        modifier = Modifier
-            .background(bgColor, RoundedCornerShape(6.dp))
+        modifier = modifier
+            .background(animatedBgColor, RoundedCornerShape(6.dp))
             .padding(horizontal = 10.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .size(6.dp)
-                .background(dotColor, CircleShape)
+                .background(animatedDotColor, CircleShape)
         )
-
         Spacer(modifier = Modifier.width(6.dp))
-
-        Text(
-            text = text,
-            color = textColor,
-            style = MaterialTheme.typography.bodySmall.copy(
-                fontWeight = FontWeight.SemiBold
+        AnimatedContent(
+            targetState = targetText,
+            transitionSpec = {
+                fadeIn(animationSpec = tween(durationMillis = 300)) togetherWith
+                        fadeOut(animationSpec = tween(durationMillis = 300))
+            },
+            label = "TextChangeAnimation"
+        ) { text ->
+            Text(
+                text = text,
+                color = animatedTextColor,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
             )
-        )
+        }
     }
 }

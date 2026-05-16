@@ -67,7 +67,7 @@ fun ShimmerTaskCard(modifier: Modifier, brush: Brush) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
+                .height(180.dp)
                 .background(brush)
         ) {  }
     }

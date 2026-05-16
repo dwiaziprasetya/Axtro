@@ -2,8 +2,12 @@ package com.dwiaziprasetya.feature_task.screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -45,10 +50,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
 import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.core_ui.util.DateUtils
 import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
 import com.dwiaziprasetya.feature_task.component.TaskFilterChips
+import com.dwiaziprasetya.feature_task.model.StatusType
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
 
@@ -62,6 +69,8 @@ fun TaskScreen(
 
     Content(
         state = state,
+        onDeleteTask = viewModel::removeTask,
+        onMarkAsCompleted = viewModel::updateTaskStatus,
         onNavigateToAddTask = onNavigateToAddTask,
     )
 }
@@ -72,6 +81,8 @@ fun TaskScreen(
 internal fun Content(
     modifier: Modifier = Modifier,
     state: TaskState,
+    onDeleteTask: (String) -> Unit,
+    onMarkAsCompleted: (String, Boolean) -> Unit,
     onNavigateToAddTask: () -> Unit,
 ) {
     var selectedChip by remember { mutableStateOf("All") }
@@ -163,12 +174,12 @@ internal fun Content(
             Spacer(Modifier.height(8.dp))
             when {
                 state.isLoading -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        CircularProgressIndicator()
+                        items(10) {
+                            AxtroAnimatedShimmerTaskCard()
+                        }
                     }
                 }
                 filteredTasks.isEmpty() -> {
@@ -186,20 +197,22 @@ internal fun Content(
                 else -> {
                     LazyColumn(
                         state = listState,
-                        contentPadding = PaddingValues(bottom = 20.dp),
+                        contentPadding = PaddingValues(bottom = 100.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(
-                            items = filteredTasks,
-                            key = { it.id }
-                        ) { task ->
+                        items(filteredTasks) { task ->
                             AxtroTaskCardNew(
-                                title = task.title ,
-                                priority = task.priority ,
+                                status = if (task.status == "ACTIVE") StatusType.ACTIVE else StatusType.COMPLETED,
+                                title = task.title,
+                                priority = task.priority,
                                 date = DateUtils.formatDate(task.date),
                                 description = task.description,
                                 startTime = task.startTime,
-                                endTime = task.endTime
+                                endTime = task.endTime,
+                                onDeleteTask = { onDeleteTask(task.id) },
+                                onMarkAsCompleted = {
+                                    onMarkAsCompleted(task.id, task.status != "COMPLETED")
+                                }
                             )
                         }
                     }
