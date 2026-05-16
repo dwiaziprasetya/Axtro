@@ -28,7 +28,7 @@ fun TaskFilterChips(
 
     Row(
         modifier = Modifier.fillMaxWidth() ,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         filters.forEach { filter ->
             FilterChip(
@@ -38,7 +38,7 @@ fun TaskFilterChips(
                 label = {
                     Text(
                         text = filter ,
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.Normal
                         ),
                         modifier = Modifier.fillMaxWidth() ,
