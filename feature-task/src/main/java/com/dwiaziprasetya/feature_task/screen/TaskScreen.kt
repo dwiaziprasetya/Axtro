@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -57,9 +58,11 @@ import com.dwiaziprasetya.core_ui.util.DateUtils
 import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
 import com.dwiaziprasetya.feature_task.component.FilterAndSortBottomSheet
 import com.dwiaziprasetya.feature_task.component.TaskFilterChips
+import com.dwiaziprasetya.feature_task.model.SortType
 import com.dwiaziprasetya.feature_task.model.StatusType
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,7 +73,9 @@ fun TaskScreen(
     onNavigateToAddTask: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
     val scope = rememberCoroutineScope()
 
     var showFilterBottomSheet by remember {
@@ -79,6 +84,7 @@ fun TaskScreen(
 
     if (showFilterBottomSheet) {
         ModalBottomSheet(
+            windowInsets = WindowInsets(0,0,0,0) ,
             sheetState = sheetState,
             onDismissRequest = {
                 showFilterBottomSheet = false
@@ -95,13 +101,26 @@ fun TaskScreen(
                             showFilterBottomSheet = false
                         }
                     }
-                },
+                } ,
                 onResetAll = {
-
-                },
+                    viewModel.updateSort(SortType.DATE_ASCENDING)
+                } ,
                 onApply = {
 
-                }
+                    scope.launch {
+
+                        sheetState.hide()
+
+                        if (!sheetState.isVisible) {
+                            showFilterBottomSheet = false
+                        }
+
+                        delay(100)
+
+                        viewModel.updateSort(it)
+                    }
+                },
+                selectedSort = state.selectedSort,
             )
         }
     }
