@@ -1,23 +1,25 @@
 package com.dwiaziprasetya.feature_task.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun TaskFilterChips(
@@ -25,33 +27,46 @@ fun TaskFilterChips(
     selectedFilter: String,
     onFilterSelected: (String) -> Unit
 ) {
+    val selectedIndex = filters.indexOf(selectedFilter).coerceAtLeast(0)
 
-    Row(
-        modifier = Modifier.fillMaxWidth() ,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        filters.forEach { filter ->
-            FilterChip(
-                modifier = Modifier.weight(1f) ,
-                selected = selectedFilter == filter ,
-                onClick = { onFilterSelected(filter) } ,
-                label = {
-                    Text(
-                        text = filter ,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            fontWeight = FontWeight.Normal
-                        ),
-                        modifier = Modifier.fillMaxWidth() ,
-                        textAlign = TextAlign.Center
+    TabRow(
+        selectedTabIndex = selectedIndex,
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.primary,
+        divider = {},
+        indicator = { tabPositions ->
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 4.dp)
+                    .tabIndicatorOffset(tabPositions[selectedIndex])
+                    .fillMaxSize()
+                    .padding(4.dp)
+                    .zIndex(-1f)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(8.dp)
                     )
-                } ,
-                shape = RoundedCornerShape(10.dp) ,
-                colors = FilterChipDefaults.filterChipColors(
-                    containerColor = Color.Transparent ,
-                    selectedContainerColor = MaterialTheme.colorScheme.primary ,
-                    selectedLabelColor = Color.White ,
-                ) ,
-                border = null
+            )
+        },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        filters.forEachIndexed { index, filter ->
+            val isSelected = selectedIndex == index
+            Tab(
+                selected = isSelected,
+                onClick = { onFilterSelected(filter) },
+                interactionSource = object : MutableInteractionSource {
+                    override val interactions: Flow<Interaction> = emptyFlow()
+                    override suspend fun emit(interaction: Interaction) {}
+                    override fun tryEmit(interaction: Interaction) = true
+                },
+                text = {
+                    Text(
+                        text = filter,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = if (isSelected) Color.White else Color.Gray
+                    )
+                }
             )
         }
     }

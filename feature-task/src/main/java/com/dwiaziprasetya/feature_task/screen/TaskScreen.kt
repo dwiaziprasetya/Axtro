@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -53,10 +55,12 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.dwiaziprasetya.core_ui.R
+import com.dwiaziprasetya.core_ui.R as CoreUiR
+import com.dwiaziprasetya.feature_task.R
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
 import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.core_ui.util.DateUtils
@@ -225,27 +229,38 @@ internal fun Content(
                         )
                     }
             ){
-                Column(
+                Row(
                     modifier = Modifier
-                        .padding(
-                            start = 24.dp,
-                            top = 70.dp
-                        )
+                        .fillMaxWidth()
+                        .padding(start = 24.dp, top = 70.dp, end = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
                 ) {
-
-                    Text(
-                        text = "Hi, Sasha",
-                        style = MaterialTheme.typography.headlineLarge,
-                        color = Color.White
-                    )
-
-                    Spacer(Modifier.height(8.dp))
-
-                    Text(
-                        text = "Let's finish some tasks!",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White.copy(alpha = 0.8f)
-                    )
+                    Column {
+                        Text(
+                            text = "Hi, Sasha",
+                            style = MaterialTheme.typography.headlineLarge,
+                            color = Color.White
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = "3 of 5 tasks completed today",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White.copy(alpha = 0.8f)
+                        )
+                    }
+                    Surface(
+                        modifier = Modifier.size(48.dp),
+                        shape = CircleShape,
+                        color = Color.White.copy(alpha = 0.2f),
+                        onClick = {}
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.dummy_avatar),
+                            contentDescription = "Profile",
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
             }
             Column(
@@ -298,7 +313,7 @@ internal fun Content(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                painter = painterResource(R.drawable.icon_filter),
+                                painter = painterResource(CoreUiR.drawable.icon_filter),
                                 contentDescription = "Filter"
                             )
                         }
