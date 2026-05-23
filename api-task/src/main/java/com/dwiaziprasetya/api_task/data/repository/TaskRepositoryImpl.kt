@@ -100,6 +100,7 @@ class TaskRepositoryImpl @Inject constructor(
             .update("status", status)
             .await()
     }
+
     override suspend fun deleteTask(taskId: String) {
         firestore
             .collection("tasks")
