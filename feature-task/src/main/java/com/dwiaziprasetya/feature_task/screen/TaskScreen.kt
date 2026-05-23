@@ -25,8 +25,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -155,6 +158,7 @@ internal fun Content(
     onFilterAndSortClick: () -> Unit,
 ) {
     var selectedChip by remember { mutableStateOf("All") }
+    var searchQuery by remember { mutableStateOf("") }
     val filteredTasks = when (selectedChip) {
         "Active" -> state.tasks.filter { it.status == "ACTIVE" }
         "Completed" -> state.tasks.filter { it.status == "COMPLETED" }
@@ -212,19 +216,19 @@ internal fun Content(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
+                    .height(190.dp)
                     .background(
                         color = MaterialTheme.colorScheme.primary,
                     )
                     .drawBehind {
                         drawCircle(
                             color = Color.White.copy(alpha = 0.08f),
-                            radius = 120.dp.toPx(),
+                            radius = 100.dp.toPx(),
                             center = androidx.compose.ui.geometry.Offset(x = size.width * 0.85f, y = size.height * 0.2f)
                         )
                         drawCircle(
                             color = Color.White.copy(alpha = 0.05f),
-                            radius = 70.dp.toPx(),
+                            radius = 50.dp.toPx(),
                             center = androidx.compose.ui.geometry.Offset(x = size.width * 0.95f, y = size.height * 0.75f)
                         )
                     }
@@ -232,7 +236,7 @@ internal fun Content(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 24.dp, top = 70.dp, end = 24.dp),
+                        .padding(start = 24.dp, top = 50.dp, end = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Top
                 ) {
@@ -282,6 +286,59 @@ internal fun Content(
                     )
                     .fillMaxSize()
             ) {
+                BasicTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(elevation = 1.dp, shape = RoundedCornerShape(10.dp))
+                        .height(44.dp)
+                        .background(color = Color.White, shape = RoundedCornerShape(10.dp)),
+                    decorationBox = { innerTextField ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = "Search",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Box(modifier = Modifier.weight(1f)) {
+                                if (searchQuery.isEmpty()) {
+                                    Text(
+                                        text = "Search your tasks...",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color.Gray.copy(alpha = 0.7f)
+                                    )
+                                }
+                                innerTextField()
+                            }
+                            if (searchQuery.isNotEmpty()) {
+                                androidx.compose.material3.IconButton(
+                                    onClick = { searchQuery = "" },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Close,
+                                        contentDescription = "Clear",
+                                        tint = Color.Gray,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+                Spacer(Modifier.height(12.dp))
                 Row {
                     Row(
                         modifier = Modifier
