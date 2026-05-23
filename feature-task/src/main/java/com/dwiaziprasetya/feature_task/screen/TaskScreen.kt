@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
@@ -44,6 +47,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -58,8 +62,11 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.core_ui.R as CoreUiR
@@ -74,6 +81,7 @@ import com.dwiaziprasetya.feature_task.model.SortType
 import com.dwiaziprasetya.feature_task.model.StatusType
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -84,6 +92,7 @@ fun TaskScreen(
     viewModel: TaskViewModel = hiltViewModel(),
     onNavigateToAddTask: () -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
     val state by viewModel.state.collectAsState()
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -92,6 +101,18 @@ fun TaskScreen(
 
     var showFilterBottomSheet by remember {
         mutableStateOf(false)
+    }
+
+    LaunchedEffect(Unit) {
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = false
+        )
+
+        systemUiController.setNavigationBarColor(
+            color = Color.Transparent,
+            darkIcons = true
+        )
     }
 
     if (showFilterBottomSheet) {
@@ -157,16 +178,24 @@ internal fun Content(
     onNavigateToAddTask: () -> Unit,
     onFilterAndSortClick: () -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
     var selectedChip by remember { mutableStateOf("All") }
     var searchQuery by remember { mutableStateOf("") }
     val filteredTasks = when (selectedChip) {
         "Active" -> state.tasks.filter { it.status == "ACTIVE" }
         "Completed" -> state.tasks.filter { it.status == "COMPLETED" }
         else -> state.tasks
+    }.filter { task ->
+        task.title.contains(searchQuery, ignoreCase = true) ||
+                task.description.contains(searchQuery, ignoreCase = true)
     }
-    val (emptyTitle , emptyDesc) = when (selectedChip) {
-        "Active" -> "No active tasks" to "You're all caught up 🎉"
-        "Completed" -> "No completed tasks" to "Complete a task to see it here"
+
+    val (emptyTitle, emptyDesc) = when {
+        searchQuery.isNotEmpty() -> {
+            "No results found" to "No tasks found matching \"$searchQuery\""
+        }
+        selectedChip == "Active" -> "No active tasks" to "You're all caught up 🎉"
+        selectedChip == "Completed" -> "No completed tasks" to "Complete a task to see it here"
         else -> "No tasks yet" to "Start by adding your first task"
     }
 
@@ -177,6 +206,13 @@ internal fun Content(
                     !listState.isScrollInProgress
         }
     }
+
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (listState.isScrollInProgress) {
+            focusManager.clearFocus()
+        }
+    }
+
     val fabAlpha by animateFloatAsState(
         targetValue = if (isFabVisible) 1f else 0f,
         animationSpec = tween(300),
@@ -184,7 +220,10 @@ internal fun Content(
     )
 
     Scaffold(
-        modifier = modifier ,
+        modifier = modifier
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             FloatingActionButton(
@@ -278,6 +317,12 @@ internal fun Content(
                     textStyle = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurface
                     ),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            focusManager.clearFocus()
+                        }
+                    ),
                     singleLine = true,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -324,7 +369,7 @@ internal fun Content(
                         }
                     }
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(8.dp))
                 Row {
                     Row(
                         modifier = Modifier
