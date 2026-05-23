@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -34,6 +35,8 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,6 +48,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -197,103 +202,152 @@ internal fun Content(
                     contentDescription = null
                 )
             }
-        }
+        },
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(
-                    start = 16.dp ,
-                    top = 8.dp ,
-                    end = 16.dp ,
-                )
-                .fillMaxSize()
-        ) {
-            Text(
-                text = "Let's your daily task",
-                style = MaterialTheme.typography.headlineMedium
-            )
-            Spacer(Modifier.height(16.dp))
-            Row {
-                Row(
-                    modifier = Modifier
-                        .shadow(
-                            elevation = 1.dp,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                        .height(40.dp)
-                        .weight(1f)
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(10.dp)
-                        )
-                        .padding(horizontal = 8.dp)
-                ) {
-                    TaskFilterChips(
-                        selectedFilter = selectedChip,
-                        onFilterSelected = { selectedChip = it }
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
                     )
-                }
-                Spacer(Modifier.width(8.dp))
-                Surface(
-                    modifier = Modifier.size(40.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    color = Color.White,
-                    onClick = onFilterAndSortClick
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_filter),
-                            contentDescription = "Filter"
+                    .drawBehind {
+                        drawCircle(
+                            color = Color.White.copy(alpha = 0.08f),
+                            radius = 120.dp.toPx(),
+                            center = androidx.compose.ui.geometry.Offset(x = size.width * 0.85f, y = size.height * 0.2f)
+                        )
+                        drawCircle(
+                            color = Color.White.copy(alpha = 0.05f),
+                            radius = 70.dp.toPx(),
+                            center = androidx.compose.ui.geometry.Offset(x = size.width * 0.95f, y = size.height * 0.75f)
                         )
                     }
+            ){
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            start = 24.dp,
+                            top = 70.dp
+                        )
+                ) {
+
+                    Text(
+                        text = "Hi, Sasha",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = Color.White
+                    )
+
+                    Spacer(Modifier.height(8.dp))
+
+                    Text(
+                        text = "Let's finish some tasks!",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.White.copy(alpha = 0.8f)
+                    )
                 }
             }
-            Spacer(Modifier.height(8.dp))
-            when {
-                state.isLoading -> {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+            Column(
+                modifier = Modifier
+                    .offset(y = (-40).dp)
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 32.dp,
+                            topEnd = 32.dp
+                        )
+                    )
+                    .background(
+                        color = MaterialTheme.colorScheme.background,
+                    )
+                    .padding(
+                        start = 16.dp,
+                        top = 16.dp,
+                        end = 16.dp,
+                    )
+                    .fillMaxSize()
+            ) {
+                Row {
+                    Row(
+                        modifier = Modifier
+                            .shadow(
+                                elevation = 1.dp,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .height(40.dp)
+                            .weight(1f)
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .padding(horizontal = 8.dp)
                     ) {
-                        items(10) {
-                            AxtroAnimatedShimmerTaskCard()
+                        TaskFilterChips(
+                            selectedFilter = selectedChip,
+                            onFilterSelected = { selectedChip = it }
+                        )
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    Surface(
+                        modifier = Modifier.size(40.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        color = Color.White,
+                        onClick = onFilterAndSortClick
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.icon_filter),
+                                contentDescription = "Filter"
+                            )
                         }
                     }
                 }
-                filteredTasks.isEmpty() -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        AxtroEmptyTaskState(
-                            title = emptyTitle,
-                            description = emptyDesc
-                        )
+                Spacer(Modifier.height(8.dp))
+                when {
+                    state.isLoading -> {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(10) {
+                                AxtroAnimatedShimmerTaskCard()
+                            }
+                        }
                     }
-                }
-                else -> {
-                    LazyColumn(
-                        state = listState,
-                        contentPadding = PaddingValues(bottom = 100.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(filteredTasks) { task ->
-                            AxtroTaskCardNew(
-                                status = if (task.status == "ACTIVE") StatusType.ACTIVE else StatusType.COMPLETED,
-                                title = task.title,
-                                priority = task.priority,
-                                date = DateUtils.formatDate(task.date),
-                                description = task.description,
-                                startTime = task.startTime,
-                                endTime = task.endTime,
-                                onDeleteTask = { onDeleteTask(task.id) },
-                                onMarkAsCompleted = {
-                                    onMarkAsCompleted(task.id, task.status != "COMPLETED")
-                                }
+                    filteredTasks.isEmpty() -> {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AxtroEmptyTaskState(
+                                title = emptyTitle,
+                                description = emptyDesc
                             )
+                        }
+                    }
+                    else -> {
+                        LazyColumn(
+                            state = listState,
+                            contentPadding = PaddingValues(bottom = 100.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            items(filteredTasks) { task ->
+                                AxtroTaskCardNew(
+                                    status = if (task.status == "ACTIVE") StatusType.ACTIVE else StatusType.COMPLETED,
+                                    title = task.title,
+                                    priority = task.priority,
+                                    date = DateUtils.formatDate(task.date),
+                                    description = task.description,
+                                    startTime = task.startTime,
+                                    endTime = task.endTime,
+                                    onDeleteTask = { onDeleteTask(task.id) },
+                                    onMarkAsCompleted = {
+                                        onMarkAsCompleted(task.id, task.status != "COMPLETED")
+                                    }
+                                )
+                            }
                         }
                     }
                 }
