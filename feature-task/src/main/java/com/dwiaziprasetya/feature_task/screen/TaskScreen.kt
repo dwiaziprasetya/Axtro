@@ -214,6 +214,7 @@ internal fun Content(
     ) { padding ->
         Column {
             Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(190.dp)
@@ -223,48 +224,33 @@ internal fun Content(
                     .drawBehind {
                         drawCircle(
                             color = Color.White.copy(alpha = 0.08f),
-                            radius = 100.dp.toPx(),
+                            radius = 80.dp.toPx(),
                             center = androidx.compose.ui.geometry.Offset(x = size.width * 0.85f, y = size.height * 0.2f)
                         )
                         drawCircle(
                             color = Color.White.copy(alpha = 0.05f),
-                            radius = 50.dp.toPx(),
+                            radius = 60.dp.toPx(),
                             center = androidx.compose.ui.geometry.Offset(x = size.width * 0.95f, y = size.height * 0.75f)
                         )
                     }
             ){
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 24.dp, top = 50.dp, end = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(
+                        bottom = 24.dp
+                    )
                 ) {
-                    Column {
-                        Text(
-                            text = "Hi, Sasha",
-                            style = MaterialTheme.typography.headlineLarge,
-                            color = Color.White
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            text = "3 of 5 tasks completed today",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White.copy(alpha = 0.8f)
-                        )
-                    }
-                    Surface(
-                        modifier = Modifier.size(48.dp),
-                        shape = CircleShape,
-                        color = Color.White.copy(alpha = 0.2f),
-                        onClick = {}
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.dummy_avatar),
-                            contentDescription = "Profile",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
+                    Text(
+                        text = "Hi, Sasha",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = Color.White
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = "3 of 5 tasks completed today",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White.copy(alpha = 0.8f)
+                    )
                 }
             }
             Column(
