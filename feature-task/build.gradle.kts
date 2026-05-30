@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.hilt.navigation.compose.v120)
     implementation(libs.coil.compose)
     implementation(libs.google.accompanist.systemuicontroller)
     implementation(libs.hilt.android)

@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.feature_task.component
+package com.dwiaziprasetya.feature_calendar.component
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -41,52 +41,66 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dwiaziprasetya.core_ui.R
 import com.dwiaziprasetya.core_ui.component.StatusBadge
+import com.dwiaziprasetya.core_ui.model.StatusType
 import com.dwiaziprasetya.core_ui.theme.priorityHigh
+import com.dwiaziprasetya.core_ui.util.DateUtils
 import com.dwiaziprasetya.core_ui.util.getPriorityColor
 import com.dwiaziprasetya.core_ui.util.toFormattedTimeString
-import com.dwiaziprasetya.core_ui.model.StatusType
+import com.dwiaziprasetya.feature_calendar.model.TaskCalendarItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AxtroTaskCardNew(
+fun AxtroTaskCalendarCard(
     modifier: Modifier = Modifier ,
-    status: StatusType ,
-    title: String ,
-    description: String ,
-    date: String ,
-    startTime: Long ,
-    endTime: Long ,
-    priority: String ,
-    onDeleteTask: () -> Unit ,
-    onMarkAsCompleted: () -> Unit ,
+    task: TaskCalendarItem
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
-
     Card(
         shape = RoundedCornerShape(10.dp) ,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.onPrimary
         ) ,
         modifier = modifier
-            .fillMaxWidth() ,
+            .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 1.dp
         )
     ) {
+        var expanded by remember { mutableStateOf(false) }
+        val scope = rememberCoroutineScope()
+
         Column(
-            Modifier.padding(16.dp) ,
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween ,
                 verticalAlignment = Alignment.CenterVertically ,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                StatusBadge(
-                    status = status
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically ,
+                ) {
+                    Surface(
+                        shape = RoundedCornerShape(10.dp) ,
+                        color = getPriorityColor(task.priority).container
+                    ) {
+                        Box(
+                            Modifier.padding(8.dp)
+                        ) {
+                            Text(
+                                text = task.priority ,
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    color = Color.White
+                                )
+                            )
+                        }
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    StatusBadge(
+                        status = task.statusType
+                    )
+                }
                 Box {
                     Icon(
                         imageVector = Icons.Default.MoreVert ,
@@ -106,7 +120,7 @@ fun AxtroTaskCardNew(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        text = if (status == StatusType.ACTIVE) {
+                                        text = if (task.statusType == StatusType.ACTIVE) {
                                             "Mark as completed"
                                         } else {
                                             "Set as active"
@@ -117,7 +131,7 @@ fun AxtroTaskCardNew(
                                 leadingIcon = {
                                     Icon(
                                         painter = painterResource(
-                                            if (status == StatusType.ACTIVE) {
+                                            if (task.statusType == StatusType.ACTIVE) {
                                                 R.drawable.icon_mark_as_completed
                                             } else {
                                                 R.drawable.icon_refresh
@@ -125,7 +139,7 @@ fun AxtroTaskCardNew(
                                         ) ,
                                         contentDescription = null ,
                                         modifier = Modifier.size(20.dp) ,
-                                        tint = if (status == StatusType.ACTIVE) {
+                                        tint = if (task.statusType == StatusType.ACTIVE) {
                                             Color(0xFF12B76A)
                                         } else {
                                             MaterialTheme.colorScheme.primary
@@ -136,7 +150,6 @@ fun AxtroTaskCardNew(
                                     scope.launch {
                                         expanded = false
                                         delay(100)
-                                        onMarkAsCompleted()
                                     }
                                 }
                             )
@@ -159,7 +172,6 @@ fun AxtroTaskCardNew(
                                     scope.launch {
                                         expanded = false
                                         delay(100)
-                                        onDeleteTask()
                                     }
                                 }
                             )
@@ -167,26 +179,27 @@ fun AxtroTaskCardNew(
                     }
                 }
             }
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(16.dp))
             Text(
-                text = title ,
+                text = task.title ,
                 style = MaterialTheme.typography.headlineSmall.copy(
-                    fontSize = 18.sp ,
+                    fontSize = 14.sp ,
                     fontWeight = FontWeight.SemiBold
                 )
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = description ,
+                text = task.description ,
                 style = MaterialTheme.typography.bodySmall ,
                 overflow = TextOverflow.Ellipsis ,
                 maxLines = 2
             )
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically ,
                 horizontalArrangement = Arrangement.SpaceBetween ,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -197,7 +210,7 @@ fun AxtroTaskCardNew(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        "${startTime.toFormattedTimeString()} - ${endTime.toFormattedTimeString()}" ,
+                        "${task.startTime.toFormattedTimeString()} - ${task.endTime.toFormattedTimeString()}" ,
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.SemiBold
                         )
@@ -212,26 +225,11 @@ fun AxtroTaskCardNew(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        date ,
+                        DateUtils.formatDate(task.date),
                         style = MaterialTheme.typography.bodySmall.copy(
                             fontWeight = FontWeight.SemiBold
                         )
                     )
-                }
-                Surface(
-                    shape = RoundedCornerShape(10.dp) ,
-                    color = getPriorityColor(priority).container
-                ) {
-                    Box(
-                        Modifier.padding(8.dp)
-                    ) {
-                        Text(
-                            text = priority ,
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                color = Color.White
-                            )
-                        )
-                    }
                 }
             }
         }

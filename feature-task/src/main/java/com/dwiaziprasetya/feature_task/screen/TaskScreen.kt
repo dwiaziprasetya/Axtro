@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -43,8 +41,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,14 +59,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dwiaziprasetya.core_ui.R as CoreUiR
-import com.dwiaziprasetya.feature_task.R
 import com.dwiaziprasetya.core_ui.component.AxtroAnimatedShimmerTaskCard
 import com.dwiaziprasetya.core_ui.component.AxtroEmptyTaskState
 import com.dwiaziprasetya.core_ui.util.DateUtils
@@ -78,7 +72,7 @@ import com.dwiaziprasetya.feature_task.component.AxtroTaskCardNew
 import com.dwiaziprasetya.feature_task.component.FilterAndSortBottomSheet
 import com.dwiaziprasetya.feature_task.component.TaskFilterChips
 import com.dwiaziprasetya.feature_task.model.SortType
-import com.dwiaziprasetya.feature_task.model.StatusType
+import com.dwiaziprasetya.core_ui.model.StatusType
 import com.dwiaziprasetya.feature_task.state.TaskState
 import com.dwiaziprasetya.feature_task.viewmodel.TaskViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController

@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.feature_task.component
+package com.dwiaziprasetya.core_ui.component
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
@@ -24,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.dwiaziprasetya.feature_task.model.Quadruple
-import com.dwiaziprasetya.feature_task.model.StatusType
+import com.dwiaziprasetya.core_ui.model.Quadruple
+import com.dwiaziprasetya.core_ui.model.StatusType
 
 @Composable
 fun StatusBadge(
@@ -66,8 +66,8 @@ fun StatusBadge(
 
     Row(
         modifier = modifier
-            .background(animatedBgColor, RoundedCornerShape(6.dp))
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .background(animatedBgColor, RoundedCornerShape(10.dp))
+            .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.feature_task.model
+package com.dwiaziprasetya.core_ui.model
 
 enum class StatusType {
     ACTIVE,

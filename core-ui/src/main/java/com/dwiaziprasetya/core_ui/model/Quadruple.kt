@@ -1,4 +1,4 @@
-package com.dwiaziprasetya.feature_task.model
+package com.dwiaziprasetya.core_ui.model
 
 data class Quadruple<A, B, C, D>(
     val first: A,

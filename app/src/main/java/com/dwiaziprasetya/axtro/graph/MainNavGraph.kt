@@ -1,5 +1,7 @@
 package com.dwiaziprasetya.axtro.graph
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,6 +12,7 @@ import com.dwiaziprasetya.feature_home.screen.HomeScreen
 import com.dwiaziprasetya.feature_profile.screen.ProfileScreen
 import com.dwiaziprasetya.feature_task.screen.TaskScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
@@ -17,7 +20,7 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Task.route,
+        startDestination = Screen.Calendar.route,
         route = Screen.Main.route,
     ) {
         tabComposable(route = Screen.Home.route) {
